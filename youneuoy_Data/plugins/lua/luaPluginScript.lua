@@ -70,12 +70,14 @@ function onCampaignMapLoaded()
     STRAT_MAP = GAME_DATA.stratMap
     BATTLE = GAME_DATA.battleStruct
     UI_MANAGER = GAME_DATA.uiCardManager
-
-    campaignLoadedBeta()
+    
+    local campaign = gameDataAll.get().campaignStruct
+    if campaign.turnNumber == 0 then
+        campaignLoadedBeta()
+    end
     --loadUnitTGA()
     in_campaign_map = true
 
-    local campaign = gameDataAll.get().campaignStruct
     if campaign.turnNumber == 0 then return end
     local playerFactionId = M2TWEOP.getLocalFactionID()
     local faction = CAMPAIGN.factionsSortedByID[playerFactionId + 1]
