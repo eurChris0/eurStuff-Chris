@@ -1,3 +1,15 @@
+options_replen = true
+options_poe = true
+options_merge = true
+options_sort = true
+options_prepost_save = true
+
+sort_order = {}
+sort_order.a, sort_order.b, sort_order.c = 5, 0, 3
+
+show_options_button = false
+show_options_window = false
+
 show_upgrade_button = false
 show_upgrade_window = false
 upgradeWindowAlways = false
@@ -232,12 +244,12 @@ function saveLoad(faction, pre)
     local player_faction = campaign.factionsSortedByID[playerFactionId + 1]
     if eur_already_saved then return end
     if pre then
-        M2TWEOP.saveGame(modPath.."\\saves\\eur_pre_battle.sav")
+        M2TWEOP.saveGame(modPath.."\\saves\\eurprebattle.sav")
         print("pre_save")
         eur_already_saved = true
     else
         if faction == player_faction then
-            M2TWEOP.saveGame(modPath.."\\saves\\eur_post_battle.sav")
+            M2TWEOP.saveGame(modPath.."\\saves\\eurpostbattle.sav")
             print("post_save")
         end
     end

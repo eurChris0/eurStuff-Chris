@@ -7,6 +7,15 @@ local DECLINE_POP = {
     high = 0,
 }
 
+local sett_levels = {
+    [0] = 100,
+    [1] = 150,
+    [2] = 200,
+    [3] = 250,
+    [4] = 300,
+    [5] = 350,
+}
+
 local ELVEN_FACTIONS = {
     ["saxons"] = true,
     ["denmark"] = true,
@@ -24,7 +33,7 @@ function supplyLines_func.supplyCost(faction)
     end
 end
 
-function supplyLines_func.rankCost(faction)
+function supplyLines_func.elvenPassing(faction)
     if not ELVEN_FACTIONS[faction.name] then return end
     if checkCounter("elvesPassing") then return end
     FACTION_RANK = {}
@@ -101,8 +110,35 @@ function supplyLines_func.rankCost(faction)
                 pop_decline_desc_prepend = "\nOur recent victories given us renewed hope and as a result fewer Elves have left this season.\n"
             end
             for i = 0, (sett_nu-1) do
+                local sett = player_faction:getSettlement(i)
+                local bu_num = sett.buildingsNum
+                if bu_num > 0 then
+                    for i = 0, bu_num - 1 do
+                        local building = sett:getBuilding(i)
+                        if building:getType() == "grove" then
+                            if building.level == 0 then
+                                percent = math.ceil(percent/1.5)
+                                DECLINE_POP.low, DECLINE_POP.high = DECLINE_POP.low-10, DECLINE_POP.high-30
+                            else
+                                percent = math.ceil(percent/2)
+                                DECLINE_POP.low, DECLINE_POP.high = DECLINE_POP.low-20, DECLINE_POP.high-60
+                            end
+                        end
+                    end
+                end
+                if DECLINE_POP.low < 1 then
+                    DECLINE_POP.low = 5
+                end
+                if DECLINE_POP.high < 1 then
+                    DECLINE_POP.high = 10
+                end
+                print("Rank: " .. tostring(rank))
+                print("Original Rank: " .. tostring(og_rank))
+                print("Total Spoils: " .. tostring(total_spoils_loot))
+                print("Battles lost: " .. tostring(battles_lost))
+                print("losses upkeep: " .. tostring(total_losses_upkeep))
+                print("percent chance: " .. tostring(percent))
                 if percent >= math.random(1,100) then
-                    local sett = player_faction:getSettlement(i)
                     local randomNumber = math.random(DECLINE_POP.low,DECLINE_POP.high)
                     local elven_culture = sett:getReligion(5)
                     local randomNumber = math.ceil((randomNumber*elven_culture))
@@ -125,17 +161,11 @@ function supplyLines_func.rankCost(faction)
                         sett.settlementStats.DiplomaticExpense -
                         sett.settlementStats.EntertainmentExpense -
                         sett.settlementStats.DevastationExpense)
-                        local deducted_income = math.ceil(income*(math.random(0.1,0.3)))
+                        local deducted_income = math.ceil(income*(math.random(0.1,0.2)))
                         local deducted_income = math.ceil((deducted_income*elven_culture))
-                        if deducted_income > 500 then
-                            deducted_income = 500
+                        if deducted_income > sett_levels[sett.level] then
+                            deducted_income = sett_levels[sett.level]
                         end
-                        print("Rank: " .. tostring(rank))
-                        print("Original Rank: " .. tostring(og_rank))
-                        print("Total Spoils: " .. tostring(total_spoils_loot))
-                        print("Battles lost: " .. tostring(battles_lost))
-                        print("losses upkeep: " .. tostring(total_losses_upkeep))
-                        print("percent chance: " .. tostring(percent))
                         print("Settlement: " .. sett.localizedName)
                         print("Deducting pop: " .. tostring(randomNumber))
                         print("Deducting income: " .. tostring(deducted_income))

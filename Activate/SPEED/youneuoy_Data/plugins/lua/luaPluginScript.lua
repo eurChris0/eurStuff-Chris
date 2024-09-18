@@ -4,6 +4,10 @@ require('myconfigs')
 --eurEOPUnits = require('eur/eurEOPUnits')
 eurEOPUnits_speed = require('eur/eurEOPUnits_speed')
 require('eur/eurGlobal')
+
+require('betaOptions')
+
+require('eur/eurMOTD')
 require('eur/eurKeybinds')
 require('eur/eurUnitUpgrades')
 
@@ -67,6 +71,7 @@ function onCampaignMapLoaded()
     BATTLE = GAME_DATA.battleStruct
     UI_MANAGER = GAME_DATA.uiCardManager
 
+    campaignLoadedBeta()
     --loadUnitTGA()
     in_campaign_map = true
 

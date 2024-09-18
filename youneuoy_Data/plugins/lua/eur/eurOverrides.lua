@@ -4,6 +4,7 @@ eurReplenishment = require('eur/eurReplenishment')
 eurAddSpoils = require('eur/eurAddSpoils')
 eurConfed = require('eur/eurConfed')
 eurSupplyLines = require('eur/eurSupplyLines')
+eurSortStack = require('eur/eurSortStack')
 
 if onChangeTurnNum then
     eur_onChangeTurnNum = onChangeTurnNum
@@ -48,16 +49,30 @@ end
 if onFactionTurnEnd then
     eur_onFactionTurnEnd = onFactionTurnEnd
     eur_onFactionTurnEnd = function(eventData) 
-        eurReplenishment.replenishUnits(eventData.faction)
-        eurSupplyLines.rankCost(eventData.faction)
+        if options_replen == true then
+            eurReplenishment.replenishUnits(eventData.faction)
+        end
+        if options_poe == true then
+            eurSupplyLines.elvenPassing(eventData.faction)
+        end
         eurUnitSwap.SwapUnitsOnConfed(eventData.faction)
+        if options_sort == true then
+            eurSortStack.eurSortStack(eventData.faction)
+        end
         eur_onFactionTurnEnd(eventData)
     end
 else
     function onFactionTurnEnd(eventData)
-        eurReplenishment.replenishUnits(eventData.faction)
-        eurSupplyLines.rankCost(eventData.faction)
+        if options_replen == true then
+            eurReplenishment.replenishUnits(eventData.faction)
+        end
+        if options_poe == true then
+            eurSupplyLines.elvenPassing(eventData.faction)
+        end
         eurUnitSwap.SwapUnitsOnConfed(eventData.faction)
+        if options_sort == true then
+            eurSortStack.eurSortStack(eventData.faction)
+        end
     end
 end
 
@@ -76,13 +91,17 @@ if onPreBattlePanelOpen then
     eur_onPreBattlePanelOpen = onPreBattlePanelOpen
     eur_onPreBattlePanelOpen = function(eventData) 
         eur_onPostBattle(eventData)
-        wait(saveLoad, 0.5, eventData.faction, true)
+        if options_prepost_save == true then
+            wait(saveLoad, 0.5, eventData.faction, true)
+        end
         eurAddSpoils.getBattlePreInfo()
         in_campaign_map = false
     end
 else
     function onPreBattlePanelOpen(eventData)
-        wait(saveLoad, 0.5, eventData.faction, true)
+        if options_prepost_save == true then
+            wait(saveLoad, 0.5, eventData.faction, true)
+        end
         eurAddSpoils.getBattlePreInfo()
         in_campaign_map = false
     end
@@ -94,15 +113,21 @@ if onPostBattle then
         eur_onPostBattle(eventData)
         wait(eurAddSpoils.postBattleChecks, 0.5, eventData.faction)
         in_campaign_map = true
-        eur_already_saved = false
-        wait(saveLoad, 0.5, eventData.faction, false)
+        if options_prepost_save == true then
+            eur_already_saved = false
+            --wait(saveLoad, 0.5, eventData.faction, false)
+            --saveLoad(eventData.faction, false)
+        end
     end
 else
     function onPostBattle(eventData)
         wait(eurAddSpoils.postBattleChecks, 0.5, eventData.faction)
         in_campaign_map = true
-        eur_already_saved = false
-        wait(saveLoad, 0.5, eventData.faction, false)
+        if options_prepost_save == true then
+            eur_already_saved = false
+            --wait(saveLoad, 0.5, eventData.faction, false)
+            --saveLoad(eventData.faction, false)
+        end
     end
 end
 
@@ -113,12 +138,34 @@ if onScrollOpened then
         if eventData.resourceDescription == "unit_info_scroll" then
             show_upgrade_button = true
         end
+        if eventData.resourceDescription == "faction_summary_scroll" then
+            show_options_button = true
+        end
+        if eventData.resourceDescription == "post_battle_scroll" then
+            if options_prepost_save == true then
+                eur_already_saved = false
+                --wait(saveLoad, 0.5, eventData.faction, false)
+                --saveLoad(eventData.faction, false)
+            end
+        end
+        --print(eventData.resourceDescription)
     end
 else
     function onScrollOpened(eventData)
         if eventData.resourceDescription == "unit_info_scroll" then
             show_upgrade_button = true
         end
+        if eventData.resourceDescription == "faction_summary_scroll" then
+            show_options_button = true
+        end
+        if eventData.resourceDescription == "post_battle_scroll" then
+            if options_prepost_save == true then
+                eur_already_saved = false
+                --wait(saveLoad, 0.5, eventData.faction, false)
+                --saveLoad(eventData.faction, false)
+            end
+        end
+        --print(eventData.resourceDescription)
     end
 end
 
@@ -130,6 +177,11 @@ if onScrollClosed then
             show_upgrade_button = false
             show_upgrade_window = false
         end
+        if eventData.resourceDescription == "faction_summary_scroll" then
+            show_options_button = false
+            show_options_window = false
+        end
+        --print(eventData.resourceDescription)
     end
 else
     function onScrollClosed(eventData)
@@ -137,6 +189,11 @@ else
             show_upgrade_button = false
             show_upgrade_window = false
         end
+        if eventData.resourceDescription == "faction_summary_scroll" then
+            show_options_button = false
+            show_options_window = false
+        end
+        --print(eventData.resourceDescription)
     end
 end
 
@@ -156,3 +213,18 @@ else
     end
 end
 
+if onCharacterSelected then
+    eur_onCharacterSelected = onCharacterSelected
+    eur_onCharacterSelected = function(eventData) 
+        eur_onCharacterSelected(eventData)
+        if options_sort == true then
+            eurSortStack.eurSortOnSelected(eventData.character)
+        end
+    end
+else
+    function onCharacterSelected(eventData)
+        if options_sort == true then
+            eurSortStack.eurSortOnSelected(eventData.character)
+        end
+    end
+end

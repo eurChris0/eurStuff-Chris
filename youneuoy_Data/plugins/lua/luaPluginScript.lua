@@ -4,6 +4,10 @@ require('myconfigs')
 eurEOPUnits = require('eur/eurEOPUnits')
 --eurEOPUnits_speed = require('eur/eurEOPUnits_speed')
 require('eur/eurGlobal')
+
+require('betaOptions')
+
+require('eur/eurMOTD')
 require('eur/eurKeybinds')
 require('eur/eurUnitUpgrades')
 
@@ -67,6 +71,7 @@ function onCampaignMapLoaded()
     BATTLE = GAME_DATA.battleStruct
     UI_MANAGER = GAME_DATA.uiCardManager
 
+    campaignLoadedBeta()
     --loadUnitTGA()
     in_campaign_map = true
 
@@ -124,60 +129,6 @@ end
 function onGameInit()
     eurEOPUnits.populateEDB()
 end 
-
-function onFactionTurnStart(eventData)
-    local faction = eventData.faction
-       -- If it's not the players turn, don't sort
-       if faction.isPlayerControlled == 0 then return end;
-   
-       -- Sort all the stacks on the map right before the turn starts
-
-       -- Note: Generals will always remain at the start of the stack
- -- 1 = EDU Type
- -- 2 = Category
- -- 3 = Class
- -- 4 = Soldier Count
- -- 5 = Experience
- -- 6 = Category + Class
- -- 7 = AI unit value
-       local factionsNum = stratmap.game.getFactionsCount();
-       for i = 0, factionsNum - 1 do
-           local faction = stratmap.game.getFaction(i);
-           for j = 0, faction.stacksNum - 1 do
-               local stack = faction:getStack(j);
-               if stack then
-                   -- Debug Info
-                   -- print("\n\n")
-                   -- print("-- Unsorted Stack --")
-                   -- for k = 0, stack.numOfUnits - 1 do
-                   --     local unit = stack:getUnit(k);
-                   --     if unit.eduEntry.Type then
-                   --         print(unit.eduEntry.Type)
-                   --     end
-                   -- end
-   
-                   -- Sort the stack by category, then by EDU Type, then AI Unit Value
-                  stack:sortStack(6, 1, 5)
-   
-                   -- print("\n\n")
-                   -- print("-- Sorted Stack --")
-                   -- for k = 0, stack.numOfUnits - 1 do
-                   --     local unit = stack:getUnit(k);
-                   --     if unit.eduEntry.Type then
-                   --         print(unit.eduEntry.Type)
-                   --     end
-                   -- end
-               end
-               end
-           end
-    end
-
- function onCharacterSelected(eventData)
-    local selectedChar = eventData.character
-    if selectedChar.character.armyLeaded then
-        selectedChar.character.armyLeaded:sortStack(6, 1, 5);
-    end
- end
 
 -- EUR Overrides, for compatibility - GOES AT END
 require('eur/eurOverrides')
