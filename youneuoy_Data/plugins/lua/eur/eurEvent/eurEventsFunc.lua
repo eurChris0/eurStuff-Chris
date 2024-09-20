@@ -30,23 +30,26 @@ function eurEventUnlockCheck()
    elseif turn_nu > 24 then
       --Awakening of the Trees
       EUR_EVENTS["ireland"][2].unlocked = true
+      print("unlock1")
    end
    local dol_guldor = campaign:getFaction("poland")
    if dol_guldor.numOfCharacters == 0 then
       EUR_EVENTS["ireland"][0].unlocked = true
       EUR_EVENTS["ireland"][2].unlocked = true
+      print("unlock2")
       EUR_EVENTS["ireland"][0].duration = 10
       EUR_EVENTS["ireland"][0].cooldown = 25
    end
-   local fangorn = sMap:getSettlement("North_Khand")
-   if fangorn.ownerFaction.name ~= "england" or "france" then
+   local sett = sMap:getSettlement("North_Khand")
+   if sett.ownerFaction.name == "ireland" then
       EUR_EVENTS["ireland"][2].unlocked = true
       EUR_EVENTS["ireland"][2].cooldown = 40
+      print("unlock3")
    else
       EUR_EVENTS["ireland"][2].cooldown = 60
    end
-   local fangorn = sMap:getSettlement("Deep_Mirkwood")
-   if fangorn.ownerFaction.name ~= "england" or "poland" then
+   local sett = sMap:getSettlement("Deep_Mirkwood")
+   if sett.ownerFaction.name == "ireland" then
       EUR_EVENTS["ireland"][0].unlocked = true
       EUR_EVENTS["ireland"][0].duration = 10
       EUR_EVENTS["ireland"][0].cooldown = 25
