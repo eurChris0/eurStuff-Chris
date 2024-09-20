@@ -5,6 +5,7 @@ eurAddSpoils = require('eur/eurAddSpoils')
 eurConfed = require('eur/eurConfed')
 eurSupplyLines = require('eur/eurSupplyLines')
 eurSortStack = require('eur/eurSortStack')
+eurMOTD = require('eur/eurMOTD')
 
 if onChangeTurnNum then
     eur_onChangeTurnNum = onChangeTurnNum
@@ -81,10 +82,22 @@ if onFactionTurnStart then
     eur_onFactionTurnStart = function(eventData) 
         --eurConfed.swapUI(eventData.faction)
         eur_onFactionTurnStart(eventData)
+        if eventData.faction.isPlayerControlled == 1 then
+            local campaign = gameDataAll.get().campaignStruct
+            if campaign.turnNumber == 0 then
+                eurMOTD.campaignLoadedBeta()
+            end
+        end
     end
 else
     function onFactionTurnStart(eventData)
         --eurConfed.swapUI(eventData.faction)
+        if eventData.faction.isPlayerControlled == 1 then
+            local campaign = gameDataAll.get().campaignStruct
+            if campaign.turnNumber == 0 then
+                eurMOTD.campaignLoadedBeta()
+            end
+        end
     end
 end
 if onPreBattlePanelOpen then

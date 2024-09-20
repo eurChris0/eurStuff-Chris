@@ -1,5 +1,5 @@
-beta_title = "Epic Unity Rework V2 Beta"
-beta_intro = "\n"..
+local beta_title = "Epic Unity Rework V2 Beta"
+local beta_intro = "\n"..
 [[Test build 9.17.
 
 Welcome to the Epic Unity Rework V2 beta. This is a pre-release build and subject to change, please do not discuss specifics of the beta outside of the beta testing channels.
@@ -7,7 +7,7 @@ Welcome to the Epic Unity Rework V2 beta. This is a pre-release build and subjec
 Feel free to discuss or feedback on the beta in the general-test channel, we have introduced several new EOP scripts and are looking for feedback and testing on these specifically. 
 
 ]]
-beta_focus = "\n"..
+local beta_focus = "\n"..
 [[Testing focus:
 
 • Lorien / Woodland Realm
@@ -22,11 +22,15 @@ Scripts:
 • Militia replacement -Some like for like T1 units are converted during a confederation/union to bring them in line with the player's starting faction.
 
 ]]
-beta_changelog = "\n"..
+local beta_changelog = "\n"..
 [[Changelog: 
 
 ]]
 
-function campaignLoadedBeta()
+local motd = {}
+
+function motd.campaignLoadedBeta()
     stratmap.game.historicEvent("crusade_succeeded", beta_title, beta_intro .. beta_focus .. beta_changelog)
 end
+
+return motd
