@@ -1,6 +1,8 @@
 local replen = {}
 
 function replen.replenishUnits(faction)
+    local bonus = 0
+    if faction.isPlayerControlled == 1 then bonus = (bonus+replen_bonus) end
     math.randomseed(os.time())
     local sett_num = faction.settlementsNum;
     local forts_num = faction.fortsNum;
@@ -13,6 +15,7 @@ function replen.replenishUnits(faction)
                 local random_value = math.random(1, 3);
                 local stack_unit = army:getUnit(i);
                 local random_value = math.ceil(stack_unit.soldierCountStratMapMax/80+random_value)
+                local random_value = (random_value+bonus)
                 --print("adding: "..random_value.." to: "..stack_unit.eduEntry.eduType)
                 if stack_unit.eduEntry ~= nil then
                     if stack_unit.eduEntry.soldierCount > 8 then
@@ -38,6 +41,7 @@ function replen.replenishUnits(faction)
                 local random_value = math.random(1, 3);
                 local stack_unit = army:getUnit(i);
                 local random_value = math.ceil(stack_unit.soldierCountStratMapMax/80+random_value)
+                local random_value = (random_value+bonus)
                 --print("adding: "..random_value.." to: "..stack_unit.eduEntry.eduType)
                 if stack_unit.eduEntry ~= nil then
                     if stack_unit.eduEntry.soldierCount > 8 then

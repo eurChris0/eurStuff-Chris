@@ -34,6 +34,7 @@ function supplyLines_func.supplyCost(faction)
 end
 
 function supplyLines_func.elvenPassing(faction)
+    if block_poe_turns > 0 then return end
     if not ELVEN_FACTIONS[faction.name] then return end
     if checkCounter("elvesPassing") then return end
     FACTION_RANK = {}

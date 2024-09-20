@@ -23,6 +23,87 @@ battles_lost = 0
 losses_upkeep = 0
 total_losses_upkeep = 0
 
+eurEventsData = {}
+
+function eurSaveLoadValues(bool)
+    if bool then
+        eurEventsData = {
+            options_replen = options_replen,
+            options_poe = options_poe,
+            options_merge = options_merge,
+            options_sort = options_sort,
+            options_prepost_save = options_prepost_save,
+            sort_order = sort_order,
+
+            eur_already_saved = eur_already_saved,
+
+            total_spoils_loot = total_spoils_loot,
+
+            battles_lost = battles_lost,
+            losses_upkeep = losses_upkeep,
+            total_losses_upkeep = total_losses_upkeep,
+            eur_spawned_characters = eur_spawned_characters,
+
+            tempmirrorTarget = tempmirrorTarget,
+            mirrorTarget = mirrorTarget,
+            mirrorTurnsRemain = mirrorTurnsRemain,
+
+            traitToAdd = traitToAdd,
+            traitTurnsRemain = traitTurnsRemain,
+
+            fert_level = fert_level,
+            modify_growth = modify_growth,
+            growthTurnsRemain = growthTurnsRemain,
+            replen_bonus = replen_bonus,
+
+            block_poe_turns = block_poe_turns,
+
+            eur_event_active = eur_event_active,
+            eur_event_activelen = eur_event_activelen,
+
+            eur_event_min_cooldown = eur_event_min_cooldown,
+            event_number = event_number,
+        }
+    else
+        options_replen = eurEventsData["options_replen"]
+        options_poe = eurEventsData["options_poe"]
+        options_merge = eurEventsData["options_merge"]
+        options_sort = eurEventsData["options_sort"]
+        options_prepost_save = eurEventsData["options_prepost_save"]
+        sort_order = eurEventsData["sort_order"]
+
+        eur_already_saved = eurEventsData["eur_already_saved"]
+
+        total_spoils_loot = eurEventsData["total_spoils_loot"]
+
+        battles_lost = eurEventsData["battles_lost"]
+        losses_upkeep = eurEventsData["losses_upkeep"]
+        total_losses_upkeep = eurEventsData["total_losses_upkeep"]
+        eur_spawned_characters = eurEventsData["eur_spawned_characters"]
+
+        tempmirrorTarget = eurEventsData["tempmirrorTarget"]
+        mirrorTarget = eurEventsData["mirrorTarget"]
+        mirrorTurnsRemain = eurEventsData["mirrorTurnsRemain"]
+
+        traitToAdd = eurEventsData["traitToAdd"]
+        traitTurnsRemain = eurEventsData["traitTurnsRemain"]
+
+        fert_level = eurEventsData["fert_level"]
+        modify_growth = eurEventsData["modify_growth"]
+        growthTurnsRemain = eurEventsData["growthTurnsRemain"]
+        replen_bonus = eurEventsData["replen_bonus"]
+
+        block_poe_turns = eurEventsData["block_poe_turns"]
+
+        eur_event_active = eurEventsData["eur_event_active"]
+        eur_event_activelen = eurEventsData["eur_event_activelen"]
+
+        eur_event_min_cooldown = eurEventsData["eur_event_min_cooldown"]
+        event_number = eurEventsData["event_number"]
+    end
+
+end
+
 function sort_on_values(t,...)
     local a = {...}
     table.sort(t, function (u,v)
@@ -204,6 +285,49 @@ function printTable( t )
     end
 end
 
+function getValidTile(x, y)
+    local newx, newy = x, y
+    if checkTileEmpty(x, y) == true then return x, y end
+    if checkTileEmpty(x + 1, y) == true then return x + 1, y end
+    if checkTileEmpty(x - 1, y) == true then return x - 1, y end
+    if checkTileEmpty(x, y + 1) == true then return x, y + 1 end
+    if checkTileEmpty(x, y - 1) == true then return x, y - 1 end
+    while checkTileEmpty(newx, newy) == false and newy >= y - 5 do
+        newy = newy - 1
+    end
+    if checkTileEmpty(newx, newy) == true then return newx, newy end
+    newx, newy = x, y
+    while checkTileEmpty(newx, newy) == false and newy <= y - 5 do
+        newy = newy + 1
+    end
+    if checkTileEmpty(newx, newy) == true then return newx, newy end
+    newx, newy = x, y
+    while checkTileEmpty(newx, newy) == false and newx >= x - 5 do
+        newx = newx - 1
+    end
+    if checkTileEmpty(newx, newy) == true then return newx, newy end
+    newx, newy = x, y
+    while checkTileEmpty(newx, newy) == false and newx <= x - 5 do
+        newx = newx + 1
+    end
+    if checkTileEmpty(newx, newy) == true then return newx, newy end
+    return x, y
+end
+
+function checkTileEmpty(x, y)
+    local sMap = gameDataAll.get().stratMap;
+    local tile = sMap.getTile(x, y)
+    if M2TWEOP.isTileFree(x, y)
+    and not tile.settlement
+    and not tile.fort
+    and not tile.watchtower
+    and not tile.port
+    then
+        return true
+    end
+    return false
+end
+
 eurffi = require("ffi")
 
 -- Constructor for an object that stores data about the current Window size
@@ -283,4 +407,30 @@ function centeredText(text, minIndentation)
 
     ImGui.TextWrapped(text)
     ImGui.PopTextWrapPos()
+end
+
+function eurStyle(style, set)
+    if style == "basic_1" then
+        if set then
+            --ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 5, 5)
+            --ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 0)
+            ImGui.PushStyleVar(ImGuiStyleVar.ChildBorderSize, 0)
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0)
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 5)
+
+            ImGui.PushStyleColor(ImGuiCol.Button, 0.2, 0.2, 0.2, 0.2)
+            ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 1, 1, 1, 0.5)
+            ImGui.PushStyleColor(ImGuiCol.ButtonActive, 1, 1, 1, 0.5)
+            ImGui.PushStyleColor(ImGuiCol.Separator, 1, 1, 1, 0.5)
+            ImGui.PushStyleColor(ImGuiCol.Border, 1, 1, 1, 0)
+            
+
+            ImGui.PushStyleColor(ImGuiCol.HeaderHovered,1, 1, 1, 0.2)
+            ImGui.PushStyleColor(ImGuiCol.Header,1, 1, 1, 0.2)
+            ImGui.PushStyleColor(ImGuiCol.HeaderActive,1, 1, 1, 0.0)
+        else
+            ImGui.PopStyleVar(4)
+            ImGui.PopStyleColor(9)
+        end
+    end
 end

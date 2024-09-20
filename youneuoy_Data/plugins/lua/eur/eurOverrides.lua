@@ -61,6 +61,13 @@ if onFactionTurnEnd then
             eurSortStack.eurSortStack(eventData.faction)
         end
         eur_onFactionTurnEnd(eventData)
+        if eur_event_active then
+            mirrorCheck(eventData.faction.factionID)
+            traitCheck(eventData.faction.factionID)
+            growthCheck(eventData.faction.factionID)
+        end
+        eurEventActiveCheck(eventData.faction.factionID, eventData.faction.name)
+        eurEventUnlockCheck()
     end
 else
     function onFactionTurnEnd(eventData)
@@ -74,6 +81,13 @@ else
         if options_sort == true then
             eurSortStack.eurSortStack(eventData.faction)
         end
+        if eur_event_active then
+            mirrorCheck(eventData.faction.factionID)
+            traitCheck(eventData.faction.factionID)
+            growthCheck(eventData.faction.factionID)
+        end
+        eurEventActiveCheck(eventData.faction.factionID, eventData.faction.name)
+        eurEventUnlockCheck()
     end
 end
 
@@ -82,6 +96,7 @@ if onFactionTurnStart then
     eur_onFactionTurnStart = function(eventData) 
         --eurConfed.swapUI(eventData.faction)
         eur_onFactionTurnStart(eventData)
+        show_events_window = false
         if eventData.faction.isPlayerControlled == 1 then
             local campaign = gameDataAll.get().campaignStruct
             if campaign.turnNumber == 0 then
@@ -92,6 +107,7 @@ if onFactionTurnStart then
 else
     function onFactionTurnStart(eventData)
         --eurConfed.swapUI(eventData.faction)
+        show_events_window = false
         if eventData.faction.isPlayerControlled == 1 then
             local campaign = gameDataAll.get().campaignStruct
             if campaign.turnNumber == 0 then
@@ -109,6 +125,8 @@ if onPreBattlePanelOpen then
         end
         eurAddSpoils.getBattlePreInfo()
         in_campaign_map = false
+        print("in map")
+        print(in_campaign_map)
     end
 else
     function onPreBattlePanelOpen(eventData)
@@ -117,6 +135,8 @@ else
         end
         eurAddSpoils.getBattlePreInfo()
         in_campaign_map = false
+        print("in map")
+        print(in_campaign_map)
     end
 end
 
@@ -126,6 +146,8 @@ if onPostBattle then
         eur_onPostBattle(eventData)
         wait(eurAddSpoils.postBattleChecks, 0.5, eventData.faction)
         in_campaign_map = true
+        print("in map")
+        print(in_campaign_map)
         if options_prepost_save == true then
             eur_already_saved = false
             --wait(saveLoad, 0.5, eventData.faction, false)
@@ -136,6 +158,8 @@ else
     function onPostBattle(eventData)
         wait(eurAddSpoils.postBattleChecks, 0.5, eventData.faction)
         in_campaign_map = true
+        print("in map")
+        print(in_campaign_map)
         if options_prepost_save == true then
             eur_already_saved = false
             --wait(saveLoad, 0.5, eventData.faction, false)
@@ -148,6 +172,7 @@ if onScrollOpened then
     eur_onScrollOpened = onScrollOpened
     eur_onScrollOpened = function(eventData) 
         eur_onScrollOpened(eventData)
+        show_events_window = false
         if eventData.resourceDescription == "unit_info_scroll" then
             show_upgrade_button = true
         end
@@ -165,6 +190,7 @@ if onScrollOpened then
     end
 else
     function onScrollOpened(eventData)
+        show_events_window = false
         if eventData.resourceDescription == "unit_info_scroll" then
             show_upgrade_button = true
         end
@@ -194,7 +220,7 @@ if onScrollClosed then
             show_options_button = false
             show_options_window = false
         end
-        --print(eventData.resourceDescription)
+        print(eventData.resourceDescription)
     end
 else
     function onScrollClosed(eventData)
@@ -206,7 +232,7 @@ else
             show_options_button = false
             show_options_window = false
         end
-        --print(eventData.resourceDescription)
+        print(eventData.resourceDescription)
     end
 end
 
@@ -215,12 +241,16 @@ if onPreBattleWithdrawal then
     eur_onPreBattleWithdrawal = function(eventData) 
         eur_onPreBattleWithdrawal(eventData)
         in_campaign_map = true
+        print("in map")
+        print(in_campaign_map)
         eur_already_saved = false
         losses_upkeep = 0
     end
 else
     function onPreBattleWithdrawal(eventData)
         in_campaign_map = true
+        print("in map")
+        print(in_campaign_map)
         eur_already_saved = false
         losses_upkeep = 0
     end
@@ -239,5 +269,17 @@ else
         if options_sort == true then
             eurSortStack.eurSortOnSelected(eventData.character)
         end
+    end
+end
+
+if onDiplomacyPanelOpen then
+    eur_onDiplomacyPanelOpen = onDiplomacyPanelOpen
+    eur_onDiplomacyPanelOpen = function(eventData) 
+        eur_onDiplomacyPanelOpen(eventData)
+
+    end
+else
+    function onDiplomacyPanelOpen(eventData)
+
     end
 end

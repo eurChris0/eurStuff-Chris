@@ -71,7 +71,7 @@ local old_list = {
   }
   
    
-  local my_table = {}
+  eur_tga_table = {}
   local unit_names = {}
 
   local UNIT_UPGRADES = {}
@@ -103,13 +103,13 @@ function loadUnitTGA()
             dir1 = string.gsub(dir1, ".tga", "")
             dir1 = string.lower(dir1)
             table.insert(unit_names, dir1)
-            if my_table[dir1] == nil then
-                my_table[dir1] = { x = 0, y = 0, img = nil }
-                my_table[dir1].x, my_table[dir1].y, my_table[dir1].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\units\\"..faction.name.."\\#"..dir1..".tga")
+            if eur_tga_table[dir1] == nil then
+                eur_tga_table[dir1] = { x = 0, y = 0, img = nil }
+                eur_tga_table[dir1].x, eur_tga_table[dir1].y, eur_tga_table[dir1].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\units\\"..faction.name.."\\#"..dir1..".tga")
             end
         end
     end
-    --printTable(my_table)
+    --printTable(eur_tga_table)
     scroll_bg = { x = 0, y = 0, img = nil }
     button_01 = { x = 0, y = 0, img = nil }
     button_02 = { x = 0, y = 0, img = nil }
@@ -117,6 +117,27 @@ function loadUnitTGA()
     scroll_bg.x, scroll_bg.y, scroll_bg.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\scroll_bg.png')
     button_01.x, button_01.y, button_01.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button_01.png')
     button_02.x, button_02.y, button_02.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button_02.png')
+
+    test1 = { x = 0, y = 0, img = nil }
+    ent1 = { x = 0, y = 0, img = nil }
+    mirror1 = { x = 0, y = 0, img = nil }
+    mirror2 = { x = 0, y = 0, img = nil }
+    mirror3 = { x = 0, y = 0, img = nil }
+    yavanna = { x = 0, y = 0, img = nil }
+    button1 = { x = 0, y = 0, img = nil }
+
+    ent1.x, ent1.y, ent1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\ent1.png')
+    mirror1.x, mirror1.y, mirror1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\mirror1.png')
+    mirror2.x, mirror2.y, mirror2.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\mirror2.png')
+    mirror3.x, mirror3.y, mirror3.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\mirror3.png')
+    yavanna.x, yavanna.y, yavanna.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\yavanna.png')
+    button1.x, button1.y, button1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button1.png')
+
+    EUR_EVENTS["ireland"][0].image = mirror1
+    EUR_EVENTS["ireland"][1].image = yavanna
+    EUR_EVENTS["ireland"][2].image = ent1
+    EUR_EVENTS["ireland"][3].image = mirror2
+
 end
 
 function unloadUnitTGA()
@@ -132,8 +153,8 @@ function unloadUnitTGA()
         dir1 = string.gsub(dir1, "#", "")
         dir1 = string.gsub(dir1, ".tga", "")
         dir1 = string.lower(dir1)
-        if my_table[dir1] ~= nil then
-            M2TWEOP.unloadTexture(my_table[dir1].img);
+        if eur_tga_table[dir1] ~= nil then
+            M2TWEOP.unloadTexture(eur_tga_table[dir1].img);
         end
     end
 end
@@ -189,6 +210,8 @@ function upgradeButton()
         end
     end
     ImGui.EndChild()
+    ImGui.PopStyleVar()
+    ImGui.PopStyleColor(4)
     ImGui.End()
 end
 
@@ -242,8 +265,8 @@ function upgradeWindow()
                         unit_tga = string.gsub(unit_tga, "#", "")
                         unit_tga = string.gsub(unit_tga, ".tga", "")
                         unit_tga = string.lower(unit_tga)
-                        if my_table[unit_tga] ~= nil then
-                            ImGui.Image(my_table[unit_tga].img, 80, 80)
+                        if eur_tga_table[unit_tga] ~= nil then
+                            ImGui.Image(eur_tga_table[unit_tga].img, 80, 80)
                             ImGui.SameLine()
                         end
                     end
