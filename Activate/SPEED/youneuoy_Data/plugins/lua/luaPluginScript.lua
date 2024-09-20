@@ -7,7 +7,6 @@ require('eur/eurGlobal')
 require('eur/eurKeybinds')
 
 require('eur/eurOptions')
-require('betaOptions')
 
 require('eur/eurUnitUpgrades')
 require('eur/eurEvents')
