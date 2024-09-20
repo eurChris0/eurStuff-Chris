@@ -96,6 +96,8 @@ function loadUnitTGA()
     local faction = campaign.factionsSortedByID[playerFactionId + 1]
     local culturename = M2TWEOP.getCultureName(faction.cultureID);
     modPath=M2TWEOP.getModPath();
+
+    --[[
     path = '"'..modPath.."\\data\\ui\\units\\"..faction.name.."\\"..'"'
     for dir1 in io.popen("dir "  ..path .." /b"):lines() do 
         if dir1:find('^#') then
@@ -109,6 +111,7 @@ function loadUnitTGA()
             end
         end
     end
+    ]]
     --printTable(eur_tga_table)
     scroll_bg = { x = 0, y = 0, img = nil }
     button_01 = { x = 0, y = 0, img = nil }
