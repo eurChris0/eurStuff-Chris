@@ -2,7 +2,6 @@ eurMerge = require('eur/eurMergeArmies')
 eurUnitSwap = require('eur/eurSwapUnits')
 eurReplenishment = require('eur/eurReplenishment')
 eurAddSpoils = require('eur/eurAddSpoils')
-eurConfed = require('eur/eurConfed')
 eurSortStack = require('eur/eurSortStack')
 
 if onChangeTurnNum then
