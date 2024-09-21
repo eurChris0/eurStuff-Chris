@@ -84,6 +84,7 @@ function onCampaignMapLoaded()
     BATTLE = GAME_DATA.battleStruct
     UI_MANAGER = GAME_DATA.uiCardManager
     
+    eurGlobalVars()
     loadUnitTGA()
     in_campaign_map = true
 

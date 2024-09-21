@@ -2,7 +2,7 @@ options_replen = true
 options_poe = true
 options_merge = true
 options_sort = true
-options_prepost_save = true
+options_prepost_save = false
 
 sort_order = {}
 sort_order.a, sort_order.b, sort_order.c = 5, 0, 3
@@ -328,38 +328,44 @@ function checkTileEmpty(x, y)
     return false
 end
 
-eurffi = require("ffi")
-
--- Constructor for an object that stores data about the current Window size
-eurffi.cdef [[
+local ffi = require("ffi")
+ffi.cdef [[
 typedef long LONG;
 typedef void* HANDLE;
 typedef HANDLE HWND;
-  typedef struct RECT {
+typedef struct RECT {
     LONG left;
     LONG top;
     LONG right;
     LONG bottom;
-  } RECT;
-  typedef int                 BOOL;
-  typedef RECT *LPRECT;
-   BOOL GetWindowRect(HWND  hWnd,LPRECT lpRect);
-       HWND GetActiveWindow(void);
-
-   typedef const char* LPCSTR;
-    typedef unsigned UINT;
-   int MessageBoxA(HWND, LPCSTR, LPCSTR, UINT);
+} RECT;
+typedef int BOOL;
+typedef RECT *LPRECT;
+BOOL GetClientRect(HWND  hWnd,LPRECT lpRect);
+HWND GetActiveWindow(void);
 ]]
 
--- Window Size
-eurwindow = eurffi.C.GetActiveWindow()
-eurrect = eurffi.new("RECT")
-eurffi.C.GetWindowRect(eurwindow, eurrect)
+-- Initialization
 
-eurbackgroundWindowPosRight = eurrect.right / 4.65
-eurbackgroundWindowPosBottom = eurrect.bottom / (eurrect.bottom / 20) - 20
-eurbackgroundWindowSizeRight = eurrect.right / 1920
-eurbackgroundWindowSizeBottom = eurrect.bottom / 1080
+local screenHeight, screenWidth = 0, 0
+eurbackgroundWindowSizeRight = 0
+eurbackgroundWindowSizeBottom = 0
+
+function eurGlobalVars()
+    local window = ffi.C.GetActiveWindow()
+    local rect = ffi.new("RECT")
+    ffi.C.GetClientRect(window, rect)
+    screenWidth = rect.right-rect.left
+    screenHeight = rect.bottom-rect.top
+    eurbackgroundWindowSizeRight = screenWidth/1920 ; eurbackgroundWindowSizeBottom = screenHeight/1080
+    --[[
+    if (_localFactionID == nil) then
+        _localFactionID = stratmap.game.getFaction(0)
+        _localFactionName = _localFactionID:getFactionName()
+        _numberOfFactions = stratmap.game.getFactionsCount()        
+    end
+    ]]
+end
 
 function saveLoad(faction, pre)
     modPath = M2TWEOP.getModPath();
