@@ -4,6 +4,8 @@ options_merge = true
 options_sort = true
 options_prepost_save = false
 
+eur_tga_table = {}
+
 sort_order = {}
 sort_order.a, sort_order.b, sort_order.c = 5, 0, 3
 
@@ -23,7 +25,11 @@ battles_lost = 0
 losses_upkeep = 0
 total_losses_upkeep = 0
 
+poe_end_condition = false
+
 eurEventsData = {}
+
+eur_turn_number = 0
 
 function eurSaveLoadValues(bool)
     if bool then
@@ -63,6 +69,7 @@ function eurSaveLoadValues(bool)
 
             eur_event_min_cooldown = eur_event_min_cooldown,
             event_number = event_number,
+            poe_end_condition = poe_end_condition,
         }
     else
         options_replen = eurEventsData["options_replen"]
@@ -100,6 +107,7 @@ function eurSaveLoadValues(bool)
 
         eur_event_min_cooldown = eurEventsData["eur_event_min_cooldown"]
         event_number = eurEventsData["event_number"]
+        poe_end_condition = eurEventsData["poe_end_condition"]
     end
 
 end
@@ -358,13 +366,17 @@ function eurGlobalVars()
     screenWidth = rect.right-rect.left
     screenHeight = rect.bottom-rect.top
     eurbackgroundWindowSizeRight = screenWidth/1920 ; eurbackgroundWindowSizeBottom = screenHeight/1080
-    --[[
-    if (_localFactionID == nil) then
-        _localFactionID = stratmap.game.getFaction(0)
-        _localFactionName = _localFactionID:getFactionName()
-        _numberOfFactions = stratmap.game.getFactionsCount()        
+    ---load campaign vars
+    eur_gameData = gameDataAll.get()
+    eur_campaign = gameDataAll.get().campaignStruct
+    eur_sMap = gameDataAll.get().stratMap
+    eur_numberOfFactions = stratmap.game.getFactionsCount()
+    eur_playerFactionId = M2TWEOP.getLocalFactionID()
+    eur_player_faction = stratmap.game.getFaction(0)
+    if eur_player_faction ~= nil then
+        eur_localculture = M2TWEOP.getCultureName(eur_player_faction.cultureID);
+        eur_localFactionName = eur_player_faction:getFactionName()
     end
-    ]]
 end
 
 function saveLoad(faction, pre)

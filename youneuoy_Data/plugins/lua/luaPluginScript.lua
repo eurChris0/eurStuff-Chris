@@ -6,6 +6,8 @@ eurEOPUnits = require('eur/eurEOPUnits')
 require('eur/eurGlobal')
 require('eur/eurKeybinds')
 
+eurEOPLoad = require('eur/eurLoaded')
+
 require('eur/eurOptions')
 
 require('eur/eurUnitUpgrades')
@@ -42,6 +44,7 @@ function onLoadSaveFile(paths)
            end
         end
     end
+    eurGlobalVars()
 end
 
 -- Fires when creating a save file
@@ -85,7 +88,7 @@ function onCampaignMapLoaded()
     UI_MANAGER = GAME_DATA.uiCardManager
     
     eurGlobalVars()
-    loadUnitTGA()
+    eurEOPLoad.loadImages()
     in_campaign_map = true
 
 

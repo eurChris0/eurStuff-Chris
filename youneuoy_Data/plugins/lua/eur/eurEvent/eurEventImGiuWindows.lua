@@ -1,27 +1,30 @@
 function lorien_0(faction_name, bool)
-    if bool then
-        local campaign = gameDataAll.get().campaignStruct
-        local nu_fact = campaign.numberOfFactions
-        local mirrortemplist_fact = {}
-        local mirrortemplist_sett = {}
-        for i = 0, nu_fact-5 do
-            mirrorfaction = stratmap.game.getFaction(i)
-            if mirrorfaction then
+    local mirrortemplist_fact = {}
+    local mirrortemplist_fact_0 = {}
+    local mirrortemplist_sett = {}
+    local nu_fact = eur_campaign.numberOfFactions
+    for i = 0, nu_fact-5 do
+        mirrorfaction = stratmap.game.getFaction(i)
+        if mirrorfaction then
+            if mirrorfaction.numOfCharacters > 0 then
                 table.insert(mirrortemplist_fact, mirrorfaction.localizedName)
+                table.insert(mirrortemplist_fact_0, mirrorfaction.name)
             end
         end
-        for i = 0, mirrorfaction.settlementsNum - 1 do
-            local sett = mirrorfaction:getSettlement(i)
-            if sett then
-                table.insert(mirrortemplist_sett, sett.localizedName)
-            end
+    end
+    for i = 0, mirrorfaction.settlementsNum - 1 do
+        local sett = mirrorfaction:getSettlement(i)
+        if sett then
+            table.insert(mirrortemplist_sett, sett.localizedName)
         end
+    end
+    if bool then
         ImGui.Text("Reveals all of the target's land, armies and agent.")
         ImGui.NewLine()
         ImGui.Text("Select Faction: ")
         tempmirrorTarget, clicked = ImGui.Combo("", tempmirrorTarget, mirrortemplist_fact, #mirrortemplist_fact, #mirrortemplist_fact+1)
     else
-        mirrorTarget = stratmap.game.getFaction(tempmirrorTarget).name
+        mirrorTarget = mirrortemplist_fact_0[tempmirrorTarget+1]
         mirrorTurnsRemain = EUR_EVENTS[faction_name][event_number].duration
         mirrorGaladriel()
         eur_event_active = true
@@ -40,7 +43,7 @@ function lorien_1(faction_name, bool)
         ImGui.NewLine()
         ImGui.BulletText("Growth")
         ImGui.SameLine()
-        ImGui.TextColored(0, 1, 0, 1, " + 2%%")
+        ImGui.TextColored(0, 1, 0, 1, " + 0.5%%")
         ImGui.BulletText("Population Replenishment")
         ImGui.SameLine()
         ImGui.TextColored(0, 1, 0, 1, " + 25")
@@ -49,12 +52,12 @@ function lorien_1(faction_name, bool)
         ImGui.TextColored(0, 1, 0, 1, " + 15 per unit")
         ImGui.BulletText("Halt Elven Passing(10 turns)")
     else
-        fert_level = 5
+        fert_level = 2
         modify_growth = true
         growthTurnsRemain = 5
         block_poe_turns = 10
         replen_bonus = 15
-        increaseGrowth(stratmap.game.getFaction(faction_name), 5)
+        increaseGrowth(stratmap.game.getFaction(faction_name), 2)
         eur_event_active = true
         if EUR_EVENTS[faction_name][event_number].duration ~= nil then
             if eur_event_activelen < EUR_EVENTS[faction_name][event_number].duration then
@@ -91,7 +94,8 @@ function lorien_2(faction_name, bool)
         ImGui.SameLine()
         ImGui.TextColored(0, 1, 0, 1, " + 1")
     else
-        army = eurSpawnArmy("ireland", "dpr_", "Ents", 268, 327, 3, 1, 0)
+        local faction = eur_campaign:getFaction(faction_name)
+        army = eurSpawnArmy(faction_name, "dpr_", "Ents", faction.capital.xCoord, faction.capital.yCoord, 3, 1, 0)
         if army then
             army:createUnit("Ents",3,0,0);
             army:createUnit("Lothlorien Marchwardens",3,0,0);
@@ -144,12 +148,9 @@ function elves_0(faction_name, bool)
         ImGui.SameLine()
         ImGui.TextColored(0, 1, 0, 1, " + 5%%")
     else
-        local campaign = gameDataAll.get().campaignStruct
-        local faction_id = M2TWEOP.getLocalFactionID()
-        local faction = campaign.factionsSortedByID[faction_id + 1]
         traitToAdd = "EldarLightEvent"
         traitTurnsRemain = 8
-        eventAddTrait(faction, true)
+        eventAddTrait(eur_player_faction, true)
         eur_event_active = true
         if EUR_EVENTS[faction_name][event_number].duration ~= nil then
             if eur_event_activelen < EUR_EVENTS[faction_name][event_number].duration then
@@ -164,6 +165,21 @@ EUR_EVENTS["ireland"][0].func = lorien_0
 EUR_EVENTS["ireland"][1].func = lorien_1
 EUR_EVENTS["ireland"][2].func = lorien_2
 EUR_EVENTS["ireland"][3].func = elves_0
+
+EUR_EVENTS["mongols"][0].func = lorien_0
+EUR_EVENTS["mongols"][1].func = lorien_1
+EUR_EVENTS["mongols"][2].func = lorien_2
+EUR_EVENTS["mongols"][3].func = elves_0
+
+EUR_EVENTS["saxons"][0].func = lorien_0
+EUR_EVENTS["saxons"][1].func = lorien_1
+EUR_EVENTS["saxons"][2].func = lorien_2
+EUR_EVENTS["saxons"][3].func = elves_0
+
+EUR_EVENTS["denmark"][0].func = lorien_0
+EUR_EVENTS["denmark"][1].func = lorien_1
+EUR_EVENTS["denmark"][2].func = lorien_2
+EUR_EVENTS["denmark"][3].func = elves_0
 
 function eventSideWindow(faction_name, faction)
     if event_number ~= nil then

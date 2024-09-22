@@ -12,10 +12,16 @@ if onChangeTurnNum then
     eur_onChangeTurnNum = function(eventData) 
         eur_onChangeTurnNum(eventData)
         eurMerge.getAIarmies();
+        if eur_turn_number ~= eur_campaign.turnNumber then
+            eur_turn_number = eur_campaign.turnNumber
+        end
     end
 else
     function onChangeTurnNum(eventData)
         eurMerge.getAIarmies();
+        if eur_turn_number ~= eur_campaign.turnNumber then
+            eur_turn_number = eur_campaign.turnNumber
+        end
     end
 end
 
@@ -67,7 +73,7 @@ if onFactionTurnEnd then
             growthCheck(eventData.faction.factionID)
         end
         eurEventActiveCheck(eventData.faction.factionID, eventData.faction.name)
-        eurEventUnlockCheck()
+        eurEventUnlockCheck(eventData.faction.factionID)
     end
 else
     function onFactionTurnEnd(eventData)
@@ -98,8 +104,7 @@ if onFactionTurnStart then
         eur_onFactionTurnStart(eventData)
         show_events_window = false
         if eventData.faction.isPlayerControlled == 1 then
-            local campaign = gameDataAll.get().campaignStruct
-            if campaign.turnNumber == 0 then
+            if eur_campaign.turnNumber == 0 then
                 eurMOTD.campaignLoadedBeta()
             end
         end
@@ -109,8 +114,7 @@ else
         --eurConfed.swapUI(eventData.faction)
         show_events_window = false
         if eventData.faction.isPlayerControlled == 1 then
-            local campaign = gameDataAll.get().campaignStruct
-            if campaign.turnNumber == 0 then
+            if eur_campaign.turnNumber == 0 then
                 eurMOTD.campaignLoadedBeta()
             end
         end

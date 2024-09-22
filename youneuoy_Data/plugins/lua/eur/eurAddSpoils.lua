@@ -4,9 +4,6 @@ local spoils_loot = 0
 local our_num_units = 0
 
 function spoils.postBattleChecks(faction)
-    local campaign = gameDataAll.get().campaignStruct
-    local playerFactionId = M2TWEOP.getLocalFactionID()
-    local player_faction = campaign.factionsSortedByID[playerFactionId + 1]
     print("starting post battle check...")
     local isExist, counterValue = stratmap.game.getScriptCounter("post_battle_loot")
     if isExist == false then
@@ -33,7 +30,7 @@ function spoils.postBattleChecks(faction)
         else
         end
     end
-    if playerFactionId == faction.factionID then
+    if eur_playerFactionId == faction.factionID then
         if spoils.getBattleOutcome() then
             total_losses_upkeep = (total_losses_upkeep+losses_upkeep)
         end
@@ -43,11 +40,7 @@ end
 function spoils.getBattlePreInfo()
     spoils_loot = 0
     our_num_units = 0
-    local gameData = gameDataAll.get()
-    local campaign = gameDataAll.get().campaignStruct
-    local playerFactionId = M2TWEOP.getLocalFactionID()
-    local player_faction = campaign.factionsSortedByID[playerFactionId + 1]
-    local thisBattle, battleList = gameData.battleStruct, "Function: getBattleData()"
+    local thisBattle, battleList = eur_gameData.battleStruct, "Function: getBattleData()"
     for i = 1, thisBattle.sidesNum, 1 do
         local thisSide = thisBattle.sides[i]
         if thisSide.armies[1] ~= nil then
@@ -65,7 +58,7 @@ function spoils.getBattlePreInfo()
                         end
                     end
                     local army_faction = thisArmy.faction
-                    local isInWar = campaign:checkDipStance(dipRelType.war, army_faction, player_faction)
+                    local isInWar = eur_campaign:checkDipStance(dipRelType.war, army_faction, eur_player_faction)
                     if thisArmy.faction.isPlayerControlled ~= 1 then
                         if isInWar == true then
                             for j = 0, thisArmy.numOfUnits - 1 do
@@ -84,8 +77,7 @@ function spoils.getBattlePreInfo()
 end
 
 function spoils.getBattleOutcome()
-    local gameData = gameDataAll.get()
-    local thisBattle, battleList = gameData.battleStruct, "Function: getBattleData()"
+    local thisBattle, battleList = eur_gameData.battleStruct, "Function: getBattleData()"
     for i = 1, thisBattle.sidesNum, 1 do
         local thisSide = thisBattle.sides[i]
         if thisSide.armies[1] ~= nil then

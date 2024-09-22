@@ -72,11 +72,6 @@ local pos_y = {}
 
 function eventsWindow()
 
-    local campaign = gameDataAll.get().campaignStruct
-    local faction_id = M2TWEOP.getLocalFactionID()
-    local faction = campaign.factionsSortedByID[faction_id + 1]
-    local faction_name = faction.name
-
     ImGui.PushFont(font_RINGM)
 
     ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
@@ -90,25 +85,25 @@ function eventsWindow()
     ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0.5)
     ImGui.BeginChild("Events_window_main", 1520*eurbackgroundWindowSizeRight, 750*eurbackgroundWindowSizeBottom)
-    centeredText(faction.localizedName .. " Events", 20)
+    centeredText(eur_player_faction.localizedName .. " Events", 20)
     ImGui.NewLine()
     ImGui.SetNextWindowBgAlpha(0)
     ImGui.BeginChild("Events_window_child_01", 900*eurbackgroundWindowSizeRight, 600*eurbackgroundWindowSizeBottom)
-    if not EUR_EVENTS[faction_name] then return end
-    for i = 0, #EUR_EVENTS[faction_name] do
+    if not EUR_EVENTS[eur_localFactionName] then return end
+    for i = 0, #EUR_EVENTS[eur_localFactionName] do
         ImGui.SetNextWindowBgAlpha(0)
         if i == 2 then 
             ImGui.NewLine()
         elseif i > 0 then
             ImGui.SameLine()
         end
-        if EUR_EVENTS[faction_name][i].unlocked then
+        if EUR_EVENTS[eur_localFactionName][i].unlocked then
             ImGui.BeginChild("Events_window_child_inner_" .. tostring(i), 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
             --ImGui.TextColored(1, 1, 1, 1,"img goes here")
             pos_x[i], pos_y[i] = ImGui.GetWindowPos()
             --centeredText(EUR_EVENTS[faction_name][i].name, 0)
-            if EUR_EVENTS[faction_name][i].image ~= nil then
-                ImGui.Image(EUR_EVENTS[faction_name][i].image.img, 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom)
+            if EUR_EVENTS[eur_localFactionName][i].image ~= nil then
+                ImGui.Image(EUR_EVENTS[eur_localFactionName][i].image.img, 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom)
             end
 
             ImGui.EndChild()
@@ -116,7 +111,7 @@ function eventsWindow()
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.SetNextWindowPos(pos_x[i], pos_y[i])
             ImGui.BeginChild("Name3".. tostring(i), 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
-            centeredText(EUR_EVENTS[faction_name][i].name, 0)
+            centeredText(EUR_EVENTS[eur_localFactionName][i].name, 0)
             ImGui.EndChild()
 
             ImGui.SetNextWindowBgAlpha(0)
@@ -129,7 +124,7 @@ function eventsWindow()
                 if not showtext[i] then
                     showtext[i] = true
                     event_number = i
-                    for j = 0, #EUR_EVENTS[faction_name] do
+                    for j = 0, #EUR_EVENTS[eur_localFactionName] do
                         if j ~= i then
                             event_selected[j] = false
                         end
@@ -145,15 +140,15 @@ function eventsWindow()
             ImGui.BeginChild("Events_window_child_inner_" .. tostring(i), 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
             --ImGui.TextColored(1, 1, 1, 1,"img goes here")
             pos_x[i], pos_y[i] = ImGui.GetWindowPos()
-            if EUR_EVENTS[faction_name][i].image ~= nil then
-                ImGui.Image(EUR_EVENTS[faction_name][i].image.img, 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom)
+            if EUR_EVENTS[eur_localFactionName][i].image ~= nil then
+                ImGui.Image(EUR_EVENTS[eur_localFactionName][i].image.img, 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom)
             end
             ImGui.EndChild()
 
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.SetNextWindowPos(pos_x[i], pos_y[i])
             ImGui.BeginChild("Name3".. tostring(i), 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
-            centeredText(EUR_EVENTS[faction_name][i].name, 0)
+            centeredText(EUR_EVENTS[eur_localFactionName][i].name, 0)
             ImGui.NewLine()
             centeredText(("(Locked)"), 0)
             ImGui.NewLine()
@@ -161,7 +156,7 @@ function eventsWindow()
             if hovered then
                 ImGui.NewLine()
                 ImGui.BeginTooltip()
-                ImGui.Text(EUR_EVENTS[faction_name][i].locked_desc)
+                ImGui.Text(EUR_EVENTS[eur_localFactionName][i].locked_desc)
                 ImGui.EndTooltip()
             end
             ImGui.EndChild()
@@ -170,7 +165,7 @@ function eventsWindow()
     end
     ImGui.EndChild()
 
-    eventSideWindow(faction_name, faction)
+    eventSideWindow(eur_localFactionName, eur_player_faction)
     if (centeredImageButton("close", 100, 20, 0)) then
         show_events_window = false
     end
