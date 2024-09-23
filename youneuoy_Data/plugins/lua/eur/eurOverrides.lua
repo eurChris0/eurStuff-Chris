@@ -11,17 +11,17 @@ if onChangeTurnNum then
     eur_onChangeTurnNum = onChangeTurnNum
     eur_onChangeTurnNum = function(eventData) 
         eur_onChangeTurnNum(eventData)
-        eurMerge.getAIarmies();
         if eur_turn_number ~= eur_campaign.turnNumber then
             eur_turn_number = eur_campaign.turnNumber
         end
+        eurMerge.getAIarmies();
     end
 else
     function onChangeTurnNum(eventData)
-        eurMerge.getAIarmies();
         if eur_turn_number ~= eur_campaign.turnNumber then
             eur_turn_number = eur_campaign.turnNumber
         end
+        eurMerge.getAIarmies();
     end
 end
 
