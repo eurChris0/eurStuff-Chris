@@ -93,7 +93,7 @@ else
             growthCheck(eventData.faction.factionID)
         end
         eurEventActiveCheck(eventData.faction.factionID, eventData.faction.name)
-        eurEventUnlockCheck()
+        eurEventUnlockCheck(eventData.faction.factionID)
     end
 end
 

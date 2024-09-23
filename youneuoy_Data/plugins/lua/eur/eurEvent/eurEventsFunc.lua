@@ -38,6 +38,7 @@ function eurEventUnlockCheck(id)
    end
    if eur_turn_number > 14 then
       --Mirror of Galadriel
+      print("unlock check3")
       EUR_EVENTS["ireland"][0].unlocked = true
       EUR_EVENTS["mongols"][0].unlocked = true
       EUR_EVENTS["saxons"][0].unlocked = true
