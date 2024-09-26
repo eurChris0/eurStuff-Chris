@@ -143,7 +143,7 @@ function upgradeButton()
     end
     ImGui.EndChild()
     ImGui.PopStyleVar()
-    ImGui.PopStyleColor(4)
+    ImGui.PopStyleColor(5)
     ImGui.End()
 end
 
@@ -276,6 +276,6 @@ function upgradeWindow()
     end
     ImGui.EndChild()
     ImGui.PopStyleVar()
-    ImGui.PopStyleColor(4)
+    ImGui.PopStyleColor(5)
     ImGui.End()
 end

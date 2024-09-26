@@ -139,8 +139,6 @@ if onPreBattlePanelOpen then
         end
         eurAddSpoils.getBattlePreInfo()
         in_campaign_map = false
-        print("in map")
-        print(in_campaign_map)
     end
 else
     function onPreBattlePanelOpen(eventData)
@@ -149,8 +147,6 @@ else
         end
         eurAddSpoils.getBattlePreInfo()
         in_campaign_map = false
-        print("in map")
-        print(in_campaign_map)
     end
 end
 
@@ -160,8 +156,6 @@ if onPostBattle then
         eur_onPostBattle(eventData)
         wait(eurAddSpoils.postBattleChecks, 0.5, eventData.faction)
         in_campaign_map = true
-        print("in map")
-        print(in_campaign_map)
         if options_prepost_save == true then
             eur_already_saved = false
             --wait(saveLoad, 0.5, eventData.faction, false)
@@ -172,8 +166,6 @@ else
     function onPostBattle(eventData)
         wait(eurAddSpoils.postBattleChecks, 0.5, eventData.faction)
         in_campaign_map = true
-        print("in map")
-        print(in_campaign_map)
         if options_prepost_save == true then
             eur_already_saved = false
             --wait(saveLoad, 0.5, eventData.faction, false)
@@ -234,7 +226,7 @@ if onScrollClosed then
             show_options_button = false
             show_options_window = false
         end
-        print(eventData.resourceDescription)
+        --print(eventData.resourceDescription)
     end
 else
     function onScrollClosed(eventData)
@@ -246,7 +238,7 @@ else
             show_options_button = false
             show_options_window = false
         end
-        print(eventData.resourceDescription)
+        --print(eventData.resourceDescription)
     end
 end
 
@@ -255,16 +247,12 @@ if onPreBattleWithdrawal then
     eur_onPreBattleWithdrawal = function(eventData) 
         eur_onPreBattleWithdrawal(eventData)
         in_campaign_map = true
-        print("in map")
-        print(in_campaign_map)
         eur_already_saved = false
         losses_upkeep = 0
     end
 else
     function onPreBattleWithdrawal(eventData)
         in_campaign_map = true
-        print("in map")
-        print(in_campaign_map)
         eur_already_saved = false
         losses_upkeep = 0
     end

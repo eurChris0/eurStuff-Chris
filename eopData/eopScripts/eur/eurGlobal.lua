@@ -551,13 +551,13 @@ function eurStyle(style, set)
             ImGui.PushStyleColor(ImGuiCol.Separator, 1, 1, 1, 0.5)
             ImGui.PushStyleColor(ImGuiCol.Border, 1, 1, 1, 0)
             
-
+            ImGui.PushStyleColor(ImGuiCol.Text, 1, 1, 1, 1)
             ImGui.PushStyleColor(ImGuiCol.HeaderHovered,1, 1, 1, 0.2)
             ImGui.PushStyleColor(ImGuiCol.Header,1, 1, 1, 0.2)
             ImGui.PushStyleColor(ImGuiCol.HeaderActive,1, 1, 1, 0.0)
         else
             ImGui.PopStyleVar(4)
-            ImGui.PopStyleColor(8)
+            ImGui.PopStyleColor(9)
         end
     end
 end
