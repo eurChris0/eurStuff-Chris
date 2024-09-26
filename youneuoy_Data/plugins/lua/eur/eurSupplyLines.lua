@@ -23,44 +23,37 @@ local ELVEN_FACTIONS = {
     ["ireland"] = true,
 }
 
+local SKIP_SETT = {
+    ["Eregion"] = true,
+}
+
 local rank = 15
 
-function supplyLines_func.supplyCost(faction)
-    local playerFactionId = M2TWEOP.getLocalFactionID()
-    local player_faction = campaign.factionsSortedByID[playerFactionId + 1]
-    if faction == player_faction then
-        --calc cost and deduct
-    end
-end
-
 function supplyLines_func.elvenPassing(faction)
+    if block_poe_turns > 0 then return end
     if not ELVEN_FACTIONS[faction.name] then return end
     if checkCounter("elvesPassing") then return end
     FACTION_RANK = {}
     math.randomseed(os.time())
     local random_turn = math.random(1,2)
-    local campaign = gameDataAll.get().campaignStruct
-    local turnNu = campaign.turnNumber
-    if (turnNu % 2 == 0) then
-        local playerFactionId = M2TWEOP.getLocalFactionID()
-        local player_faction = campaign.factionsSortedByID[playerFactionId + 1]
-        local sett_nu = player_faction.settlementsNum
+    if (eur_turn_number % 2 == 0) then
+        local sett_nu = eur_player_faction.settlementsNum
         local uiList = ""
         local event_pic = "action_stealth"
         local pop_declined = false
         local pop_decline_title = "Passing of the Elves"
         local pop_decline_desc = "The Elves are leaving these shores never to return, our population has declined and income lost as a result. \n"
         pop_decline_desc_append = "\n\nSnow White, Snow White, O Lady clear\nO Queen beyond the Western Seas\nO Light to us that wander there\nAmid the world of woven trees\n"
-        if faction == player_faction then
+        if faction == eur_player_faction then
             local percent = 0
             local facNum = stratmap.game.getFactionsCount();
             for i = 0, (facNum-1) do
                 ranked_faction = stratmap.game.getFaction(i);
-                table.insert(FACTION_RANK, ranked_faction:getFactionRanking(turnNu).totalRankingScore)
+                table.insert(FACTION_RANK, ranked_faction:getFactionRanking(eur_turn_number).totalRankingScore)
             end
             table.sort(FACTION_RANK)
             reverseTable(FACTION_RANK)
-            rank = tablePosition(FACTION_RANK, player_faction:getFactionRanking(turnNu).totalRankingScore)
+            rank = tablePosition(FACTION_RANK, eur_player_faction:getFactionRanking(eur_turn_number).totalRankingScore)
             if rank > sett_nu then
                 og_rank = rank
                 rank = (rank-sett_nu)
@@ -68,6 +61,7 @@ function supplyLines_func.elvenPassing(faction)
                     rank = 4
                 end
             end
+            if poe_end_condition then rank = 1 end
             if rank > 11 then
                 percent = 70
                 DECLINE_POP.low, DECLINE_POP.high = 110, 190
@@ -88,7 +82,7 @@ function supplyLines_func.elvenPassing(faction)
                 percent = 0
                 DECLINE_POP.low, DECLINE_POP.high = 0, 0
                 stratmap.game.setScriptCounter("elvesPassing", 1)
-                player_faction.kingsPurse = (player_faction.kingsPurse+2500)
+                eur_player_faction.kingsPurse = (eur_player_faction.kingsPurse+2500)
                 stratmap.game.callConsole("add_money", "10000")
                 stratmap.game.historicEvent("council_accept", "Elven Resplendence", "Elven decline has halted and our people no longer seek for Valinor.\n\nA sum of 10,000 gold coins has been made available to help our people rebuild")
             end
@@ -110,71 +104,73 @@ function supplyLines_func.elvenPassing(faction)
                 pop_decline_desc_prepend = "\nOur recent victories given us renewed hope and as a result fewer Elves have left this season.\n"
             end
             for i = 0, (sett_nu-1) do
-                local sett = player_faction:getSettlement(i)
-                local bu_num = sett.buildingsNum
-                if bu_num > 0 then
-                    for i = 0, bu_num - 1 do
-                        local building = sett:getBuilding(i)
-                        if building:getType() == "grove" then
-                            if building.level == 0 then
-                                percent = math.ceil(percent/1.5)
-                                DECLINE_POP.low, DECLINE_POP.high = DECLINE_POP.low-10, DECLINE_POP.high-30
-                            else
-                                percent = math.ceil(percent/2)
-                                DECLINE_POP.low, DECLINE_POP.high = DECLINE_POP.low-20, DECLINE_POP.high-60
+                local sett = eur_player_faction:getSettlement(i)
+                if not SKIP_SETT[sett.name] then
+                    local bu_num = sett.buildingsNum
+                    if bu_num > 0 then
+                        for i = 0, bu_num - 1 do
+                            local building = sett:getBuilding(i)
+                            if building:getType() == "grove" then
+                                if building.level == 0 then
+                                    percent = math.ceil(percent/1.5)
+                                    DECLINE_POP.low, DECLINE_POP.high = DECLINE_POP.low-10, DECLINE_POP.high-30
+                                else
+                                    percent = math.ceil(percent/2)
+                                    DECLINE_POP.low, DECLINE_POP.high = DECLINE_POP.low-20, DECLINE_POP.high-60
+                                end
                             end
                         end
                     end
-                end
-                if DECLINE_POP.low < 1 then
-                    DECLINE_POP.low = 5
-                end
-                if DECLINE_POP.high < 1 then
-                    DECLINE_POP.high = 10
-                end
-                print("Rank: " .. tostring(rank))
-                print("Original Rank: " .. tostring(og_rank))
-                print("Total Spoils: " .. tostring(total_spoils_loot))
-                print("Battles lost: " .. tostring(battles_lost))
-                print("losses upkeep: " .. tostring(total_losses_upkeep))
-                print("percent chance: " .. tostring(percent))
-                if percent >= math.random(1,100) then
-                    local randomNumber = math.random(DECLINE_POP.low,DECLINE_POP.high)
-                    local elven_culture = sett:getReligion(5)
-                    local randomNumber = math.ceil((randomNumber*elven_culture))
-                    if (sett.settlementStats.population-randomNumber) >= 200 then
-                        if sett.settlementStats.population < 1001 then
-                            local pop_multi = (sett.settlementStats.population/1500)
-                            randomNumber = math.ceil(randomNumber*pop_multi)
-                        elseif sett.settlementStats.population < 1801 then
-                            local pop_multi = (sett.settlementStats.population/1100)
-                            randomNumber = math.ceil(randomNumber*pop_multi)
-                        else
-                            local pop_multi = (sett.settlementStats.population/900)
-                            randomNumber = math.ceil(randomNumber*pop_multi)
+                    if DECLINE_POP.low < 1 then
+                        DECLINE_POP.low = 5
+                    end
+                    if DECLINE_POP.high < 1 then
+                        DECLINE_POP.high = 10
+                    end
+                    print("Rank: " .. tostring(rank))
+                    print("Original Rank: " .. tostring(og_rank))
+                    print("Total Spoils: " .. tostring(total_spoils_loot))
+                    print("Battles lost: " .. tostring(battles_lost))
+                    print("losses upkeep: " .. tostring(total_losses_upkeep))
+                    print("percent chance: " .. tostring(percent))
+                    if percent >= math.random(1,100) then
+                        local randomNumber = math.random(DECLINE_POP.low,DECLINE_POP.high)
+                        local elven_culture = sett:getReligion(5)
+                        local randomNumber = math.ceil((randomNumber*elven_culture))
+                        if (sett.settlementStats.population-randomNumber) >= 200 then
+                            if sett.settlementStats.population < 1001 then
+                                local pop_multi = (sett.settlementStats.population/1500)
+                                randomNumber = math.ceil(randomNumber*pop_multi)
+                            elseif sett.settlementStats.population < 1801 then
+                                local pop_multi = (sett.settlementStats.population/1100)
+                                randomNumber = math.ceil(randomNumber*pop_multi)
+                            else
+                                local pop_multi = (sett.settlementStats.population/900)
+                                randomNumber = math.ceil(randomNumber*pop_multi)
+                            end
+                            sett.settlementStats.population = (sett.settlementStats.population-randomNumber)
+                            local income = (sett.settlementStats.TotalIncomeWithoutAdmin + sett.settlementStats.AdminIncome +
+                            sett.settlementStats.BuildingsIncome -
+                            sett.settlementStats.CorruptionExpense -
+                            sett.settlementStats.RecruitmentExpense -
+                            sett.settlementStats.DiplomaticExpense -
+                            sett.settlementStats.EntertainmentExpense -
+                            sett.settlementStats.DevastationExpense)
+                            local deducted_income = math.ceil(income*(math.random(0.1,0.2)))
+                            local deducted_income = math.ceil((deducted_income*elven_culture))
+                            if deducted_income > sett_levels[sett.level] then
+                                deducted_income = sett_levels[sett.level]
+                            end
+                            print("Settlement: " .. sett.localizedName)
+                            print("Deducting pop: " .. tostring(randomNumber))
+                            print("Deducting income: " .. tostring(deducted_income))
+                            stratmap.game.callConsole("add_money", "-" .. tostring(deducted_income))
+                            uiList =
+                            uiList ..
+                            "\n" ..
+                                sett.localizedName..": "..tostring(randomNumber).." Elves, "..tostring(deducted_income).." Gold."
+                            pop_declined = true
                         end
-                        sett.settlementStats.population = (sett.settlementStats.population-randomNumber)
-                        local income = (sett.settlementStats.TotalIncomeWithoutAdmin + sett.settlementStats.AdminIncome +
-                        sett.settlementStats.BuildingsIncome -
-                        sett.settlementStats.CorruptionExpense -
-                        sett.settlementStats.RecruitmentExpense -
-                        sett.settlementStats.DiplomaticExpense -
-                        sett.settlementStats.EntertainmentExpense -
-                        sett.settlementStats.DevastationExpense)
-                        local deducted_income = math.ceil(income*(math.random(0.1,0.2)))
-                        local deducted_income = math.ceil((deducted_income*elven_culture))
-                        if deducted_income > sett_levels[sett.level] then
-                            deducted_income = sett_levels[sett.level]
-                        end
-                        print("Settlement: " .. sett.localizedName)
-                        print("Deducting pop: " .. tostring(randomNumber))
-                        print("Deducting income: " .. tostring(deducted_income))
-                        stratmap.game.callConsole("add_money", "-" .. tostring(deducted_income))
-                        uiList =
-                        uiList ..
-                        "\n" ..
-                            sett.localizedName..": "..tostring(randomNumber).." Elves, "..tostring(deducted_income).." Gold."
-                        pop_declined = true
                     end
                 end
             end

@@ -71,7 +71,6 @@ local old_list = {
   }
   
    
-  local my_table = {}
   local unit_names = {}
 
   local UNIT_UPGRADES = {}
@@ -89,54 +88,6 @@ local old_list = {
     table.insert(UNIT_UPGRADES[old_list[i]["unit"]].cost_multi, old_list[i]["cost"])
     table.insert(UNIT_UPGRADES[old_list[i]["unit"]].counter, old_list[i]["event"])
   end
-
-function loadUnitTGA()
-    local campaign = gameDataAll.get().campaignStruct
-    local playerFactionId = M2TWEOP.getLocalFactionID()
-    local faction = campaign.factionsSortedByID[playerFactionId + 1]
-    local culturename = M2TWEOP.getCultureName(faction.cultureID);
-    modPath=M2TWEOP.getModPath();
-    path = '"'..modPath.."\\data\\ui\\units\\"..faction.name.."\\"..'"'
-    for dir1 in io.popen("dir "  ..path .." /b"):lines() do 
-        if dir1:find('^#') then
-            dir1 = string.gsub(dir1, "#", "")
-            dir1 = string.gsub(dir1, ".tga", "")
-            dir1 = string.lower(dir1)
-            table.insert(unit_names, dir1)
-            if my_table[dir1] == nil then
-                my_table[dir1] = { x = 0, y = 0, img = nil }
-                my_table[dir1].x, my_table[dir1].y, my_table[dir1].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\units\\"..faction.name.."\\#"..dir1..".tga")
-            end
-        end
-    end
-    --printTable(my_table)
-    scroll_bg = { x = 0, y = 0, img = nil }
-    button_01 = { x = 0, y = 0, img = nil }
-    button_02 = { x = 0, y = 0, img = nil }
-
-    scroll_bg.x, scroll_bg.y, scroll_bg.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\scroll_bg.png')
-    button_01.x, button_01.y, button_01.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button_01.png')
-    button_02.x, button_02.y, button_02.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button_02.png')
-end
-
-function unloadUnitTGA()
-    local campaign = gameDataAll.get().campaignStruct
-    local playerFactionId = M2TWEOP.getLocalFactionID()
-    local faction = campaign.factionsSortedByID[playerFactionId + 1]
-    if faction == nil then return end
-    local culturename = M2TWEOP.getCultureName(faction.cultureID);
-    modPath=M2TWEOP.getModPath();
-    path = '"'..modPath.."\\data\\ui\\"..culturename.."\\buildings\\construction\\"..'"'
-    for dir1 in io.popen("dir "  ..path .." /b"):lines() do 
-        if dir1 == nil then return end
-        dir1 = string.gsub(dir1, "#", "")
-        dir1 = string.gsub(dir1, ".tga", "")
-        dir1 = string.lower(dir1)
-        if my_table[dir1] ~= nil then
-            M2TWEOP.unloadTexture(my_table[dir1].img);
-        end
-    end
-end
 
 function upgradeButton()
     local UI_MANAGER = gameDataAll.get().uiCardManager
@@ -189,6 +140,8 @@ function upgradeButton()
         end
     end
     ImGui.EndChild()
+    ImGui.PopStyleVar()
+    ImGui.PopStyleColor(4)
     ImGui.End()
 end
 
@@ -242,8 +195,8 @@ function upgradeWindow()
                         unit_tga = string.gsub(unit_tga, "#", "")
                         unit_tga = string.gsub(unit_tga, ".tga", "")
                         unit_tga = string.lower(unit_tga)
-                        if my_table[unit_tga] ~= nil then
-                            ImGui.Image(my_table[unit_tga].img, 80, 80)
+                        if eur_tga_table[unit_tga] ~= nil then
+                            ImGui.Image(eur_tga_table[unit_tga].img, 80, 80)
                             ImGui.SameLine()
                         end
                     end

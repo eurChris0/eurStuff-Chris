@@ -2,7 +2,9 @@ options_replen = true
 options_poe = true
 options_merge = true
 options_sort = true
-options_prepost_save = true
+options_prepost_save = false
+
+eur_tga_table = {}
 
 sort_order = {}
 sort_order.a, sort_order.b, sort_order.c = 5, 0, 3
@@ -22,6 +24,93 @@ total_spoils_loot = 0
 battles_lost = 0
 losses_upkeep = 0
 total_losses_upkeep = 0
+
+poe_end_condition = false
+
+eurEventsData = {}
+
+eur_turn_number = 0
+
+function eurSaveLoadValues(bool)
+    if bool then
+        eurEventsData = {
+            options_replen = options_replen,
+            options_poe = options_poe,
+            options_merge = options_merge,
+            options_sort = options_sort,
+            options_prepost_save = options_prepost_save,
+            sort_order = sort_order,
+
+            eur_already_saved = eur_already_saved,
+
+            total_spoils_loot = total_spoils_loot,
+
+            battles_lost = battles_lost,
+            losses_upkeep = losses_upkeep,
+            total_losses_upkeep = total_losses_upkeep,
+            eur_spawned_characters = eur_spawned_characters,
+
+            tempmirrorTarget = tempmirrorTarget,
+            mirrorTarget = mirrorTarget,
+            mirrorTurnsRemain = mirrorTurnsRemain,
+
+            traitToAdd = traitToAdd,
+            traitTurnsRemain = traitTurnsRemain,
+
+            fert_level = fert_level,
+            modify_growth = modify_growth,
+            growthTurnsRemain = growthTurnsRemain,
+            replen_bonus = replen_bonus,
+
+            block_poe_turns = block_poe_turns,
+
+            eur_event_active = eur_event_active,
+            eur_event_activelen = eur_event_activelen,
+
+            eur_event_min_cooldown = eur_event_min_cooldown,
+            event_number = event_number,
+            poe_end_condition = poe_end_condition,
+        }
+    else
+        options_replen = eurEventsData["options_replen"]
+        options_poe = eurEventsData["options_poe"]
+        options_merge = eurEventsData["options_merge"]
+        options_sort = eurEventsData["options_sort"]
+        options_prepost_save = eurEventsData["options_prepost_save"]
+        sort_order = eurEventsData["sort_order"]
+
+        eur_already_saved = eurEventsData["eur_already_saved"]
+
+        total_spoils_loot = eurEventsData["total_spoils_loot"]
+
+        battles_lost = eurEventsData["battles_lost"]
+        losses_upkeep = eurEventsData["losses_upkeep"]
+        total_losses_upkeep = eurEventsData["total_losses_upkeep"]
+        eur_spawned_characters = eurEventsData["eur_spawned_characters"]
+
+        tempmirrorTarget = eurEventsData["tempmirrorTarget"]
+        mirrorTarget = eurEventsData["mirrorTarget"]
+        mirrorTurnsRemain = eurEventsData["mirrorTurnsRemain"]
+
+        traitToAdd = eurEventsData["traitToAdd"]
+        traitTurnsRemain = eurEventsData["traitTurnsRemain"]
+
+        fert_level = eurEventsData["fert_level"]
+        modify_growth = eurEventsData["modify_growth"]
+        growthTurnsRemain = eurEventsData["growthTurnsRemain"]
+        replen_bonus = eurEventsData["replen_bonus"]
+
+        block_poe_turns = eurEventsData["block_poe_turns"]
+
+        eur_event_active = eurEventsData["eur_event_active"]
+        eur_event_activelen = eurEventsData["eur_event_activelen"]
+
+        eur_event_min_cooldown = eurEventsData["eur_event_min_cooldown"]
+        event_number = eurEventsData["event_number"]
+        poe_end_condition = eurEventsData["poe_end_condition"]
+    end
+
+end
 
 function sort_on_values(t,...)
     local a = {...}
@@ -204,38 +293,91 @@ function printTable( t )
     end
 end
 
-eurffi = require("ffi")
+function getValidTile(x, y)
+    local newx, newy = x, y
+    if checkTileEmpty(x, y) == true then return x, y end
+    if checkTileEmpty(x + 1, y) == true then return x + 1, y end
+    if checkTileEmpty(x - 1, y) == true then return x - 1, y end
+    if checkTileEmpty(x, y + 1) == true then return x, y + 1 end
+    if checkTileEmpty(x, y - 1) == true then return x, y - 1 end
+    while checkTileEmpty(newx, newy) == false and newy >= y - 5 do
+        newy = newy - 1
+    end
+    if checkTileEmpty(newx, newy) == true then return newx, newy end
+    newx, newy = x, y
+    while checkTileEmpty(newx, newy) == false and newy <= y - 5 do
+        newy = newy + 1
+    end
+    if checkTileEmpty(newx, newy) == true then return newx, newy end
+    newx, newy = x, y
+    while checkTileEmpty(newx, newy) == false and newx >= x - 5 do
+        newx = newx - 1
+    end
+    if checkTileEmpty(newx, newy) == true then return newx, newy end
+    newx, newy = x, y
+    while checkTileEmpty(newx, newy) == false and newx <= x - 5 do
+        newx = newx + 1
+    end
+    if checkTileEmpty(newx, newy) == true then return newx, newy end
+    return x, y
+end
 
--- Constructor for an object that stores data about the current Window size
-eurffi.cdef [[
+function checkTileEmpty(x, y)
+    local sMap = gameDataAll.get().stratMap;
+    local tile = sMap.getTile(x, y)
+    if M2TWEOP.isTileFree(x, y)
+    and not tile.settlement
+    and not tile.fort
+    and not tile.watchtower
+    and not tile.port
+    then
+        return true
+    end
+    return false
+end
+
+local ffi = require("ffi")
+ffi.cdef [[
 typedef long LONG;
 typedef void* HANDLE;
 typedef HANDLE HWND;
-  typedef struct RECT {
+typedef struct RECT {
     LONG left;
     LONG top;
     LONG right;
     LONG bottom;
-  } RECT;
-  typedef int                 BOOL;
-  typedef RECT *LPRECT;
-   BOOL GetWindowRect(HWND  hWnd,LPRECT lpRect);
-       HWND GetActiveWindow(void);
-
-   typedef const char* LPCSTR;
-    typedef unsigned UINT;
-   int MessageBoxA(HWND, LPCSTR, LPCSTR, UINT);
+} RECT;
+typedef int BOOL;
+typedef RECT *LPRECT;
+BOOL GetClientRect(HWND  hWnd,LPRECT lpRect);
+HWND GetActiveWindow(void);
 ]]
 
--- Window Size
-eurwindow = eurffi.C.GetActiveWindow()
-eurrect = eurffi.new("RECT")
-eurffi.C.GetWindowRect(eurwindow, eurrect)
+-- Initialization
 
-eurbackgroundWindowPosRight = eurrect.right / 4.65
-eurbackgroundWindowPosBottom = eurrect.bottom / (eurrect.bottom / 20) - 20
-eurbackgroundWindowSizeRight = eurrect.right / 1920
-eurbackgroundWindowSizeBottom = eurrect.bottom / 1080
+local screenHeight, screenWidth = 0, 0
+eurbackgroundWindowSizeRight = 0
+eurbackgroundWindowSizeBottom = 0
+
+function eurGlobalVars()
+    local window = ffi.C.GetActiveWindow()
+    local rect = ffi.new("RECT")
+    ffi.C.GetClientRect(window, rect)
+    screenWidth = rect.right-rect.left
+    screenHeight = rect.bottom-rect.top
+    eurbackgroundWindowSizeRight = screenWidth/1920 ; eurbackgroundWindowSizeBottom = screenHeight/1080
+    ---load campaign vars
+    eur_gameData = gameDataAll.get()
+    eur_campaign = gameDataAll.get().campaignStruct
+    eur_sMap = gameDataAll.get().stratMap
+    eur_numberOfFactions = stratmap.game.getFactionsCount()
+    eur_playerFactionId = M2TWEOP.getLocalFactionID()
+    eur_player_faction = stratmap.game.getFaction(0)
+    if eur_player_faction ~= nil then
+        eur_localculture = M2TWEOP.getCultureName(eur_player_faction.cultureID);
+        eur_localFactionName = eur_player_faction:getFactionName()
+    end
+end
 
 function saveLoad(faction, pre)
     modPath = M2TWEOP.getModPath();
@@ -283,4 +425,30 @@ function centeredText(text, minIndentation)
 
     ImGui.TextWrapped(text)
     ImGui.PopTextWrapPos()
+end
+
+function eurStyle(style, set)
+    if style == "basic_1" then
+        if set then
+            --ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 5, 5)
+            --ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 0)
+            ImGui.PushStyleVar(ImGuiStyleVar.ChildBorderSize, 0)
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0)
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 5)
+
+            ImGui.PushStyleColor(ImGuiCol.Button, 0.2, 0.2, 0.2, 0.2)
+            ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 1, 1, 1, 0.5)
+            ImGui.PushStyleColor(ImGuiCol.ButtonActive, 1, 1, 1, 0.5)
+            ImGui.PushStyleColor(ImGuiCol.Separator, 1, 1, 1, 0.5)
+            ImGui.PushStyleColor(ImGuiCol.Border, 1, 1, 1, 0)
+            
+
+            ImGui.PushStyleColor(ImGuiCol.HeaderHovered,1, 1, 1, 0.2)
+            ImGui.PushStyleColor(ImGuiCol.Header,1, 1, 1, 0.2)
+            ImGui.PushStyleColor(ImGuiCol.HeaderActive,1, 1, 1, 0.0)
+        else
+            ImGui.PopStyleVar(4)
+            ImGui.PopStyleColor(9)
+        end
+    end
 end
