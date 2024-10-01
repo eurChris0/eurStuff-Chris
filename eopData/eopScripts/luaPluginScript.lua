@@ -99,7 +99,7 @@ end
 ---@param pDevice LPDIRECT3DDEVICE9
 function draw(pDevice)
     -- 
-    --devButton()
+    devButton()
     --
     waitingFuncsTick()
     if (ImGui.IsKeyPressed(ImGuiKey.GraveAccent))

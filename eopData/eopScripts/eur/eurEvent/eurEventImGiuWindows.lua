@@ -33,6 +33,8 @@ function lindon_0(faction_name, bool)
             M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
         end
 
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
         show_events_window = false
         eur_event_min_cooldown = 10
         event_selected[event_number] = false
@@ -73,6 +75,8 @@ function imladris_0(faction_name, bool)
             M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
         end
 
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
         show_events_window = false
         eur_event_min_cooldown = 10
         event_selected[event_number] = false
@@ -84,9 +88,9 @@ function imladris_1(faction_name, bool)
     local ringtemplist_char = {}
     local ringtemplist_char_0 = {}
     local tempgim = {"Minor ring of power","Recruitment drive",}
-    local tempgim_units = {{"Eregion Smiths","Eregion Smiths",},{"Eregion Smiths",},}
-    local tempgim_units_count = {2, 1}
-    local tempgim_units_desc = {"Eregion Smiths x2","Eregion Smiths",}
+    local tempgim_units = {{"Noldorin Defenders", "Noldorin Archers","Noldorin Archers",}, {"Eregion Warriors"},{"Eregion Smiths",},}
+    local tempgim_units_count = {3, 1, 1}
+    local tempgim_units_desc = {"Noldorin Defenders, Noldorin Archers x2","Eregion Warriors x2","Eregion Smiths",}
     for i = 0, eur_player_faction.numOfCharacters - 1 do
         local char = eur_player_faction:getCharacter(i)
         if char then
@@ -107,16 +111,25 @@ function imladris_1(faction_name, bool)
             ImGui.BeginChild("Events_window_tempcharTarget", 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
             ImGui.Text("Select General: ")
             tempcharTarget, tempcharTarget_clicked = ImGui.Combo("", tempcharTarget, ringtemplist_char, #ringtemplist_char, #ringtemplist_char)
-            EUR_EVENTS["saxons"][0].cost = 15000
+            EUR_EVENTS["saxons"][0].cost = 10000
+            EUR_EVENTS["saxons"][0].cooldown = 40
+            EUR_EVENTS["denmark"][2].cost = 10000
+            EUR_EVENTS["denmark"][2].cooldown = 40
+            if ringtemplist_char[1] == nil then
+                ImGui.TextColored(1, 0, 0, 1, "NO GENERALS AVAILABLE")
+            end
             ImGui.EndChild()
         elseif tempgimtarget == 1 then
             ImGui.BeginChild("Events_window_tempcharTarget", 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
             ImGui.Text("Select Units: ")
             tempgim_units_target, tempgim_units_target_clicked = ImGui.Combo("", tempgim_units_target, tempgim_units_desc, #tempgim_units_desc, #tempgim_units_desc+1)
             if (eur_player_faction.capital.army.numOfUnits+tempgim_units_count[tempgim_units_target+1]) > 20 then
-                ImGui.TextColored(0, 1, 0, 1, "NOT ENOUGH ROOM IN CAPITAL")
+                ImGui.TextColored(1, 0, 0, 1, "NOT ENOUGH ROOM IN CAPITAL")
             end
             EUR_EVENTS["saxons"][0].cost = 5000
+            EUR_EVENTS["saxons"][0].cooldown = 30
+            EUR_EVENTS["denmark"][2].cost = 5000
+            EUR_EVENTS["denmark"][2].cooldown = 30
             ImGui.EndChild()
         end
     else
@@ -128,12 +141,12 @@ function imladris_1(faction_name, bool)
             if (eur_player_faction.capital.army.numOfUnits+tempgim_units_count[tempgim_units_target+1]) > 20 then return end
             if eur_player_faction.capital.army then
                 for i = 1, #tempgim_units[tempgim_units_target+1] do
-                    eur_player_faction.capital.army:createUnit(tempgim_units[tempgim_units_target+1][i], 2, 1, 2)
+                    eur_player_faction.capital.army:createUnit(tempgim_units[tempgim_units_target+1][i], 3, 1, 6)
                 end
             else
                 local army = stratmap.game.createArmyInSettlement(eur_player_faction.capital)
                 for i = 1, #tempgim_units[tempgim_units_target+1] do
-                    army:createUnit(tempgim_units[tempgim_units_target+1][i], 2, 1, 2)
+                    army:createUnit(tempgim_units[tempgim_units_target+1][i], 3, 1, 6)
                 end
             end
         end
@@ -152,6 +165,8 @@ function imladris_1(faction_name, bool)
         if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
             M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
         end
+
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
 
         show_events_window = false
         eur_event_min_cooldown = 10
@@ -201,6 +216,8 @@ function wr_0(faction_name, bool)
         if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
             M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
         end
+
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
 
         show_events_window = false
         eur_event_min_cooldown = 10
@@ -254,6 +271,8 @@ function lorien_0(faction_name, bool)
             M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
         end
 
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
         show_events_window = false
         eur_event_min_cooldown = 10
         event_selected[event_number] = false
@@ -297,6 +316,8 @@ function lorien_1(faction_name, bool)
         if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
             M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
         end
+
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
 
         show_events_window = false
         eur_event_min_cooldown = 10
@@ -367,6 +388,8 @@ function lorien_2(faction_name, bool)
             M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
         end
 
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
         show_events_window = false
         eur_event_min_cooldown = 10
         event_selected[event_number] = false
@@ -416,6 +439,8 @@ function elves_0(faction_name, bool)
             M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
         end
 
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
         show_events_window = false
         eur_event_min_cooldown = 10
         event_selected[event_number] = false
@@ -436,7 +461,7 @@ EUR_EVENTS["mongols"][3].func = elves_0
 EUR_EVENTS["saxons"][0].func = imladris_1
 EUR_EVENTS["saxons"][1].func = imladris_0
 EUR_EVENTS["saxons"][2].func = lorien_1
-EUR_EVENTS["saxons"][3].func = lindon_0
+EUR_EVENTS["saxons"][3].func = elves_0
 
 EUR_EVENTS["denmark"][0].func = lindon_0
 EUR_EVENTS["denmark"][1].func = lorien_1

@@ -93,6 +93,7 @@ local CONFED_FACTIONS = {
 }
 
 function eurConfed_func.tileCheck(faction, x, y)
+    if CONFED_EVENTS[eur_localFactionName] == nil then return end
     if eregion_realms_start == 1 then
         if faction == eur_player_faction then
             --if x == CONFED_EVENTS[eur_localFactionName][0].x and y == CONFED_EVENTS[eur_localFactionName][0].x then

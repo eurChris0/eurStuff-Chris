@@ -4,7 +4,6 @@ local spoils_loot = 0
 local our_num_units = 0
 
 function spoils.postBattleChecks(faction)
-    print("starting post battle check...")
     local isExist, counterValue = stratmap.game.getScriptCounter("post_battle_loot")
     if isExist == false then
         stratmap.game.setScriptCounter("post_battle_loot", 0)
@@ -17,14 +16,13 @@ function spoils.postBattleChecks(faction)
                     spoils_loot = math.ceil(spoils_loot*our_num_units)
                 end
                 total_spoils_loot = (total_spoils_loot+spoils_loot)
-                print("spoils present")
+                print("starting post battle check...")
                 stratmap.game.callConsole("add_money", tostring(spoils_loot))
                 print("adding cash " .. tostring(spoils_loot))
                 stratmap.game.historicEvent("spoils_of_war_ai", "Enemy Camp Sacked", "Good tidings! Our men have found the enemy camp and claimed anything of worth. We should be able to make some coin out of this victory!\n\n" .. "Gold taken: " .. tostring(spoils_loot))
                 spoils_loot = 0
                 stratmap.game.setScriptCounter("post_battle_loot", 0)
             else
-                print("spoils not present")
                 stratmap.game.setScriptCounter("post_battle_loot", 0)
             end
         else

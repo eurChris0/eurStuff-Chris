@@ -329,3 +329,15 @@ else
         end
     end
 end
+
+if onUngarrisonedFort then
+    eur_onUngarrisonedFort = onUngarrisonedFort
+    eur_onUngarrisonedFort = function(eventData) 
+        eur_onUngarrisonedFort(eventData)
+        --eventData.fort:changeOwner(eur_campaign:getFaction("slave"), false)
+    end
+else
+    function onUngarrisonedFort(eventData)
+        --eventData.fort:changeOwner(eur_campaign:getFaction("slave"), false)
+    end
+end

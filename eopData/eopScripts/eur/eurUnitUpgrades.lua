@@ -124,16 +124,23 @@ function upgradeButton()
                     ImGui.PushStyleColor(ImGuiCol.Border, 0, 0, 0, 0)
                     size_x, size_y = ImGui.GetWindowSize()
                     if not UNIT_UPGRADES[unit.eduEntry.eduType] then
-                        --ImGui.Image(button_02.img, 80, 80)
-                        --ImGui.SetWindowSize(0, 0)
-                        --show_upgrade_window = false
+                        --
                     else
-                        if ImGui.ImageButton("upgrades_button_1",button_01.img ,60,60) then
-                        --if (ImGui.Button("Upgrades", 80, 20)) then
-                            if show_upgrade_window == false then
-                                show_upgrade_window = true
-                            else
-                                show_upgrade_window = false
+                        if button_01 then
+                            if ImGui.ImageButton("upgrades_button_1",button_01.img ,60,60) then
+                                if show_upgrade_window == false then
+                                    show_upgrade_window = true
+                                else
+                                    show_upgrade_window = false
+                                end
+                            end
+                        else
+                            if (ImGui.Button("Upgrades", 80, 20)) then
+                                if show_upgrade_window == false then
+                                    show_upgrade_window = true
+                                else
+                                    show_upgrade_window = false
+                                end
                             end
                         end
                     end
@@ -166,7 +173,9 @@ function upgradeWindow()
                 ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 1, 1, 1, 0.5)
                 ImGui.PushStyleColor(ImGuiCol.ButtonActive, 1, 1, 1, 0.5)
                 size_x, size_y = ImGui.GetWindowSize()
-                ImGui.Image(scroll_bg.img, 700*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom)
+                if scroll_bg then
+                    ImGui.Image(scroll_bg.img, 700*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom)
+                end
                 ImGui.SetNextWindowPos(100*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
                 ImGui.SetNextWindowBgAlpha(0.0)
                 if not UNIT_UPGRADES[unit.eduEntry.eduType] then

@@ -316,7 +316,7 @@ function loadImages()
     EUR_EVENTS["saxons"][0].image = test1
     EUR_EVENTS["saxons"][1].image = tulkas
     EUR_EVENTS["saxons"][2].image = yavanna
-    EUR_EVENTS["saxons"][3].image = ulmo
+    EUR_EVENTS["saxons"][3].image = eldarlight
 
     EUR_EVENTS["denmark"][0].image = ulmo
     EUR_EVENTS["denmark"][1].image = yavanna

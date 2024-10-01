@@ -455,6 +455,13 @@ function eurGlobalVars()
                 eregion_realms_start = 1
             end
         end
+        --change empty forts to independent
+        for i = 0, eur_campaign.fortsNum - 1 do
+            local fort = eur_campaign:getFort(i)
+            if fort.army == nil then
+                --fort:changeOwner(eur_campaign:getFaction("slave"), false)
+            end
+        end
         --save unit values
         for i = 0, 1500 do
             local eduEntry = M2TWEOPDU.getEduEntry(i)

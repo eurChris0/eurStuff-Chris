@@ -42,6 +42,10 @@ function eurEventUnlockCheck(id)
       if eur_player_faction.name == "ireland" then
          if dol_guldor.numOfCharacters == 0 then
             poe_end_condition = true
+            EUR_EVENTS["ireland"][0].duration = 10
+            EUR_EVENTS["ireland"][0].cooldown = 25
+            EUR_EVENTS["mongols"][0].duration = 10
+            EUR_EVENTS["mongols"][0].cooldown = 25
          end
       elseif eur_player_faction.name == "saxons" then
          if checkCounter("jewel_guild_rebuilt") then
@@ -52,18 +56,8 @@ function eurEventUnlockCheck(id)
       end
    end
    if eur_turn_number > 14 then
-      --Mirror of Galadriel
-      EUR_EVENTS["ireland"][0].unlocked = true
-      --stratmap.game.historicEvent("crusade_succeeded", EUR_EVENTS["ireland"][0].name.." Unlocked", EUR_EVENTS["ireland"][0].desc)
-      EUR_EVENTS["mongols"][0].unlocked = true
-      EUR_EVENTS["saxons"][0].unlocked = true
-      EUR_EVENTS["denmark"][0].unlocked = true
-   elseif eur_turn_number > 24 then
-      --Awakening of the Trees
-      EUR_EVENTS["ireland"][2].unlocked = true
-      --stratmap.game.historicEvent("crusade_succeeded", EUR_EVENTS["ireland"][2].name.." Unlocked", EUR_EVENTS["ireland"][2].desc)
-      EUR_EVENTS["mongols"][2].unlocked = true
-      EUR_EVENTS["saxons"][2].unlocked = true
+      --
+   elseif eur_turn_number > 49 then
       EUR_EVENTS["denmark"][2].unlocked = true
    end
    if dol_guldor.numOfCharacters == 0 then
@@ -84,10 +78,20 @@ function eurEventUnlockCheck(id)
    end
    local sett = eur_sMap:getSettlement("Deep_Mirkwood")
    if sett.ownerFaction.name == "ireland" then
-      EUR_EVENTS["ireland"][0].unlocked = true
-      --stratmap.game.historicEvent("crusade_succeeded", EUR_EVENTS["ireland"][0].name.." Unlocked", EUR_EVENTS["ireland"][0].desc)
-      EUR_EVENTS["ireland"][0].duration = 10
-      EUR_EVENTS["ireland"][0].cooldown = 25
+      if not EUR_EVENTS["ireland"][0].unlocked then
+         EUR_EVENTS["ireland"][0].unlocked = true
+         --stratmap.game.historicEvent("crusade_succeeded", EUR_EVENTS["ireland"][0].name.." Unlocked", EUR_EVENTS["ireland"][0].desc)
+      end
+   elseif sett.ownerFaction.name == "mongols" then
+      if not EUR_EVENTS["mongols"][0].unlocked then
+         if checkCounter("elven_union") then
+            EUR_EVENTS["mongols"][0].unlocked = true
+         end
+      end
+   end
+   local sett = eur_sMap:getSettlement("Eregion")
+   if sett.ownerFaction.name == "saxons" then
+      EUR_EVENTS["saxons"][0].unlocked = true
    end
 end
 
@@ -104,7 +108,7 @@ function eurEventActiveCheck(id, faction_name)
    for i = 0, #EUR_EVENTS[faction_name] do
       if EUR_EVENTS[faction_name][i].active_cooldown == 1 then
          EUR_EVENTS[faction_name][i].active_cooldown = (EUR_EVENTS[faction_name][i].active_cooldown-1)
-         stratmap.game.historicEvent("crusade_succeeded", EUR_EVENTS[faction_name][i].name.." Unlocked", EUR_EVENTS[faction_name][i].desc)
+         stratmap.game.historicEvent("faction_prosperous", "Event cooldown expired", EUR_EVENTS[faction_name][i].name.."\n\n"..EUR_EVENTS[faction_name][i].desc)
       elseif EUR_EVENTS[faction_name][i].active_cooldown > 0 then
          EUR_EVENTS[faction_name][i].active_cooldown = (EUR_EVENTS[faction_name][i].active_cooldown-1)
       end
