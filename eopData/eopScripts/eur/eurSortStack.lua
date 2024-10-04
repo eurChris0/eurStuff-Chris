@@ -1,7 +1,9 @@
 local sort = {}
 
 function sort.eurSortStack(faction)
+    print("sort check "..faction.name)
     if faction.isPlayerControlled == 0 then return end;
+    print("sorting for "..faction.name)
  -- 1 = EDU Type
  -- 2 = Category
  -- 3 = Class

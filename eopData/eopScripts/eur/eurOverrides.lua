@@ -79,6 +79,7 @@ if onFactionTurnEnd then
         end
         eurEventActiveCheck(eventData.faction.factionID, eventData.faction.name)
         eurEventUnlockCheck(eventData.faction.factionID)
+        genRankCheck(eventData.faction, nil)
     end
 else
     function onFactionTurnEnd(eventData)
@@ -104,6 +105,7 @@ else
         end
         eurEventActiveCheck(eventData.faction.factionID, eventData.faction.name)
         eurEventUnlockCheck(eventData.faction.factionID)
+        genRankCheck(eventData.faction, nil)
     end
 end
 
@@ -135,7 +137,7 @@ if onPreBattlePanelOpen then
     eur_onPreBattlePanelOpen = function(eventData) 
         eur_onPostBattle(eventData)
         if options_prepost_save == true then
-            wait(saveLoad, 0.5, eventData.faction, true)
+            --wait(saveLoad, 0.5, eventData.faction, true)
         end
         eurAddSpoils.getBattlePreInfo()
         in_campaign_map = false
@@ -143,7 +145,7 @@ if onPreBattlePanelOpen then
 else
     function onPreBattlePanelOpen(eventData)
         if options_prepost_save == true then
-            wait(saveLoad, 0.5, eventData.faction, true)
+            --wait(saveLoad, 0.5, eventData.faction, true)
         end
         eurAddSpoils.getBattlePreInfo()
         in_campaign_map = false
@@ -156,6 +158,7 @@ if onPostBattle then
         eur_onPostBattle(eventData)
         wait(eurAddSpoils.postBattleChecks, 0.5, eventData.faction)
         in_campaign_map = true
+        wait(restoreSplitUnits, 2, true)
         if options_prepost_save == true then
             eur_already_saved = false
             --wait(saveLoad, 0.5, eventData.faction, false)
@@ -166,6 +169,7 @@ else
     function onPostBattle(eventData)
         wait(eurAddSpoils.postBattleChecks, 0.5, eventData.faction)
         in_campaign_map = true
+        wait(restoreSplitUnits, 2, true)
         if options_prepost_save == true then
             eur_already_saved = false
             --wait(saveLoad, 0.5, eventData.faction, false)
@@ -185,14 +189,18 @@ if onScrollOpened then
         if eventData.resourceDescription == "faction_summary_scroll" then
             show_options_button = true
         end
-        if eventData.resourceDescription == "post_battle_scroll" then
-            if options_prepost_save == true then
-                eur_already_saved = false
-                --wait(saveLoad, 0.5, eventData.faction, false)
-                --saveLoad(eventData.faction, false)
-            end
+        if eventData.resourceDescription == "prebattle_scroll" then
+            eur_pre_battle = true
         end
-        --print(eventData.resourceDescription)
+        if eventData.resourceDescription == "own_named_character_info_scroll" then
+            show_temp_char_stuff = true
+            swap_bg_button = true
+        end
+        if eventData.resourceDescription == "own_settlement_info_scroll" then
+            show_temp_char_stuff = true
+            swap_bg_button = true
+        end
+        print(eventData.resourceDescription)
     end
 else
     function onScrollOpened(eventData)
@@ -203,14 +211,18 @@ else
         if eventData.resourceDescription == "faction_summary_scroll" then
             show_options_button = true
         end
-        if eventData.resourceDescription == "post_battle_scroll" then
-            if options_prepost_save == true then
-                eur_already_saved = false
-                --wait(saveLoad, 0.5, eventData.faction, false)
-                --saveLoad(eventData.faction, false)
-            end
+        if eventData.resourceDescription == "prebattle_scroll" then
+            eur_pre_battle = true
         end
-        --print(eventData.resourceDescription)
+        if eventData.resourceDescription == "own_named_character_info_scroll" then
+            show_temp_char_stuff = true
+            swap_bg_button = true
+        end
+        if eventData.resourceDescription == "own_settlement_info_scroll" then
+            show_temp_char_stuff = true
+            swap_bg_button = true
+        end
+        print(eventData.resourceDescription)
     end
 end
 
@@ -226,7 +238,23 @@ if onScrollClosed then
             show_options_button = false
             show_options_window = false
         end
-        --print(eventData.resourceDescription)
+        if eventData.resourceDescription == "prebattle_scroll" then
+            eur_pre_battle = false
+            eur_pre_battle_window = false
+        end
+        if eventData.resourceDescription == "own_named_character_info_scroll" then
+            temp_char_stuff = nil
+            show_temp_char_stuff = false
+            swap_bg_button = false
+            swap_bg_window = false
+        end
+        if eventData.resourceDescription == "own_settlement_info_scroll" then
+            temp_char_stuff = nil
+            show_temp_char_stuff = false
+            swap_bg_button = false
+            swap_bg_window = false
+        end
+        print(eventData.resourceDescription)
     end
 else
     function onScrollClosed(eventData)
@@ -238,7 +266,23 @@ else
             show_options_button = false
             show_options_window = false
         end
-        --print(eventData.resourceDescription)
+        if eventData.resourceDescription == "prebattle_scroll" then
+            eur_pre_battle = false
+            eur_pre_battle_window = false
+        end
+        if eventData.resourceDescription == "own_named_character_info_scroll" then
+            temp_char_stuff = nil
+            show_temp_char_stuff = false
+            swap_bg_button = false
+            swap_bg_window = false
+        end
+        if eventData.resourceDescription == "own_settlement_info_scroll" then
+            temp_char_stuff = nil
+            show_temp_char_stuff = false
+            swap_bg_button = false
+            swap_bg_window = false
+        end
+        print(eventData.resourceDescription)
     end
 end
 
@@ -247,12 +291,18 @@ if onPreBattleWithdrawal then
     eur_onPreBattleWithdrawal = function(eventData) 
         eur_onPreBattleWithdrawal(eventData)
         in_campaign_map = true
+        eur_pre_battle = false
+        eur_pre_battle_window = false
+        restoreSplitUnits(true)
         eur_already_saved = false
         losses_upkeep = 0
     end
 else
     function onPreBattleWithdrawal(eventData)
         in_campaign_map = true
+        eur_pre_battle = false
+        eur_pre_battle_window = false
+        restoreSplitUnits(true)
         eur_already_saved = false
         losses_upkeep = 0
     end
@@ -339,5 +389,53 @@ if onUngarrisonedFort then
 else
     function onUngarrisonedFort(eventData)
         --eventData.fort:changeOwner(eur_campaign:getFaction("slave"), false)
+    end
+end
+
+if onPreFactionTurnStart then
+    eur_onPreFactionTurnStart = onPreFactionTurnStart
+    eur_onPreFactionTurnStart = function(eventData) 
+        eur_onPreFactionTurnStart(eventData)
+        setBGSize(eventData.faction, nil, nil)
+    end
+else
+    function onPreFactionTurnStart(eventData)
+        setBGSize(eventData.faction, nil, nil)
+    end
+end
+
+if onUnitTrained then
+    eur_onUnitTrained = onUnitTrained
+    eur_onUnitTrained = function(eventData) 
+        eur_onUnitTrained(eventData)
+        setBGSize(nil, nil, eventData.playerUnit)
+    end
+else
+    function onUnitTrained(eventData)
+        setBGSize(nil, nil, eventData.playerUnit)
+    end
+end
+
+if onSettlementSelected then
+    eur_onSettlementSelected = onSettlementSelected
+    eur_onSettlementSelected = function(eventData) 
+        eur_onSettlementSelected(eventData)
+        setBGSize(eventData.settlement.ownerFaction, nil, nil)
+    end
+else
+    function onSettlementSelected(eventData)
+        setBGSize(eventData.settlement.ownerFaction, nil, nil)
+    end
+end
+
+if onCharacterSelected then
+    eur_onCharacterSelected = onCharacterSelected
+    eur_onCharacterSelected = function(eventData) 
+        eur_onCharacterSelected(eventData)
+        setBGSize(eventData.faction, nil, nil)
+    end
+else
+    function onCharacterSelected(eventData)
+        setBGSize(eventData.faction, nil, nil)
     end
 end

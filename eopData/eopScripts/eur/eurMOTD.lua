@@ -30,7 +30,7 @@ local beta_changelog = "\n"..
 local motd = {}
 
 function motd.campaignLoadedBeta()
-    stratmap.game.historicEvent("crusade_succeeded", beta_title, beta_intro .. beta_focus .. beta_changelog)
+    --stratmap.game.historicEvent("crusade_succeeded", beta_title, beta_intro .. beta_focus .. beta_changelog)
 end
 
 return motd

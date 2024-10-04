@@ -2,10 +2,11 @@
 
 -- Uncomment to use VSCode Lua Debugger
 -- json = require "helpers/dkjson"
--- local mobdebug = require "helpers/mobdebug"
--- mobdebug.start('127.0.0.1', 8818)
+--local mobdebug = require "helpers/mobdebug"
+--mobdebug.start('127.0.0.1', 8818)
 
-require('eur/chrisDev')
+--require('eur/chrisDev')
+require('helpers/EopLuaHelpers')
 
 -- EUR Helpers
 eurEOPUnits = require('eur/eurEOPUnits')
@@ -19,6 +20,8 @@ require('eur/eurOptions')
 
 require('eur/eurUnitUpgrades')
 require('eur/eurEvents')
+require('eur/eurPreBattleOptions')
+require('eur/eurGeneralBGSwap')
 
 -- Helper for managing persistence of tables across save/load
 require('helpers/tableSave')
@@ -99,7 +102,7 @@ end
 ---@param pDevice LPDIRECT3DDEVICE9
 function draw(pDevice)
     -- 
-    devButton()
+    --devButton()
     --
     waitingFuncsTick()
     if (ImGui.IsKeyPressed(ImGuiKey.GraveAccent))
@@ -110,6 +113,12 @@ function draw(pDevice)
     and (ImGui.IsKeyDown(ImGuiKey.LeftAlt))
     then
         M2TWEOP.toggleDeveloperMode()
+    end
+    if eur_pre_battle then
+        preBattleButton()
+    end
+    if eur_pre_battle_window then
+        preBattleWindow()
     end
     if in_campaign_map == true then
         eventsButton()
@@ -130,6 +139,12 @@ function draw(pDevice)
         end
         if show_options_window == true then
             optionsWindow()
+        end
+        if swap_bg_button == true then
+            swapBGButton()
+        end
+        if swap_bg_window == true then
+            swapBGWindow()
         end
     end
     if (ImGui.IsKeyPressed(ImGuiKey.X)) then
@@ -155,6 +170,7 @@ function onCampaignMapLoaded()
     eur_numberOfFactions = stratmap.game.getFactionsCount()
     eur_playerFactionId = M2TWEOP.getLocalFactionID()
     eur_player_faction = stratmap.game.getFaction(0)
+    startLog(M2TWEOP.getModPath())
 
     wait(eurGlobalVars, 0.5)
     wait(loadImages, 1)
@@ -169,6 +185,7 @@ end
 function onLoadingFonts()
     font_RINGM = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/RINGM___.TTF", 18, nil, nil)
 end
+
 
 -- EUR Overrides, for compatibility - GOES AT END
 require('eur/eurOverrides')

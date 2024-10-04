@@ -1,8 +1,14 @@
+--persistent
 options_replen = true
 options_poe = true
 options_merge = true
 options_sort = true
 options_prepost_save = false
+
+show_options_window = true
+
+temp_units = {}
+temp_unit_nu = 0
 
 change_faction = false
 
@@ -11,14 +17,7 @@ eur_tga_table = {}
 sort_order = {}
 sort_order.a, sort_order.b, sort_order.c = 5, 0, 3
 
-show_options_button = false
-show_options_window = false
-
-show_upgrade_button = false
-show_upgrade_window = false
 upgradeWindowAlways = false
-
-show_events_window = false
 
 eur_already_saved = false
 
@@ -55,6 +54,21 @@ FACTION_COLOURS = {
     },
 }
 
+--temporary
+show_options_button = false
+show_events_window = false
+
+swap_bg_window = false
+swap_bg_button = false
+
+show_upgrade_button = false
+show_upgrade_window = false
+temp_player_army = nil
+temp_temp_player_army_target = 0
+temp_value = 20
+eur_pre_battle = false
+eur_pre_battle_window = false
+
 function setFactionAssets(faction, new_faction_name, saveload)
     faction.facStrat.primaryColorRed = FACTION_COLOURS[new_faction_name].primaryColorRed
     faction.facStrat.primaryColorGreen = FACTION_COLOURS[new_faction_name].primaryColorGreen
@@ -74,7 +88,12 @@ end
 function eurSaveLoadValues(bool)
     if bool then
         eurEventsData = {
+            temp_units = temp_units,
+            temp_unit_nu = temp_unit_nu,
+            persistent_gen_list = persistent_gen_list,
+            persistent_gen_list_reset = persistent_gen_list_reset,
             options_replen = options_replen,
+            show_options_window = show_options_window,
             options_poe = options_poe,
             options_merge = options_merge,
             options_sort = options_sort,
@@ -127,7 +146,12 @@ function eurSaveLoadValues(bool)
          end
          ]]
     else
+        temp_units = eurEventsData["temp_units"]
+        temp_unit_nu = eurEventsData["temp_unit_nu"]
+        persistent_gen_list = eurEventsData["persistent_gen_list"]
+        persistent_gen_list_reset = eurEventsData["persistent_gen_list_reset"]
         options_replen = eurEventsData["options_replen"]
+        show_options_window = eurEventsData["show_options_window"]
         options_poe = eurEventsData["options_poe"]
         options_merge = eurEventsData["options_merge"]
         options_sort = eurEventsData["options_sort"]
@@ -521,6 +545,14 @@ function centeredImageButton(text, x, y, offset)
     clicked = ImGui.Button(text, x, y)
     --clicked = ImGui.ImageButton(image, x, y);
     return clicked
+end
+
+function centeredImage(image, x, y, offset)
+    local offset = offset or 0
+    local windowWidth = ImGui.GetWindowWidth()
+    local centre_position_for_button = (windowWidth - x) / 2;
+    ImGui.SetCursorPosX(centre_position_for_button+offset);
+    ImGui.Image(image, x, y)
 end
 
 function centeredText(text, minIndentation)

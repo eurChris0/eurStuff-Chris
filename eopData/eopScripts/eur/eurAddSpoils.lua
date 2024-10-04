@@ -48,6 +48,7 @@ function spoils.getBattlePreInfo()
                 if thisArmy ~= nil then
                     if thisArmy.faction.isPlayerControlled == 1 then
                         our_num_units = thisArmy.numOfUnits
+                        temp_player_army = thisArmy
                         for i = 0, thisArmy.numOfUnits -1 do
                             local unit = thisArmy:getUnit(i)
                             print(unit.eduEntry.eduType)

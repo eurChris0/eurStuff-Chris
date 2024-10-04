@@ -271,10 +271,14 @@ function loadImages()
     end
     ]]
     --printTable(eur_tga_table)
+    bg_1 = { x = 0, y = 0, img = nil }
+    bg_2 = { x = 0, y = 0, img = nil }
     scroll_bg = { x = 0, y = 0, img = nil }
     button_01 = { x = 0, y = 0, img = nil }
     button_02 = { x = 0, y = 0, img = nil }
 
+    bg_1.x, bg_1.y, bg_1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_1.png')
+    bg_2.x, bg_2.y, bg_2.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_2.png')
     scroll_bg.x, scroll_bg.y, scroll_bg.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\scroll_bg.png')
     button_01.x, button_01.y, button_01.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button_01.png')
     button_02.x, button_02.y, button_02.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button_02.png')
@@ -290,7 +294,9 @@ function loadImages()
     tulkas = { x = 0, y = 0, img = nil }
     ulmo = { x = 0, y = 0, img = nil }
     button1 = { x = 0, y = 0, img = nil }
+    icon_unit = { x = 0, y = 0, img = nil }
 
+    icon_unit.x, icon_unit.y, icon_unit.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\icon_unit.tga')
     test1.x, test1.y, test1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\test1.png')
     ent1.x, ent1.y, ent1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\ent1.png')
     eldarlight.x, eldarlight.y, eldarlight.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\eldarlight.png')

@@ -7,7 +7,7 @@ end
 function tacticalViewUp()
     cameraCoords = M2TWEOP.getBattleCamCoords();
     if not cameraCoords then return end;
-        if cameraCoords.zCoord < 400 then
+        if cameraCoords.zCoord < 500 then
             cameraCoords.zCoord = cameraCoords.zCoord + 50
         end
 end
@@ -15,7 +15,9 @@ end
 function tacticalViewDown()
     cameraCoords = M2TWEOP.getBattleCamCoords();
     if not cameraCoords then return end;
-        if cameraCoords.zCoord > 70 then
+        if cameraCoords.zCoord > 60 then
             cameraCoords.zCoord = cameraCoords.zCoord - 50
+        else
+            cameraCoords.zCoord = 10
         end
 end

@@ -2,11 +2,74 @@ selected = false
 hoveredtest = false
 showtext = false
 
+temp_char_stuff = nil
+show_temp_char_stuff = false
+
 map_id = nil
-map_x = nil
-map_y = nil
+map_x = 0
+map_y = 0
 
 extra_window = false
+castle = false
+level = 0
+max = 5
+setttext = "Lothlolien"
+
+sett_names = {}
+
+settlement_names = {
+    "Elandorë",
+    "Lindorlin",
+    "Eärendur",
+    "Calenfëanor",
+    "Tirithil",
+    "Amarathorn",
+    "Ilmarinor",
+    "Alqualmírë",
+    "Galadhrim",
+    "Ithildor",
+    "Lothenel",
+    "Aldawen",
+    "Tirnanor",
+    "Nimrothal",
+    "Silmarion",
+    "Elenithil",
+    "Fëanoldëa",
+    "Noldorinost",
+    "Alcarindë",
+    "Elenloth",
+    "Calaquendi",
+    "Vanyarë",
+    "Mithlondir",
+    "Elensûl",
+    "Alduinor",
+    "Fingolost",
+    "Teleriand",
+    "Gilthirin",
+    "Tiriondë",
+    "Eledhion",
+    "Calenlómë",
+    "Nimbrethil",
+    "Taurëa",
+    "Lóthendor",
+    "Lindirion",
+    "Aranlómë",
+    "Fëanárel",
+    "Lómëthil",
+    "Elentirmo",
+    "Anoron",
+    "Lothilion",
+    "Laurefindë",
+    "Menelluin",
+    "Galadhrel",
+    "Minlaurëa",
+    "Eärquendi",
+    "Celebost",
+    "Lauremel",
+    "Nimlothion",
+    "Calenfirin"
+}
+
 
 function devButton()
     ImGui.SetNextWindowPos(10*eurbackgroundWindowSizeRight, 840*eurbackgroundWindowSizeBottom)
@@ -34,6 +97,7 @@ function devButton()
         if (ImGui.Button("ICM", 80, 80)) then
             in_campaign_map = true
             eurGlobalVars()
+            startLog(M2TWEOP.getModPath())
             --loadImages()
             --loadSounds()
             for i = 1, #wavs do
@@ -53,6 +117,7 @@ function devButton()
         ImGui.SetNextWindowBgAlpha(0)
         --ImGui.SetNextWindowPos(505*eurbackgroundWindowSizeRight, 505*eurbackgroundWindowSizeBottom)
         ImGui.BeginChild("Name1", 700, 300, ImGuiWindowFlags.NoInputs)
+        --[[
         if map_id ~= nil then
             ImGui.Image(map_id, map_x, map_y)
         end
@@ -74,26 +139,80 @@ function devButton()
             end
         end
         ImGui.NewLine()
-        for i = 1, #wavs do
-            if EOP_WAVS[wavs[i]] then
-                if (i % 3 == 0) then
-                    ImGui.NewLine()
-                    if (ImGui.Button(wavs[i], 150, 20)) then
-                        if EOP_WAVS[wavs[i]] then
-                            M2TWEOPSounds.playEOPSound(EOP_WAVS[wavs[i]])
-                        end
-                    end
+        ]]
+        if (ImGui.BeginTabBar("dev_tabbar_1")) then
+            ImGui.Separator()
+            if (ImGui.BeginTabItem("dev1##01")) then
+                local tile = M2TW.stratMap.getTile(map_x, map_y)
+                if tile.resource ~= nil then
+                    ImGui.Text(tostring(tile.resource.resourceID))
+                    --tile.resource = nil
+                end
+                if not checkTileEmpty(map_x, map_y) then
+                    ImGui.TextColored(1,0,0,1,"Invalid Tile")
+                end
+                ImGui.Text(tostring(map_x))
+                ImGui.Text(tostring(map_y))
+                if castle then
+                    max = 4
                 else
-                    ImGui.SameLine()
-                    if (ImGui.Button(wavs[i], 150, 20)) then
-                        if EOP_WAVS[wavs[i]] then
-                            M2TWEOPSounds.playEOPSound(EOP_WAVS[wavs[i]])
+                    max = 5
+                end
+                level, levelused = ImGui.SliderInt("Level", level, 0, max)
+                if (ImGui.Button("Rand", 100, 80)) then
+                    local rand_nu = math.random(1, #settlement_names)
+                    setttext = settlement_names[rand_nu]
+                end
+                setttext, selected = ImGui.InputTextWithHint("Name", "", setttext, 100)
+                if tableContains(sett_names, setttext) then
+                    ImGui.TextColored(1,0,0,1,"Name Taken")
+                end
+                castle, castlepressed = ImGui.Checkbox("Castle", castle)
+
+                if (ImGui.Button("Add Sett", 100, 80)) then
+                    if checkTileEmpty(map_x, map_y) then
+                        if not tableContains(sett_names, setttext) then
+                            local sett = eur_player_faction:addSettlement(map_x, map_y, setttext, level, castle)
+                            if sett ~= nil then
+                                sett.creatorFactionID = 1
+                                table.insert(sett_names, setttext)
+                                local rand_nu = math.random(1, #settlement_names)
+                                setttext = settlement_names[rand_nu]
+                            end
                         end
                     end
                 end
+                ImGui.EndTabItem()
+            end
+            if (ImGui.BeginTabItem("dev2##01")) then
+                
+                ImGui.EndTabItem()
+            end
+            if (ImGui.BeginTabItem("dev3##01")) then
+                for i = 1, #wavs do
+                    if EOP_WAVS[wavs[i]] then
+                        if (i % 3 == 0) then
+                            ImGui.NewLine()
+                            if (ImGui.Button(wavs[i], 150, 20)) then
+                                if EOP_WAVS[wavs[i]] then
+                                    M2TWEOPSounds.playEOPSound(EOP_WAVS[wavs[i]])
+                                end
+                            end
+                        else
+                            ImGui.SameLine()
+                            if (ImGui.Button(wavs[i], 150, 20)) then
+                                if EOP_WAVS[wavs[i]] then
+                                    M2TWEOPSounds.playEOPSound(EOP_WAVS[wavs[i]])
+                                end
+                            end
+                        end
+                    end
+                end
+                ImGui.EndTabItem()
             end
         end
         eurStyle("basic_1", false)
+        ImGui.EndChild()
         ImGui.End()
     end
 end
@@ -109,7 +228,13 @@ function onCalculateUnitValue(entry, value)
 end
 ]]
 
-function onSettlementSelected(eventData)
+function onSettlementSelected2(eventData)
+    for i = 0, 1500 do
+        local eduEntry=M2TWEOPDU.getEduEntry(i);
+        if eduEntry ~= nil then
+            print('"'..eduEntry.eduType..'",')
+        end
+    end
     --eur_campaign.execScriptEvent("", "storm", eventData.settlement.xCoord, eventData.settlement.yCoord, 1, "")
     --M2TWEOP.addModelToGame("data/models_strat/residences/faction_variants/ireland/elf_castle.cas", 1)
     --stratmap.game.scriptCommand("give_everything_to_faction", "mongols ireland false")
@@ -149,17 +274,57 @@ function onSettlementSelected(eventData)
     end
 end
 
-function onCharacterSelected(eventData)
+function onCharacterSelected2(eventData)
     local character = eventData.character.character
     local charRecord = eventData.character
-    local fac1 = eur_campaign:getFaction("turks")
+    local fac1 = eur_campaign:getFaction("saxons")
     --character:switchFaction(fac1, true, true)
+    for i = 0, fac1.armiesNum - 1 do
+        local army = fac1:getArmy(i)
+        if army.numOfUnits < 20 then
+            --army:createUnit("Amanyar Riders", 3, 1, 1)
+            --army:createUnit("Noldorin Veterans", 3, 1, 1)
+        end
+        for j = 0, army.numOfUnits - 1 do
+            local unit = army:getUnit(j)
+            
+        end
+    end
+    print("open")
+    temp_char_stuff = eventData.character
+    show_temp_char_stuff = true
 end
 
 function onClickAtTile(x,y)
-	--print(x, y)
+	map_x = x
+    map_y = y
+    print("clicked")
 end
 
-function onGeneralCaptureResidence(eventData)
-    print("------------Taken")
+function onFactionTurnEnd2(eventData)
+    local fac = eventData.faction;
+    if (fac:getFactionName() == "saxons") then
+    -- find who has a lesser ring and who has abilities
+    for i = 0, fac.numOfCharacters-1, 1 do
+        cha = fac:getCharacter(i);
+        if cha:getTypeID() == 7 then
+            namedCha = cha.namedCharacter;
+            if cha.bodyguards.eduEntry.Type == "Calaquendi" then
+                if cha.bodyguards.exp > 6 then
+                    setBodyguard(cha, ("Eregion Smiths"), 3, 3, 3, "")
+                elseif hasTrait(namedCha, "Lindar") then
+                    local random_value = math.random(1, 6);
+                    setBodyguard(cha, (lindar_units[random_value]), 3, 3, 3, "")
+                elseif hasTrait(namedCha, "Sindar") then
+                    local random_value = math.random(1, 6);
+                    setBodyguard(cha, (sindar_units[random_value]), 3, 3, 3, "")
+                elseif hasTrait(namedCha, "Noldor") then
+                    local random_value = math.random(1, 4);
+                    setBodyguard(cha, (noldor_units[random_value]), 3, 3, 3, "")
+                end
+            end
+        end    
+    end
 end
+end
+
