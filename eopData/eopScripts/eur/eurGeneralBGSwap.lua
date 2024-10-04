@@ -553,7 +553,7 @@ function swapBGWindow()
                 ImGui.Text(temp_char_stuff.characterRecord.localizedDisplayName)
                 ImGui.Separator()
                 rank = genRankCheck(nil, temp_char_stuff.characterRecord)
-                local name = temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.index)
+                local name = temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)
                 genUnitCheck(temp_char_stuff.characterRecord, rank)
                 temp_gen_units_target, temp_gen_units_target_clicked = ImGui.Combo("", temp_gen_units_target, temp_gen_units, #temp_gen_units, #temp_gen_units+1)
                 ImGui.Text("Cooldown: 20 turns")
@@ -600,7 +600,7 @@ function swapBGWindow()
                                 ImGui.TextColored(1,0,0,1,"Cannot swap with full army.")
                             end
                         else
-                            ImGui.TextColored(1,0,0,1,"Cannot change for: "..tostring(persistent_gen_list[temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.index)].cooldown).." turns.")
+                            ImGui.TextColored(1,0,0,1,"Cannot change for: "..tostring(persistent_gen_list[temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)].cooldown).." turns.")
                         end
                     else
                         ImGui.TextColored(1,0,0,1,"New general, cannot change yet.")
@@ -674,7 +674,10 @@ function genRankCheck(faction, char)
             if char:getTypeID() == 7 then
                 if char.bodyguards ~= nil then
                     local char = char.characterRecord
-                    local name = char.shortName..tostring(char.index)
+                    if char.label == "" then
+                        char.label = char.shortName..tostring(eur_turn_number)
+                    end
+                    local name = char.shortName..tostring(char.label)
                     if not persistent_gen_list[name] then
                         persistent_gen_list[name] = {}
                         persistent_gen_list[name].turns = 0
@@ -702,7 +705,10 @@ function genRankCheck(faction, char)
         end
     end
     if char ~= nil then
-        local name = char.shortName..tostring(char.index)
+        if char.label == "" then
+            char:giveValidLabel()
+        end
+        local name = char.shortName..tostring(char.label)
         if persistent_gen_list[name] ~= nil then
             print(temp_com_inf)
             for i = 0, 10 do
@@ -729,7 +735,7 @@ function setBGSize(faction, character, unit)
             if temp_char:getTypeID() == 7 then
                 if temp_char.bodyguards ~= nil then
                     if faction.isPlayerControlled == 1 then
-                        if persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.index)] == nil then
+                        if persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.label)] == nil then
                             if default_general_units[faction.name] ~= nil then
                                 if default_general_units[faction.name].old == temp_char.bodyguards.eduEntry.eduType then
                                     local army = temp_char.army
@@ -744,7 +750,7 @@ function setBGSize(faction, character, unit)
                                     end
                                     if army.numOfUnits < 20 then
                                         setBodyguard(temp_char, (default_general_units[faction.name].new), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")
-                                        persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.index)] = true
+                                        persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.label)] = true
                                     end
                                 end
                             end
@@ -773,7 +779,7 @@ function setBGSize(faction, character, unit)
         if character:getTypeID() == 7 then
             if character.bodyguards ~= nil then
                 if character.faction.isPlayerControlled == 1 then
-                    if persistent_gen_list_reset[character.characterRecord.shortName..tostring(character.characterRecord.index)] == nil then
+                    if persistent_gen_list_reset[character.characterRecord.shortName..tostring(character.characterRecord.label)] == nil then
                         if default_general_units[character.faction.name] ~= nil then
                             if default_general_units[character.faction.name].old == character.bodyguards.eduEntry.eduType then
                                 local army = character.army
@@ -788,7 +794,7 @@ function setBGSize(faction, character, unit)
                                 end
                                 if army.numOfUnits < 20 then
                                     setBodyguard(character, (default_general_units[character.faction.name].new), character.bodyguards.exp, character.bodyguards.weaponLVL, 0, "")
-                                    persistent_gen_list_reset[character.characterRecord.shortName..tostring(character.characterRecord.index)] = true
+                                    persistent_gen_list_reset[character.characterRecord.shortName..tostring(character.characterRecord.label)] = true
                                 end
                             end
                         end
@@ -818,7 +824,7 @@ function setBGSize(faction, character, unit)
         if temp_char:getTypeID() == 7 then
             if temp_char.bodyguards ~= nil then
                 if temp_char.faction.isPlayerControlled == 1 then
-                    if persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.index)] == nil then
+                    if persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.label)] == nil then
                         if default_general_units[temp_char.faction.name] ~= nil then
                             if default_general_units[temp_char.faction.name].old == temp_char.bodyguards.eduEntry.eduType then
                                 local army = temp_char.army
@@ -833,7 +839,7 @@ function setBGSize(faction, character, unit)
                                 end
                                 if army.numOfUnits < 20 then
                                     setBodyguard(temp_char, (default_general_units[temp_char.faction.name].new), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")
-                                    persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.index)] = true
+                                    persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.label)] = true
                                 end
                             end
                         end
