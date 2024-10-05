@@ -15,6 +15,7 @@ setttext = "Lothlolien"
 sett_names = {}
 
 settlement_names = {
+    "Saxonville",
     "Elandorë",
     "Lindorlin",
     "Eärendur",
