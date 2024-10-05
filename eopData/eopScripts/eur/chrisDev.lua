@@ -16,7 +16,7 @@ max = 5
 setttext = "Lothlolien"
 
 sett_names = {}
---
+
 settlement_names = {
     "Elandorë",
     "Lindorlin",
