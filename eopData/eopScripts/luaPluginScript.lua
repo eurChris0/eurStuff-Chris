@@ -172,8 +172,8 @@ function onCampaignMapLoaded()
     eur_player_faction = stratmap.game.getFaction(0)
     startLog(M2TWEOP.getModPath())
 
+    loadImages()
     wait(eurGlobalVars, 0.5)
-    wait(loadImages, 1)
     wait(loadSounds, 1)
     in_campaign_map = true
 end
