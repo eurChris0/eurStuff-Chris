@@ -5,8 +5,13 @@ temp_gen_units = {}
 persistent_gen_list = {}
 persistent_gen_list_reset = {}
 
+temp_gen_units = {}
+
 guard_add = 0
 temp_used = false
+
+gen_rank_char = nil
+gen_units_char = nil
 
 default_general_units = {
     ["milan"] = {
@@ -527,7 +532,6 @@ function swapBGWindow()
     ImGui.SetNextWindowBgAlpha(0)
     ImGui.BeginChild("swap_bg_child_1", 700*eurbackgroundWindowSizeRight, 420*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
     ImGui.NewLine()
-    temp_gen_units = {}
     local UI_MANAGER = gameDataAll.get().uiCardManager
     local selectedUnit=UI_MANAGER:getSelectedUnitCard(0)
     if selectedUnit == nil then
@@ -551,6 +555,7 @@ function swapBGWindow()
             temp_char_stuff = selectedUnit.character
             if temp_char_stuff:getTypeID() == 7 then
                 ImGui.Text(temp_char_stuff.characterRecord.localizedDisplayName)
+                ImGui.Text("Current Bodyguard: "..temp_char_stuff.bodyguards.eduEntry.eduType)
                 ImGui.Separator()
                 rank = genRankCheck(nil, temp_char_stuff.characterRecord)
                 local name = temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)
@@ -625,6 +630,9 @@ function swapBGWindow()
 end
 
 function genUnitCheck(char, rank)
+    if gen_units_char == char then return end
+    print("checking char")
+    temp_gen_units = {}
     for i = 0, #gen_units_list["T1"] do
         local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list["T1"][i])
         if eduEntry:hasOwnership(eur_playerFactionId) then
@@ -663,6 +671,7 @@ function genUnitCheck(char, rank)
             --end
         --end
     --end
+    gen_units_char = char
 end
 
 function genRankCheck(faction, char)
@@ -705,26 +714,19 @@ function genRankCheck(faction, char)
         end
     end
     if char ~= nil then
-        if char.label == "" then
-            char:giveValidLabel()
-        end
+        if gen_rank_char == char then return end
         local name = char.shortName..tostring(char.label)
         if persistent_gen_list[name] ~= nil then
-            print(temp_com_inf)
             for i = 0, 10 do
                 if persistent_gen_list[name].command[i] ~= nil then
                     temp_com_inf = temp_com_inf+(persistent_gen_list[name].command[i]+persistent_gen_list[name].loyalty[i]+persistent_gen_list[name].authority[i])
-                    print(name)
-                    print(persistent_gen_list[name].command[i])
-                    print(persistent_gen_list[name].loyalty[i])
-                    print(persistent_gen_list[name].authority[i])
-                    print(temp_com_inf)
                 end
             end
             return temp_com_inf
         else
             return 0
         end
+        gen_rank_char = char
     end
 end
 
