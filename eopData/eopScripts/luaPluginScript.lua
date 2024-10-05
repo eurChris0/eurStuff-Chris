@@ -5,7 +5,7 @@
 --local mobdebug = require "helpers/mobdebug"
 --mobdebug.start('127.0.0.1', 8818)
 
---require('eur/chrisDev')
+require('eur/chrisDev')
 require('helpers/EopLuaHelpers')
 
 -- EUR Helpers
@@ -102,7 +102,7 @@ end
 ---@param pDevice LPDIRECT3DDEVICE9
 function draw(pDevice)
     -- 
-    --devButton()
+    devButton()
     --
     waitingFuncsTick()
     if (ImGui.IsKeyPressed(ImGuiKey.GraveAccent))

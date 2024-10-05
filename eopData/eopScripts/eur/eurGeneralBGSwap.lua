@@ -2,9 +2,6 @@ temp_gen_units_target = 0
 temp_gen_units_target_clicked = false
 temp_gen_units = {}
 
-persistent_gen_list = {}
-persistent_gen_list_reset = {}
-
 temp_gen_units = {}
 
 guard_add = 0
@@ -663,14 +660,14 @@ function genUnitCheck(char, rank)
             end
         end
     end
-    --for i = 1, #general_traits_list do
-        --if hasTrait(char, general_traits_list[i]) then
-           --local eduEntry = M2TWEOPDU.getEduEntryByType(trait_units_list[general_traits_list[i]])
-            --if eduEntry:hasOwnership(eur_playerFactionId) then
-               --table.insert(temp_gen_units, trait_units_list[general_traits_list[i]])
-            --end
-        --end
-    --end
+    for i = 1, #general_traits_list do
+        if hasTrait(char, general_traits_list[i]) then
+           local eduEntry = M2TWEOPDU.getEduEntryByType(trait_units_list[general_traits_list[i]])
+            if eduEntry:hasOwnership(eur_playerFactionId) then
+               table.insert(temp_gen_units, trait_units_list[general_traits_list[i]])
+            end
+        end
+    end
     gen_units_char = char
 end
 

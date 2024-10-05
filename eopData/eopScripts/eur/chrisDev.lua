@@ -1,9 +1,6 @@
-selected = false
+selected2 = false
 hoveredtest = false
 showtext = false
-
-temp_char_stuff = nil
-show_temp_char_stuff = false
 
 map_id = nil
 map_x = 0
@@ -163,7 +160,7 @@ function devButton()
                     local rand_nu = math.random(1, #settlement_names)
                     setttext = settlement_names[rand_nu]
                 end
-                setttext, selected = ImGui.InputTextWithHint("Name", "", setttext, 100)
+                setttext, selected2 = ImGui.InputTextWithHint("Name", "", setttext, 100)
                 if tableContains(sett_names, setttext) then
                     ImGui.TextColored(1,0,0,1,"Name Taken")
                 end

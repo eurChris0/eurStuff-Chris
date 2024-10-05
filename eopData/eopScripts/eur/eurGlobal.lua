@@ -10,6 +10,9 @@ show_options_window = true
 temp_units = {}
 temp_unit_nu = 0
 
+persistent_gen_list = {}
+persistent_gen_list_reset = {}
+
 change_faction = false
 
 eur_tga_table = {}
@@ -60,6 +63,9 @@ show_events_window = false
 
 swap_bg_window = false
 swap_bg_button = false
+
+temp_char_stuff = nil
+show_temp_char_stuff = false
 
 show_upgrade_button = false
 show_upgrade_window = false
