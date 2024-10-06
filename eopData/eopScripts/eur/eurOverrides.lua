@@ -314,12 +314,16 @@ if onCharacterSelected then
         eur_onCharacterSelected(eventData)
         if options_sort == true then
             eurSortStack.eurSortOnSelected(eventData.character)
+            setBGSize(eventData.faction, nil, nil)
+            print(eventData.character.label)
         end
     end
 else
     function onCharacterSelected(eventData)
         if options_sort == true then
             eurSortStack.eurSortOnSelected(eventData.character)
+            setBGSize(eventData.faction, nil, nil)
+            print(eventData.character.label)
         end
     end
 end
@@ -428,14 +432,3 @@ else
     end
 end
 
-if onCharacterSelected then
-    eur_onCharacterSelected = onCharacterSelected
-    eur_onCharacterSelected = function(eventData) 
-        eur_onCharacterSelected(eventData)
-        setBGSize(eventData.faction, nil, nil)
-    end
-else
-    function onCharacterSelected(eventData)
-        setBGSize(eventData.faction, nil, nil)
-    end
-end

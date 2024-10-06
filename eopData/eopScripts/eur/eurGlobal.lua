@@ -64,6 +64,8 @@ show_events_window = false
 swap_bg_window = false
 swap_bg_button = false
 
+traits_temp = {}
+
 temp_char_stuff = nil
 show_temp_char_stuff = false
 
@@ -96,6 +98,8 @@ function eurSaveLoadValues(bool)
         eurEventsData = {
             temp_units = temp_units,
             temp_unit_nu = temp_unit_nu,
+            combo_labtrait_list = combo_labtrait_list,
+            labtrait_units_list = labtrait_units_list,
             persistent_gen_list = persistent_gen_list,
             persistent_gen_list_reset = persistent_gen_list_reset,
             options_replen = options_replen,
@@ -154,6 +158,8 @@ function eurSaveLoadValues(bool)
     else
         temp_units = eurEventsData["temp_units"]
         temp_unit_nu = eurEventsData["temp_unit_nu"]
+        combo_labtrait_list = eurEventsData["combo_labtrait_list"]
+        labtrait_units_list = eurEventsData["labtrait_units_list"]
         persistent_gen_list = eurEventsData["persistent_gen_list"]
         persistent_gen_list_reset = eurEventsData["persistent_gen_list_reset"]
         options_replen = eurEventsData["options_replen"]
@@ -493,6 +499,12 @@ function eurGlobalVars()
             end
         end
         --save unit values
+        for i = 1, #mod_general_units_list do
+            local eduEntry = M2TWEOPDU.getEduEntryByType(mod_general_units_list[i].name)
+            if eduEntry ~= nil then
+                eduEntry.soldierCount = mod_general_units_list[i].size
+            end
+        end
         for i = 0, 1500 do
             local eduEntry = M2TWEOPDU.getEduEntry(i)
             if eduEntry ~= nil then
@@ -522,6 +534,14 @@ function eurGlobalVars()
                 ulmoAdd()
             end
         end
+    end
+end
+
+function eurListTraits(namedCharacter)
+    local thisTrait, traitsList, index = namedCharacter:getTraits(), namedCharacter.fullName.." traits:", 0
+    while thisTrait ~= nil do
+        table.insert(traits_temp, thisTrait.name)
+        traitsList, thisTrait, index = traitsList.."\n\tTrait "..index.." - Name: "..thisTrait.name.." - Level: "..thisTrait.level, thisTrait.nextTrait, index + 1
     end
 end
 

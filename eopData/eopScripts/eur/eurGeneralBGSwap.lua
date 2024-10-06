@@ -10,6 +10,33 @@ temp_used = false
 gen_rank_char = nil
 gen_units_char = nil
 
+mod_general_units_list = {
+    {name="Rohan Bodyguard",size=21},
+    {name="Pharazim Nobles",size=21},
+    {name="Dunedain Bodyguard",size=40},
+    {name="Gondor Bodyguard",size=45},
+    {name="Royal Guardsmen",size=40},
+    {name="High Paladins",size=45},
+    {name="Skin-Changers",size=45},
+    {name="Angmar Bodyguards",size=45},
+    {name="Brenin's Guard",size=45},
+    {name="Black Snake Guard",size=21},
+    {name="Variag Nobles",size=21},
+    {name="Loke Rim Bodyguard",size=50},
+    {name="Zenith Guard",size=45},
+    {name="Tumunzahar Nobles",size=40},
+    {name="Durins Guard",size=45},
+    {name="Tawar Areiniyr",size=35},
+    {name="Elbereths Sentinels",size=35},
+    {name="Calaquendi Lords",size=28},
+    {name="Uruk Bodyguard",size=58},
+    {name="Mirkwood Bodyguard",size=45},
+    {name="Goblin Bodyguards",size=58},
+    {name="Mountain Guard",size=45},
+    {name="Uruk-hai Bodyguards",size=45},
+    {name="Noldorin Bodyguards",size=49},
+}
+
 default_general_units = {
     ["milan"] = {
         old = "Rohan Bodyguard",
@@ -110,358 +137,687 @@ default_general_units = {
 }
 
 gen_units_list = {
-    ["T1"] = {
-        [0] = "Gondor Militia",
-        [1] = "Gondor Archer Militia",
-        [2] = "Gondor Cavalry Militia",
-        [3] = "Territorial Guardsmen",
-        [4] = "Dunedain Wardens",
-        [5] = "Dunedain Rangers",
-        [6] = "Belegaer Footmen",
-        [7] = "Belegaer Pikemen",
-        [8] = "Belegaer Archers",
-        [9] = "Eorling Spearmen",
-        [10] = "Eorling Archers",
-        [11] = "Rohirrim",
-        [12] = "Rohirrim Archers",
-        [13] = "Dalian Swordsmen",
-        [14] = "Dale Cavalry",
-        [15] = "Thorn Bladesmen",
-        [16] = "Thorn Crossbowmen",
-        [17] = "Thorn Riders",
-        [18] = "Vale Archers",
-        [19] = "Woodman Warriors",
-        [20] = "Woodman Defenders",
-        [21] = "Woodman Hunters",
-        [22] = "Angmarim Infantry",
-        [23] = "Angmarim Archers",
-        [24] = "Clan Spearmen",
-        [25] = "Clan Hunters",
-        [26] = "Mordag Fishermen",
-        [27] = "Faolan Borderguard",
-        [28] = "Southron Warband",
-        [29] = "Southron Pikemen",
-        [30] = "Southron Archers",
-        [31] = "Southron Lancers",
-        [32] = "Nomad Warriors",
-        [33] = "Nomad Horsemen",
-        [34] = "Khazad Sentries",
-        [35] = "Ered Luin Militia",
-        [36] = "Ered Luin Pikemen",
-        [37] = "Ered Luin Scouts",
-        [38] = "Erebor Infantry",
-        [39] = "Erebor Axethrowers",
-        [40] = "Woodland Spearmen",
-        [41] = "Woodland Warriors",
-        [42] = "Woodland Wardens",
-        [43] = "Woodland Scouts",
-        [44] = "Lorien Warders",
-        [45] = "Lorien Sentries",
-        [46] = "Lorien Archers",
-        [47] = "Lorien Scouts",
-        [48] = "Lindar Guards",
-        [49] = "Lindar Mariners",
-        [50] = "Lindon Longspears",
-        [51] = "Lindar Bowmen",
-        [52] = "Orc Raiders",
-        [53] = "Orc Band",
-        [54] = "Orc Scouts",
-        [55] = "Dol Guldur Host",
-        [56] = "Dol Guldur Scouts",
-        [57] = "Dol Guldur Archers",
-        [58] = "Goblin Infantry",
-        [59] = "Goblin Band",
-        [60] = "Goblin Archers",
-        [61] = "Snow-Orc Raiders",
-        [62] = "Snow-Orc Spearmen",
-        [63] = "Snow-Orc Scouts",
-        [64] = "Uruk-hai Raiders",
-        [65] = "Uruk-hai Archers",
-        [66] = "Eregion Spear Quendi",
-        [67] = "Eregion Sword Quendi",
-        [68] = "Eregion Mounted Quendi",
-        [69] = "Mounted Quendi",
-        [70] = "Sword Quendi",
-        [71] = "Spear Quendi",
-        [72] = "Bow Quendi",
-        [73] = "Rhunnic Warriors",
-        [74] = "Rhunnic Bowmen",
+    ["milan"] = {
+        ["T1"] = {
+            [0] = "Eorling Spearmen",
+            [1] = "Eorling Archers",
+            [2] = "Rohirrim",
+            [3] = "Rohirrim Archers",
+        },
+        ["T2"] = {
+            [0] = "Riddermark Cavalry",
+            [1] = "Eored Lancers",
+            [2] = "Eored Skirmishers",
+        },
+        ["T3"] = {
+            [0] = "Rohan Bodyguard",
+            [1] = "Guard of the Golden Hall",
+            [2] = "Shieldmaidens of Rohan",
+        },
     },
-    ["T2"] = {
-        [0] = "Gondor Spearmen",
-        [1] = "Gondor Infantry",
-        [2] = "Gondor Pikemen",
-        [3] = "Gondor Archers",
-        [4] = "Gondor Cavalry",
-        [5] = "Dunedain Armsmen",
-        [6] = "Dunedain Scouts",
-        [7] = "Sworn Horsemen",
-        [8] = "Numenorean Shieldguard",
-        [9] = "Numenorean Marksmen",
-        [10] = "Riddermark Cavalry",
-        [11] = "Eored Lancers",
-        [12] = "Eored Skirmishers",
-        [13] = "Dale Swordmasters",
-        [14] = "Barding Marksmen",
-        [15] = "Regent Axeguard",
-        [16] = "Regent Spearguard",
-        [17] = "Regent Bowguard",
-        [18] = "Beorning Defenders",
-        [19] = "Beorning Spearmen",
-        [20] = "Greenwood Foresters",
-        [21] = "Iron Crown Warriors",
-        [22] = "Iron Crown Halberdiers",
-        [23] = "Iron Crown Longbowmen",
-        [24] = "Warband Host",
-        [25] = "Warband Blades",
-        [26] = "Enedwaith Guardsmen",
-        [27] = "Enedwaith Marksmen",
-        [28] = "Hasharii Blades",
-        [29] = "Hasharii Shadows",
-        [30] = "Variag Swordsmen",
-        [31] = "Variag Bowmen",
-        [32] = "Variag Horse Archers",
-        [33] = "Loke-Rim Spearmen",
-        [34] = "Loke-Rim Archers",
-        [35] = "Legion Shieldguard",
-        [36] = "Legion Crossbows",
-        [37] = "Longbeard Phalanx",
-        [38] = "Longbeard Swordsmen",
-        [39] = "Longbeard Crossbows",
-        [40] = "Kings Axes",
-        [41] = "Kings Warriors",
-        [42] = "Kings Shields",
-        [43] = "Iron Crossbowmen",
-        [44] = "Elder Council",
-        [45] = "Woodland Sentinels",
-        [46] = "Sentinels of Cerin Amroth",
-        [47] = "Yavannas Chosen",
-        [48] = "Lothlorien Marchwardens",
-        [49] = "Sindar Spearmen",
-        [50] = "Sindar Archers",
-        [51] = "Amanyar Riders",
-        [52] = "Amanyar Rangers",
-        [53] = "Black Uruks",
-        [54] = "Black Uruk Halberds",
-        [55] = "Black Uruk Archers",
-        [56] = "Mirkwood Slayers",
-        [57] = "Mirkwood Spears",
-        [58] = "Mirkwood Archers",
-        [59] = "Black Pit Infantry",
-        [60] = "Black Pit Spears",
-        [61] = "Black Pit Halberd",
-        [62] = "Black Pit Archers",
-        [63] = "Black Pit Crossbows",
-        [64] = "Blackshield Warband",
-        [65] = "Blackshield Warriors",
-        [66] = "Blackshield Halberds",
-        [67] = "Blackshield Archers",
-        [68] = "Uruk-hai Infantry",
-        [69] = "Uruk-hai Pikemen",
-        [70] = "Uruk-hai Crossbow",
+    ["sicily"] = {
+        ["T1"] = {
+            [0] = "Gondor Militia",
+            [1] = "Gondor Archer Militia",
+            [2] = "Gondor Cavalry Militia",
+            [3] = "Territorial Guardsmen",
+        },
+        ["T2"] = {
+            [0] = "Gondor Spearmen",
+            [1] = "Gondor Infantry",
+            [2] = "Gondor Pikemen",
+            [3] = "Gondor Archers",
+            [4] = "Gondor Cavalry",
+        },
+        ["T3"] = {
+            [0] = "Citadel Guard",
+            [1] = "Marksmen of Cair Andros",
+            [2] = "Gondor Bodyguard",
+        },
     },
-    ["T3"] = {
-        [0] = "Rohan Bodyguard",
-        [1] = "Guard of the Golden Hall",
-        [2] = "Shieldmaidens of Rohan",
-        [3] = "Earls",
-        [4] = "Barons",
-        [5] = "Northguard",
-        [6] = "Wulfguard Axemen",
-        [7] = "Wulfguard Pikes",
-        [8] = "Serpent Guard",
-        [9] = "Serpent Archers",
-        [10] = "Khand Elite Spearmen",
-        [11] = "Khand Elite Lancers",
-        [12] = "Dragon-Wrath Crossbowmen",
-        [13] = "Dragon-Wrath Kataphracts",
-        [14] = "Legion Deeping Guard",
-        [15] = "Blacklock Engineers",
-        [16] = "King's Mounted Hammerguard",
-        [17] = "Arthirochon",
-        [18] = "Hitherbin",
-        [19] = "Noldorin Defenders",
-        [20] = "Noldorin Archers",
-        [21] = "Khamuls Shadowguard",
-        [22] = "Khamuls Shadow Rangers",
-        [23] = "Azogs Defilers",
-        [24] = "Noldor Honourguard",
-        [25] = "Temple Wards",
-        [26] = "Khand Elite Horse Archers",
-        [27] = "Darkblades",
-        [28] = "Guardians of Carn Dum",
-        [29] = "Citadel Guard",
-        [30] = "Marksmen of Cair Andros",
-        [31] = "Dunedain Steelbowmen",
-        [32] = "Dismounted Fornost-Erain Knights",
-        [33] = "Naru n'Aru Royal Guard",
-        [34] = "Naru n'Aru Sentinels",
-        [35] = "Gondor Bodyguard",
-        [36] = "Dunedain Bodyguard",
-        [37] = "Pharazim Nobles",
-        [38] = "Royal Guardsmen",
-        [39] = "High Paladins",
-        [40] = "Skin-Changers",
-        [41] = "Angmar Bodyguards",
-        [42] = "Brenin's Guard",
-        [43] = "Clan Heralds",
-        [44] = "Black Snake Guard",
-        [45] = "Variag Nobles",
-        [46] = "Loke Rim Bodyguard",
-        [47] = "Zenith Guard",
-        [48] = "Tumunzahar Nobles",
-        [49] = "Durins Guard",
-        [50] = "Tawar Areiniyr",
-        [51] = "Elbereths Sentinels",
-        [52] = "Calaquendi Lords",
-        [53] = "Uruk Bodyguard",
-        [54] = "Mirkwood Bodyguard",
-        [55] = "Goblin Bodyguards",
-        [56] = "Mountain Guard",
-        [57] = "Uruk-hai Bodyguards",
+    ["turks"] = {
+        ["T1"] = {
+            [0] = "Dunedain Wardens",
+            [1] = "Dunedain Rangers",
+        },
+        ["T2"] = {
+            [0] = "Dunedain Armsmen",
+            [1] = "Dunedain Scouts",
+            [2] = "Sworn Horsemen",
+        },
+        ["T3"] = {
+            [0] = "Dunedain Steelbowmen",
+            [1] = "Dismounted Fornost-Erain Knights",
+            [2] = "Dunedain Bodyguard",
+        },
+    },
+    ["russia"] = {
+        ["T1"] = {
+            [0] = "Belegaer Footmen",
+            [1] = "Belegaer Pikemen",
+            [2] = "Belegaer Archers",
+        },
+        ["T2"] = {
+            [0] = "Numenorean Shieldguard",
+            [1] = "Numenorean Marksmen",
+        },
+        ["T3"] = {
+            [0] = "Naru n'Aru Royal Guard",
+            [1] = "Naru n'Aru Sentinels",
+            [2] = "Pharazim Nobles",
+        },
+    },
+    ["scotland"] = {
+        ["T1"] = {
+            [0] = "Dalian Swordsmen",
+            [1] = "Dale Cavalry",
+        },
+        ["T2"] = {
+            [0] = "Dale Swordmasters",
+            [1] = "Barding Marksmen",
+        },
+        ["T3"] = {
+            [0] = "Earls",
+            [1] = "Barons",
+            [2] = "Royal Guardsmen",
+        },
+    },
+    ["byzantium"] = {
+        ["T1"] = {
+            [0] = "Thorn Bladesmen",
+            [1] = "Thorn Crossbowmen",
+            [2] = "Thorn Riders",
+        },
+        ["T2"] = {
+            [0] = "Regent Axeguard",
+            [1] = "Regent Spearguard",
+            [2] = "Regent Bowguard",
+        },
+        ["T3"] = {
+            [0] = "High Paladins",
+            [1] = "Vintner-Court Paladins",
+        },
+    },
+    ["timurids"] = {
+        ["T1"] = {
+            [0] = "Vale Archers",
+            [1] = "Woodman Warriors",
+            [2] = "Woodman Defenders",
+            [3] = "Woodman Hunters",
+        },
+        ["T2"] = {
+            [0] = "Beorning Defenders",
+            [1] = "Beorning Spearmen",
+            [2] = "Greenwood Foresters",
+        },
+        ["T3"] = {
+            [0] = "Skin-Changers",
+        },
+    },
+    ["portugal"] = {
+        ["T1"] = {
+            [0] = "Angmarim Infantry",
+            [1] = "Angmarim Archers",
+        },
+        ["T2"] = {
+            [0] = "Iron Crown Warriors",
+            [1] = "Iron Crown Halberdiers",
+            [2] = "Iron Crown Longbowmen",
+        },
+        ["T3"] = {
+            [0] = "Northguard",
+            [1] = "Darkblades",
+            [2] = "Guardians of Carn Dum",
+            [3] = "Angmar Bodyguards",
+        },
+    },
+    ["aztecs"] = {
+        ["T1"] = {
+            [0] = "Clan Spearmen",
+            [1] = "Clan Hunters",
+        },
+        ["T2"] = {
+            [0] = "Warband Host",
+            [1] = "Warband Blades",
+        },
+        ["T3"] = {
+            [0] = "Wulfguard Axemen",
+            [1] = "Wulfguard Pikes",
+            [2] = "Brenin's Guard",
+        },
+    },
+    ["teutonic_order"] = {
+        ["T1"] = {
+            [0] = "Mordag Fishermen",
+            [1] = "Faolan Borderguard",
+        },
+        ["T2"] = {
+            [0] = "Enedwaith Guardsmen",
+            [1] = "Enedwaith Marksmen",
+        },
+        ["T3"] = {
+            [0] = "Clan Heralds",
+        },
+    },
+    ["spain"] = {
+        ["T1"] = {
+            [0] = "Southron Warband",
+            [1] = "Southron Pikemen",
+            [2] = "Southron Archers",
+            [3] = "Southron Lancers",
+        },
+        ["T2"] = {
+            [0] = "Hasharii Blades",
+            [1] = "Hasharii Shadows",
+        },
+        ["T3"] = {
+            [0] = "Serpent Guard",
+            [1] = "Serpent Archers",
+            [2] = "Black Snake Guard",
+        },
+    },
+    ["khand"] = {
+        ["T1"] = {
+            [0] = "Nomad Warriors",
+            [1] = "Nomad Horsemen",
+        },
+        ["T2"] = {
+            [0] = "Variag Swordsmen",
+            [1] = "Variag Bowmen",
+            [2] = "Variag Horse Archers",
+        },
+        ["T3"] = {
+            [0] = "Khand Elite Spearmen",
+            [1] = "Khand Elite Lancers",
+            [2] = "Khand Elite Horse Archers",
+            [3] = "Variag Nobles",
+        },
+    },
+    ["venice"] = {
+        ["T1"] = {
+            [0] = "Rhunnic Warriors",
+            [1] = "Rhunnic Bowmen",
+        },
+        ["T2"] = {
+            [0] = "Loke-Rim Spearmen",
+            [1] = "Loke-Rim Archers",
+        },
+        ["T3"] = {
+            [0] = "Dragon-Wrath Crossbowmen",
+            [1] = "Dragon-Wrath Kataphracts",
+            [2] = "Loke Rim Bodyguard",
+        },
+    },
+    ["norway"] = {
+        ["T1"] = {
+            [0] = "Khazad Sentries",
+        },
+        ["T2"] = {
+            [0] = "Legion Shieldguard",
+            [3] = "Legion Crossbows",
+        },
+        ["T3"] = {
+            [0] = "Legion Deeping Guard",
+            [1] = "Blacklock Engineers",
+            [2] = "Zenith Guard",
+        },
+    },
+    ["hungary"] = {
+        ["T1"] = {
+            [0] = "Ered Luin Militia",
+            [1] = "Ered Luin Pikemen",
+            [2] = "Ered Luin Scouts",
+        },
+        ["T2"] = {
+            [0] = "Longbeard Phalanx",
+            [1] = "Longbeard Swordsmen",
+            [2] = "Longbeard Crossbows",
+        },
+        ["T3"] = {
+            [0] = "King's Mounted Hammerguard",
+            [1] = "Tumunzahar Nobles",
+            [2] = "Broadbeam Marksmen",
+        },
+    },
+    ["moors"] = {
+        ["T1"] = {
+            [0] = "Erebor Infantry",
+            [1] = "Erebor Axethrowers",
+        },
+        ["T2"] = {
+            [0] = "Kings Axes",
+            [1] = "Kings Warriors",
+            [2] = "Kings Shields",
+            [3] = "Iron Crossbowmen",
+        },
+        ["T3"] = {
+            [0] = "Durins Guard",
+            [1] = "King's Mounted Hammerguard",
+            [2] = "Blacklock Engineers",
+
+        },
+    },
+    ["mongols"] = {
+        ["T1"] = {
+            [0] = "Woodland Spearmen",
+            [1] = "Woodland Warriors",
+            [2] = "Woodland Wardens",
+            [3] = "Woodland Scouts",
+        },
+        ["T2"] = {
+            [0] = "Elder Council",
+            [1] = "Woodland Sentinels",
+        },
+        ["T3"] = {
+            [0] = "Arthirochon",
+            [1] = "Tawar Areiniyr",
+        },
+    },
+    ["ireland"] = {
+        ["T1"] = {
+            [0] = "Lorien Warders",
+            [1] = "Lorien Sentries",
+            [2] = "Lorien Archers",
+            [3] = "Lorien Scouts",
+        },
+        ["T2"] = {
+            [0] = "Sentinels of Cerin Amroth",
+            [1] = "Yavannas Chosen",
+            [2] = "Lothlorien Marchwardens",
+        },
+        ["T3"] = {
+            [0] = "Hitherbin",
+            [1] = "Elbereths Sentinels",
+        },
+    },
+    ["denmark"] = {
+        ["T1"] = {
+            [0] = "Lindar Guards",
+            [1] = "Lindar Mariners",
+            [2] = "Lindon Longspears",
+            [3] = "Lindar Bowmen",
+        },
+        ["T2"] = {
+            [0] = "Sindar Spearmen",
+            [1] = "Sindar Archers",
+            [2] = "Amanyar Riders",
+            [3] = "Amanyar Rangers",
+        },
+        ["T3"] = {
+            [0] = "Noldorin Defenders",
+            [1] = "Noldorin Archers",
+            [2] = "Calaquendi Lords",
+        },
+    },
+    ["england"] = {
+        ["T1"] = {
+            [0] = "Orc Raiders",
+            [1] = "Orc Band",
+            [2] = "Orc Scouts",
+        },
+        ["T2"] = {
+            [0] = "Black Uruks",
+            [1] = "Black Uruk Halberds",
+            [2] = "Black Uruk Archers",
+        },
+        ["T3"] = {
+            [0] = "Temple Wards",
+            [1] = "Uruk Bodyguard",
+        },
+    },
+    ["poland"] = {
+        ["T1"] = {
+            [0] = "Dol Guldur Host",
+            [1] = "Dol Guldur Scouts",
+            [2] = "Dol Guldur Archers",
+        },
+        ["T2"] = {
+            [0] = "Mirkwood Slayers",
+            [1] = "Mirkwood Spears",
+            [2] = "Mirkwood Archers",
+        },
+        ["T3"] = {
+            [0] = "Khamuls Shadowguard",
+            [1] = "Khamuls Shadow Rangers",
+            [2] = "Mirkwood Bodyguard",
+        },
+    },
+    ["hre"] = {
+        ["T1"] = {
+            [0] = "Goblin Infantry",
+            [1] = "Goblin Band",
+            [2] = "Goblin Archers",
+        },
+        ["T2"] = {
+            [0] = "Black Pit Infantry",
+            [1] = "Black Pit Spears",
+            [2] = "Black Pit Halberd",
+            [3] = "Black Pit Archers",
+            [4] = "Black Pit Crossbows",
+        },
+        ["T3"] = {
+            [0] = "Azogs Defilers",
+            [1] = "Goblin Bodyguards",
+        },
+    },
+    ["gundabad"] = {
+        ["T1"] = {
+            [0] = "Snow-Orc Raiders",
+            [1] = "Snow-Orc Spearmen",
+            [2] = "Snow-Orc Scouts",
+        },
+        ["T2"] = {
+            [0] = "Blackshield Warband",
+            [1] = "Blackshield Warriors",
+            [2] = "Blackshield Halberds",
+            [3] = "Blackshield Archers",
+        },
+        ["T3"] = {
+            [0] = "Mountain Guard",
+            [1] = "Half-Trolls",
+        },
+    },
+    ["france"] = {
+        ["T1"] = {
+            [0] = "Uruk-hai Raiders",
+            [1] = "Uruk-hai Archers",
+        },
+        ["T2"] = {
+            [0] = "Uruk-hai Infantry",
+            [1] = "Uruk-hai Pikemen",
+            [2] = "Uruk-hai Crossbow",
+        },
+        ["T3"] = {
+            [0] = "Uruk-hai Bodyguards",
+            [1] = "Uruk-hai Bodyguards",
+        },
+    },
+    ["saxons"] = {
+        ["T1"] = {
+            [0] = "Mounted Quendi",
+            [1] = "Sword Quendi",
+            [2] = "Spear Quendi",
+            [3] = "Bow Quendi",
+        },
+        ["T2"] = {
+            [0] = "Sindar Spearmen",
+            [1] = "Sindar Archers",
+            [2] = "Amanyar Riders",
+            [3] = "Amanyar Rangers",
+        },
+        ["T3"] = {
+            [0] = "Noldorin Defenders",
+            [1] = "Noldorin Archers",
+            [2] = "Noldorin Bodyguards",
+        },
     },
 }
 
-general_label_list = {
-"denethor_1",
-"boromir_1",
-"angbor_1",
-"faramir_1",
-"dinenion_1",
-"duinhir_1",
-"forlong_1",
-"golasgil_1",
-"hirluin_1",
-"hurin_1",
-"iorthon_1",
-"orodreth_1",
-"baragund_1",
-"istion_1",
-"mistven_1",
-"adrahil_1",
-"imrahil_1",
-"cirdan_1",
-"theoden_1",
-"eomer_1",
-"barliman_1",
-"breeheir_1",
-"alf_1",
-"brathor1",
-"bilbo_1",
-"paladin_1",
-"wil_1",
-"aragorn_1",
-"halbarad_1",
-"radagast",
-"balin_1",
-"elrond_1",
-"elladan_1",
-"elrohir_1",
-"gildor_1",
-"celeborn_1",
-"haldir_1",
-"thranduil_1",
-"legolas_1",
-"family_rhun1",
-"rhunheir_1",
-"sauron_1",
-"gothmog_1",
-"z1",
-"z2",
-"z3",
-"z7",
-"z8",
-"z9",
-"z4",
-"z5",
-"z6",
-"saruman_1",
-"Yagthak_1",
-"freca1",
-"guardian_moria_1",
-"mazog_1",
-"agandaur_1",
-"harad_attackers_8",
-"arkish_1",
-"orash_1",
-"yiltig_1",
-"toghrul_1",
-"carfe_1",
-"bartan_1",
-"khand_attackers_3",
-"khand_attackers_G",
-"bn_army_1",
-"bn_army_2",
-"bn_army_3",
-"ents_1",
-"amon_hen_custom1",
-"ciryatan_1",
-"ecthellion_1",
+combo_labtrait_list = {
+    "Gimilkhad",
+    "hurin_rk",
+    "Aragorn",
+    "Ugluk",
+    "Drangu",
+    "Elladan",
+    "Elrond",
+    "Gor_eop_1",
+    "Glirhuin_eop_1",
+    "celeborn_union",
+    "forlong_rk",
+    "Forlong",
+    "Folcred",
+    "Taraghlan_eop_1",
+    "radagast",
+    "Beorn_eop_1",
+    "alatar_1",
+    "Elrohir",
+    "Utbah_eop_1",
+    "Seitheach_eop_1",
+    "Eomer_eop_1",
+    "orophin_1",
+    "Erkenbrand_eop_1",
+    "Imrahil",
+    "Scyld_eop_1",
+    "Uglag_eop_1",
+    "Hama",
+    "Hunvorn",
+    "Adrahil",
+    "istion_rk",
+    "Tremac",
+    "Maernil",
+    "Balin",
+    "enpremi_union",
+    "Gleowine",
+    "golasgil_rk",
+    "Cirdan",
+    "Agandaur",
+    "Vidusith_eop_1",
+    "Theodred_eop_1",
+    "Ghan_eop_1",
+    "Rudaz_eop_1",
+    "Fionghan_eop_1",
+    "Khaldoon_eop_1",
+    "Baragund_eop_1",
+    "Fastred_eop_1",
+    "rumil_union",
+    "glorfindel_1",
+    "Faramir",
+    "Gimli",
+    "Theoden",
+    "hirluin_rk",
+    "rumil_1",
+    "Gamling_eop_1",
+    "Saruman",
+    "Orodreth",
+    "Bane",
+    "gandalf_2",
+    "Gazluk_eop_1",
+    "Lunug_eop_1",
+    "Ja_Sur_eop_1",
+    "Yagthak",
+    "pallando_1",
+    "Erunestian_eop_1",
+    "haldir_union",
+    "Grain_eop_1",
+    "Ubaadah_eop_1",
+    "Thranduil",
+    "Hirluin",
+    "Morholt",
+    "Melmidoc_eop_1",
+    "Dain",
+    "Gothmog",
+    "Halbarad",
+    "Hazolg_eop_1",
+    "orthordir_union",
+    "Umaarah_eop_1",
+    "Ulairon",
+    "Forthwin",
+    "Athalhere_eop_1",
+    "Luag",
+    "Coruion_eop_1",
+    "bn_army_2",
+    "enpremi_1",
+    "Mazog",
+    "gondor_attackers_m",
+    "imrahil_rk",
+    "Kavatha_eop_1",
+    "Celeborn",
+    "lurtz_1",
+    "Denethor",
+    "Jasur_eop_1",
+    "Legolas",
+    "duinhir_rk",
+    "Agorolg_eop_1",
+    "balrog_1",
+    "oin_1",
+    "Margoz",
+    "guardian_moria_1",
+    "gandalf_1",
+    "orophin_union",
+    "legolas_union",
+    "thranduil_union",
+    "Dinenion_eop_1",
+    "ancantar_3",
+    "orodreth_rk",
+    "gandalf_3",
+    "Iorthon_eop_1",
+    "Knights of the Silver Swan",
+    "ancantar_1",
+    "adrahil_rk",
+    "mistven_rk",
+    "denethor_rk",
+    "Eomund_eop_1",
+    "Freca_eop_1",
+    "angbor_rk",
+    "boromir_rk",
+    "faramir_rk",
+    "Angbor",
+    "orthordir_1",
+    "dornornoston_1",
+    "bn_army_3",
+    "Menthar_eop_1",
+    "Ghurzog_eop_1",
+    "Sauron",
+    "Donnchaidh_eop_1",
+    "Nurwe",
+    "Gildor",
+    "Haldir",
+    "Brand_eop_1",
+    "Boromir",
 }
-  
-label_units_list = {
-    ["denethor_1"] = "Fountain Guard",
-    ["boromir_1"] = "Osgiliath Veterans",
-    ["angbor_1"] = "Lamedon Clansmen",
-    ["faramir_1"] = "Ithilien Rangers",
-    ["duinhir_1"] = "Blackroot Vale Archers",
-    ["forlong_1"] = "Lossarnach Axemen",
-    ["hirluin_1"] = "Pinnath Gelin Cavalry",
-    ["hurin_1"] = "Raven Helms of Cair Andros",
-    ["iorthon_1"] = "Knights of the Silver Swan",
-    ["orodreth_1"] = "Lebennin Marines",
-    ["adrahil_1"] = "Tirith Aear Wardens",
-    ["imrahil_1"] = "Knights of the Silver Swan",
-    ["cirdan_1"] = "Falas Lords",
-    ["theoden_1"] = "King's Horseguard",
-    ["eomer_1"] = "The Red Shields of Erkenbrand",
-    ["barliman_1"] = "Gate Keepers",
-    ["breeheir_1"] = "Council Guard",
-    ["alf_1"] = "Bandobras Archers",
-    ["bilbo_1"] = "Gate Keepers",
-    ["paladin_1"] = "Bandobras Archers",
-    ["wil_1"] = "Bandobras Archers",
-    ["aragorn_1"] = "Grey Company",
-    ["halbarad_1"] = "Dunedain Steelbowmen",
+
+labtrait_units_list = {
+    ["Denethor"] = "Fountain Guard",
+    ["Boromir"] = "Osgiliath Veterans",
+    ["Angbor"] = "Lamedon Clansmen",
+    ["Faramir"] = "Ithilien Rangers",
+    ["Hirluin"] = "Pinnath Gelin Cavalry",
+    ["Orodreth"] = "Lebennin Marines",
+    ["Adrahil"] = "Tirith Aear Wardens",
+    ["Imrahil"] = "Knights of the Silver Swan",
+    ["Cirdan"] = "Falas Lords",
+    ["Theoden"] = "King's Horseguard",
+    ["Theodred_eop_1"] = "King's Horseguard",
+    ["Eomund_eop_1"] = "Riders of the Fold",
+    ["Eomer_eop_1"] = "The Red Shields of Erkenbrand",
+    ["Erkenbrand_eop_1"] = "The Red Shields of Erkenbrand",
+    ["Gamling_eop_1"] = "Red Axemen of Westfold",
+    ["Hama"] = "Golden Hall Spearmen",
+    ["Aragorn"] = "Grey Company",
+    ["Halbarad"] = "Dunedain Steelbowmen",
+    ["Brand_eop_1"] = "Hearthguard",
+    ["Vidusith_eop_1"] = "Lake-town Pikemen",
+    ["Beorn_eop_1"] = "Beorning Shapeshifters",
     ["radagast"] = "Ents",
-    ["balin_1"] = "Balins Guard",
-    ["elrond_1"] = "GilGalads Company",
-    ["gildor_1"] = "Noldorin Bodyguards",
-    ["celeborn_1"] = "Berio I Ngelaidh",
-    ["haldir_1"] = "Galadhrim Archers",
-    ["thranduil_1"] = "Aredhirith",
-    ["legolas_1"] = "Hin e-Daur",
-    ["sauron_1"] = "Sauron",
-    ["gothmog_1"] = "Morgul Chosen",
-    ["z1"] = "Temple Knights",
-    ["z2"] = "Temple Wards",
-    ["z3"] = "Temple Wards",
-    ["z7"] = "Temple Wards",
-    ["z8"] = "Temple Marksmen",
-    ["z9"] = "Temple Marksmen",
-    ["z4"] = "Khamuls Shadowknights",
-    ["z5"] = "Castellans of Dol Guldur",
-    ["z6"] = "Castellans of Dol Guldur",
-    ["saruman_1"] = "Guard of the Hand",
-    ["Yagthak_1"] = "Orthanc Guard",
-    ["freca1"] = "Frekkalingir Harriers",
-    ["mazog_1"] = "Pale Uruks",
-    ["agandaur_1"] = "Temple Wards",
-    ["bn_army_1"] = "Royal Legion of Armenelos",
+    ["Fastred_eop_1"] = "Silvan Marchwardens",
+    ["Folcred"] = "Woodman Wardens",
+    ["Gleowine"] = "Eotheod Archers",
+    ["Forthwin"] = "Regent Axeguard",
+    ["Athalhere_eop_1"] = "Athala Rangers",
+    ["Nurwe"] = "Moriquendi Sentinels",
+    ["Dain"] = "Legionaries of Erebor",
+    ["Gimli"] = "Axeguard of Erebor",
+    ["Gor_eop_1"] = "Gabilgathol Guard",
+    ["Grain_eop_1"] = "Broadbeam Marksmen",
+    ["Balin"] = "Balins Guard",
+    ["Maernil"] = "Storm Guard",
+    ["Elrond"] = "GilGalads Company",
+    ["Elladan"] = "Dunedain Bodyguard",
+    ["Elrohir"] = "Dunedain Bodyguard",
+    ["Gildor"] = "Noldorin Bodyguards",
+    ["Celeborn"] = "Berio I Ngelaidh",
+    ["Haldir"] = "Galadhrim Archers",
+    ["Thranduil"] = "Aredhirith",
+    ["Legolas"] = "Hin e-Daur",
+    ["Tremac"] = "Mochaini Ambaxtoi",
+    ["Donnchaidh_eop_1"] = "Dubhshith Foresters",
+    ["Margoz"] = "Loke-Nar Rim",
+    ["Sauron"] = "Sauron",
+    ["Gothmog"] = "Morgul Chosen",
+    ["Ulairon"] = "Khamuls Shadow Rangers",
+    ["Saruman"] = "Guard of the Hand",
+    ["Yagthak"] = "Orthanc Guard",
+    ["Freca_eop_1"] = "Frekkalingir Harriers",
+    ["Menthar_eop_1"] = "Dunhird Slayers",
+    ["Uglag_eop_1"] = "Mountain Uruks",
+    ["Agorolg_eop_1"] = "Warg Riders",
+    ["Lunug_eop_1"] = "Black Pit Berserkers",
+    ["Mazog"] = "Pale Uruks",
+    ["Ghurzog_eop_1"] = "Orc Avengers",
+    ["Hazolg_eop_1"] = "Orc Avengers",
+    ["Agandaur"] = "Temple Wards",
+    ["Hunvorn"] = "Rebel Barrow Wights",
+    ["Scyld_eop_1"] = "Darkblades",
+    ["Morholt"] = "Rhudaur Huscarles",
+    ["Drangu"] = "Mount Gram Raiders",
+    ["Utbah_eop_1"] = "Serpent Bladesmen",
+    ["Gimilkhad"] = "Royal Legion of Armenelos",
     ["bn_army_2"] = "Naru n'Aru Sentinels",
     ["bn_army_3"] = "Darkblades",
-    ["ents_1"] = "Ents",
-    ["amon_hen_custom1"] = "Black Uruks",
-}
-
-general_traits_list = {
-    "Denethor",
-    "Bomomir",
-}
-
-trait_units_list = {
-  ["Denethor"] = "Fountain Guard",
-  ["Bomomir"] = "Dunedain Steelbowmen",
+    ["gondor_attackers_m"] = "Osgiliath Veterans",
+    ["lurtz_1"] = "Lurtz's Hunting Pack",
+    ["Ugluk"] = "Berserkers",
+    ["Luag"] = "Brenin's Guard",
+    ["gandalf_3"] = "Arthedain Royal Guard",
+    ["Bane"] = "Moria Balrog",
+    ["Taraghlan_eop_1"] = "Wulfguard Axemen",
+    ["Glirhuin_eop_1"] = "Wulfguard Pikes",
+    ["Erunestian_eop_1"] = "Liadan Spearmen",
+    ["Melmidoc_eop_1"] = "Faolan Warriors",
+    ["Fionghan_eop_1"] = "Mordag Skirmishers",
+    ["Ghan_eop_1"] = "Druedain Hunters",
+    ["Coruion_eop_1"] = "Fylani War Wagons",
+    ["Seitheach_eop_1"] = "Tir Croicoill Cosantoiri",
+    ["glorfindel_1"] = "Eldarinwe Bodyguards",
+    ["dornornoston_1"] = "Eregion Smiths",
+    ["rumil_1"] = "Lothlorien Marchwardens",
+    ["orophin_1"] = "Lothlorien Marchwardens",
+    ["enpremi_1"] = "Galadhrim Swordsmen",
+    ["orthordir_1"] = "Elvenkings Gateguard",
+    ["faramir_rk"] = "Ithilien Rangers",
+    ["boromir_rk"] = "Osgiliath Veterans",
+    ["hurin_rk"] = "Raven Helms of Cair Andros",
+    ["angbor_rk"] = "Lamedon Clansmen",
+    ["denethor_rk"] = "Gondor Bodyguard",
+    ["mistven_rk"] = "Black Swan Renegades",
+    ["adrahil_rk"] = "Tirith Aear Wardens",
+    ["imrahil_rk"] = "Knights of the Silver Swan",
+    ["istion_rk"] = "Knights of the Silver Swan",
+    ["Dinenion_eop_1"] = "Gondor Infantry",
+    ["duinhir_rk"] = "Blackroot Vale Archers",
+    ["forlong_rk"] = "Lossarnach Axemen",
+    ["Forlong"] = "Lossarnach Axemen",
+    ["golasgil_rk"] = "Gondor Pikemen",
+    ["Knights of the Silver Swan"] = "",
+    ["Iorthon_eop_1"] = "Knights of the Silver Swan",
+    ["Baragund_eop_1"] = "Lebennin Marines",
+    ["orodreth_rk"] = "Lebennin Marines",
+    ["Kavatha_eop_1"] = "Dragon-Wrath Swiftblades",
+    ["Rudaz_eop_1"] = "Dragon-Wrath Shields",
+    ["Jasur_eop_1"] = "Suriut Chariots",
+    ["Ubaadah_eop_1"] = "Troll-men Champions",
+    ["Khaldoon_eop_1"] = "Hasharii Blades",
+    ["Umaarah_eop_1"] = "Troll-men Warriors",
+    ["ancantar_3"] = "Temple Knights",
+    ["alatar_1"] = "Iron Fist Hammers",
+    ["pallando_1"] = "Blacklock Engineers",
+    ["ancantar_1"] = "Temple Knights",
+    ["thranduil_union"] = "Aredhirith",
+    ["legolas_union"] = "Hin e-Daur",
+    ["orthordir_union"] = "Elvenkings Gateguard",
+    ["enpremi_union"] = "Galadhrim Swordsmen",
+    ["rumil_union"] = "Lothlorien Marchwardens",
+    ["orophin_union"] = "Lothlorien Marchwardens",
+    ["celeborn_union"] = "Berio I Ngelaidh",
+    ["haldir_union"] = "Galadhrim Archers",
+    ["gandalf_2"] = "Arthedain Royal Guard",
+    ["gandalf_1"] = "Cardolan Riders",
+    ["guardian_moria_1"] = "Goblin Bodyguards",
+    ["oin_1"] = "Khazad-dum Reclaimers",
+    ["balrog_1"] = "Balrog",
+    ["Ja_Sur_eop_1"] = "Loke Rim Bodyguard",
+    ["Gazluk_eop_1"] = "Temple Wards",
 }
 
 function swapBGButton()
@@ -628,43 +984,54 @@ end
 
 function genUnitCheck(char, rank)
     if gen_units_char == char then return end
-    print("checking char")
+    local faction = char.character.faction.name
     temp_gen_units = {}
-    for i = 0, #gen_units_list["T1"] do
-        local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list["T1"][i])
-        if eduEntry:hasOwnership(eur_playerFactionId) then
-            table.insert(temp_gen_units, gen_units_list["T1"][i])
+    for i = 0, #gen_units_list[faction]["T1"] do
+        local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list[faction]["T1"][i])
+        if eduEntry ~= nil then
+            if eduEntry:hasOwnership(eur_playerFactionId) then
+                table.insert(temp_gen_units, gen_units_list[faction]["T1"][i])
+            end
         end
     end
     if rank > 110 then
-        for i = 0, #gen_units_list["T2"] do
-            local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list["T2"][i])
-            if eduEntry:hasOwnership(eur_playerFactionId) then
-                table.insert(temp_gen_units, gen_units_list["T2"][i])
+        for i = 0, #gen_units_list[faction]["T2"] do
+            local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list[faction]["T2"][i])
+            if eduEntry ~= nil then
+                if eduEntry:hasOwnership(eur_playerFactionId) then
+                    table.insert(temp_gen_units, gen_units_list[faction]["T2"][i])
+                end
             end
         end
     end
     if rank > 170 then
-        for i = 0, #gen_units_list["T3"] do
-            local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list["T3"][i])
-            if eduEntry:hasOwnership(eur_playerFactionId) then
-                table.insert(temp_gen_units, gen_units_list["T3"][i])
+        for i = 0, #gen_units_list[faction]["T3"] do
+            local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list[faction]["T3"][i])
+            if eduEntry ~= nil then
+                if eduEntry:hasOwnership(eur_playerFactionId) then
+                    table.insert(temp_gen_units, gen_units_list[faction]["T3"][i])
+                end
             end
         end
     end
-    if tableContains(general_label_list, char.label) then
-        if label_units_list[char.label] ~= nil then
-            local eduEntry = M2TWEOPDU.getEduEntryByType(label_units_list[char.label])
-            if eduEntry:hasOwnership(eur_playerFactionId) then
-                table.insert(temp_gen_units, label_units_list[char.label])
+    traits_temp = {}
+    eurListTraits(char)
+    printTable(traits_temp)
+    for i = 1, #traits_temp do 
+        if tableContains(combo_labtrait_list, traits_temp[i]) then
+            local eduEntry = M2TWEOPDU.getEduEntryByType(labtrait_units_list[traits_temp[i]])
+            if eduEntry ~= nil then
+                if eduEntry:hasOwnership(eur_playerFactionId) then
+                    table.insert(temp_gen_units, labtrait_units_list[traits_temp[i]])
+                end
             end
         end
     end
-    for i = 1, #general_traits_list do
-        if hasTrait(char, general_traits_list[i]) then
-           local eduEntry = M2TWEOPDU.getEduEntryByType(trait_units_list[general_traits_list[i]])
+    if tableContains(combo_labtrait_list, char.label) then
+        local eduEntry = M2TWEOPDU.getEduEntryByType(labtrait_units_list[char.label])
+        if eduEntry ~= nil then
             if eduEntry:hasOwnership(eur_playerFactionId) then
-               table.insert(temp_gen_units, trait_units_list[general_traits_list[i]])
+                table.insert(temp_gen_units, labtrait_units_list[char.label])
             end
         end
     end
@@ -681,7 +1048,8 @@ function genRankCheck(faction, char)
                 if char.bodyguards ~= nil then
                     local char = char.characterRecord
                     if char.label == "" then
-                        char.label = char.shortName..tostring(eur_turn_number)
+                        --char.label = char.shortName..tostring(eur_turn_number)
+                        char:giveValidLabel()
                     end
                     local name = char.shortName..tostring(char.label)
                     if not persistent_gen_list[name] then
@@ -734,7 +1102,11 @@ function setBGSize(faction, character, unit)
             if temp_char:getTypeID() == 7 then
                 if temp_char.bodyguards ~= nil then
                     if faction.isPlayerControlled == 1 then
-                        if persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.label)] == nil then
+                        if temp_char.characterRecord.label == "" then
+                            --char.label = char.shortName..tostring(eur_turn_number)
+                            temp_char.characterRecord:giveValidLabel()
+                        end
+                        if persistent_gen_list_reset[temp_char.characterRecord.label] == nil then
                             if default_general_units[faction.name] ~= nil then
                                 if default_general_units[faction.name].old == temp_char.bodyguards.eduEntry.eduType then
                                     local army = temp_char.army
@@ -749,7 +1121,13 @@ function setBGSize(faction, character, unit)
                                     end
                                     if army.numOfUnits < 20 then
                                         setBodyguard(temp_char, (default_general_units[faction.name].new), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")
-                                        persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.label)] = true
+                                        persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                    end
+                                else
+                                    persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                    if not labtrait_units_list[temp_char.characterRecord.label] then
+                                        table.insert(combo_labtrait_list, temp_char.characterRecord.label)
+                                        labtrait_units_list[temp_char.characterRecord.label] = temp_char.bodyguards.eduEntry.eduType
                                     end
                                 end
                             end
@@ -778,7 +1156,11 @@ function setBGSize(faction, character, unit)
         if character:getTypeID() == 7 then
             if character.bodyguards ~= nil then
                 if character.faction.isPlayerControlled == 1 then
-                    if persistent_gen_list_reset[character.characterRecord.shortName..tostring(character.characterRecord.label)] == nil then
+                    if character.characterRecord.label == "" then
+                        --char.label = char.shortName..tostring(eur_turn_number)
+                        character.characterRecord:giveValidLabel()
+                    end
+                    if persistent_gen_list_reset[temp_char.characterRecord.label] == nil then
                         if default_general_units[character.faction.name] ~= nil then
                             if default_general_units[character.faction.name].old == character.bodyguards.eduEntry.eduType then
                                 local army = character.army
@@ -793,7 +1175,13 @@ function setBGSize(faction, character, unit)
                                 end
                                 if army.numOfUnits < 20 then
                                     setBodyguard(character, (default_general_units[character.faction.name].new), character.bodyguards.exp, character.bodyguards.weaponLVL, 0, "")
-                                    persistent_gen_list_reset[character.characterRecord.shortName..tostring(character.characterRecord.label)] = true
+                                    persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                end
+                            else
+                                persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                if not labtrait_units_list[temp_char.characterRecord.label] then
+                                    table.insert(combo_labtrait_list, temp_char.characterRecord.label)
+                                    labtrait_units_list[temp_char.characterRecord.label] = temp_char.bodyguards.eduEntry.eduType
                                 end
                             end
                         end
@@ -823,7 +1211,11 @@ function setBGSize(faction, character, unit)
         if temp_char:getTypeID() == 7 then
             if temp_char.bodyguards ~= nil then
                 if temp_char.faction.isPlayerControlled == 1 then
-                    if persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.label)] == nil then
+                    if temp_char.characterRecord.label == "" then
+                        --char.label = char.shortName..tostring(eur_turn_number)
+                        temp_char.characterRecord:giveValidLabel()
+                    end
+                    if persistent_gen_list_reset[temp_char.characterRecord.label] == nil then
                         if default_general_units[temp_char.faction.name] ~= nil then
                             if default_general_units[temp_char.faction.name].old == temp_char.bodyguards.eduEntry.eduType then
                                 local army = temp_char.army
@@ -838,7 +1230,13 @@ function setBGSize(faction, character, unit)
                                 end
                                 if army.numOfUnits < 20 then
                                     setBodyguard(temp_char, (default_general_units[temp_char.faction.name].new), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")
-                                    persistent_gen_list_reset[temp_char.characterRecord.shortName..tostring(temp_char.characterRecord.label)] = true
+                                    persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                end
+                            else
+                                persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                if not labtrait_units_list[temp_char.characterRecord.label] then
+                                    table.insert(combo_labtrait_list, temp_char.characterRecord.label)
+                                    labtrait_units_list[temp_char.characterRecord.label] = temp_char.bodyguards.eduEntry.eduType
                                 end
                             end
                         end
