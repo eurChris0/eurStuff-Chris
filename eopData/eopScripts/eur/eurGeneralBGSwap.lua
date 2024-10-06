@@ -1039,7 +1039,7 @@ function genUnitCheck(char, rank)
             end
         end
     end
-    if tableContains(traits_temp, "FactionLeader") then
+    if char:getTraitLevel("FactionLeader") > 0 then
         if leaderheir_combi_list[char.character.faction.name] then
             local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[char.character.faction.name].leader.unit)
             if eduEntry ~= nil then
@@ -1049,7 +1049,7 @@ function genUnitCheck(char, rank)
             end
         end
     end
-    if tableContains(traits_temp, "FactionHeir") then
+    if char:getTraitLevel("FactionHeir") > 0 then
         if leaderheir_combi_list[char.character.faction.name] then
             local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[char.character.faction.name].heir.unit)
             if eduEntry ~= nil then
