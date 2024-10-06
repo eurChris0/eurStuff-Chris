@@ -22,6 +22,7 @@ require('eur/eurUnitUpgrades')
 require('eur/eurEvents')
 require('eur/eurPreBattleOptions')
 require('eur/eurGeneralBGSwap')
+require('eur/eurLeaderHeirSwap')
 
 -- Helper for managing persistence of tables across save/load
 require('helpers/tableSave')

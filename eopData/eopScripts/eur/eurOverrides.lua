@@ -80,6 +80,7 @@ if onFactionTurnEnd then
         eurEventActiveCheck(eventData.faction.factionID, eventData.faction.name)
         eurEventUnlockCheck(eventData.faction.factionID)
         genRankCheck(eventData.faction, nil)
+        swapHeirLeaderStuffAI(eventData.faction)
     end
 else
     function onFactionTurnEnd(eventData)
@@ -106,6 +107,7 @@ else
         eurEventActiveCheck(eventData.faction.factionID, eventData.faction.name)
         eurEventUnlockCheck(eventData.faction.factionID)
         genRankCheck(eventData.faction, nil)
+        swapHeirLeaderStuffAI(eventData.faction)
     end
 end
 
@@ -192,10 +194,6 @@ if onScrollOpened then
         if eventData.resourceDescription == "prebattle_scroll" then
             eur_pre_battle = true
         end
-        if eventData.resourceDescription == "own_named_character_info_scroll" then
-            show_temp_char_stuff = true
-            swap_bg_button = true
-        end
         if eventData.resourceDescription == "own_settlement_info_scroll" then
             show_temp_char_stuff = true
             swap_bg_button = true
@@ -213,10 +211,6 @@ else
         end
         if eventData.resourceDescription == "prebattle_scroll" then
             eur_pre_battle = true
-        end
-        if eventData.resourceDescription == "own_named_character_info_scroll" then
-            show_temp_char_stuff = true
-            swap_bg_button = true
         end
         if eventData.resourceDescription == "own_settlement_info_scroll" then
             show_temp_char_stuff = true
@@ -242,12 +236,6 @@ if onScrollClosed then
             eur_pre_battle = false
             eur_pre_battle_window = false
         end
-        if eventData.resourceDescription == "own_named_character_info_scroll" then
-            temp_char_stuff = nil
-            show_temp_char_stuff = false
-            swap_bg_button = false
-            swap_bg_window = false
-        end
         if eventData.resourceDescription == "own_settlement_info_scroll" then
             temp_char_stuff = nil
             show_temp_char_stuff = false
@@ -269,12 +257,6 @@ else
         if eventData.resourceDescription == "prebattle_scroll" then
             eur_pre_battle = false
             eur_pre_battle_window = false
-        end
-        if eventData.resourceDescription == "own_named_character_info_scroll" then
-            temp_char_stuff = nil
-            show_temp_char_stuff = false
-            swap_bg_button = false
-            swap_bg_window = false
         end
         if eventData.resourceDescription == "own_settlement_info_scroll" then
             temp_char_stuff = nil
@@ -432,3 +414,26 @@ else
     end
 end
 
+if onBecomesFactionLeader then
+    eur_onBecomesFactionLeader = onBecomesFactionLeader
+    eur_onBecomesFactionLeader = function(eventData) 
+        eur_onBecomesFactionLeader(eventData)
+        swapHierLeaderStuff(eventData.character.character, true)
+    end
+else
+    function onBecomesFactionLeader(eventData)
+        swapHierLeaderStuff(eventData.character.character, true)
+    end
+end
+
+if onBecomesFactionHeir then
+    eur_onBecomesFactionHeir = onBecomesFactionHeir
+    eur_onBecomesFactionHeir = function(eventData) 
+        eur_onBecomesFactionHeir(eventData)
+        swapHierLeaderStuff(eventData.character.character, false)
+    end
+else
+    function onBecomesFactionHeir(eventData)
+        swapHierLeaderStuff(eventData.character.character, false)
+    end
+end

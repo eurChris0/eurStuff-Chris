@@ -276,10 +276,12 @@ function onSettlementSelected2(eventData)
         for j = 0, faction.numOfCharacters - 1 do
             local char = faction:getCharacter(j)
             if char.characterRecord ~= nil then
-                for i = 1, #trait_units_list do
-                    if char.characterRecord.label == trait_units_list[i].name then
-                        print(char.characterRecord.label)
-                    end
+                print(char.characterRecord.label)
+                print(character.ability)
+                if character.ability == "" then
+                    print("true")
+                else
+                    print("false")
                 end
             end
         end

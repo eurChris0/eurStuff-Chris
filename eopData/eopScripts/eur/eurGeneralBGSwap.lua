@@ -591,7 +591,7 @@ combo_labtrait_list = {
     "Gleowine",
     "golasgil_rk",
     "Cirdan",
-    "Agandaur",
+    "agandaur_1",
     "Vidusith_eop_1",
     "Theodred_eop_1",
     "Ghan_eop_1",
@@ -746,7 +746,7 @@ labtrait_units_list = {
     ["Mazog"] = "Pale Uruks",
     ["Ghurzog_eop_1"] = "Orc Avengers",
     ["Hazolg_eop_1"] = "Orc Avengers",
-    ["Agandaur"] = "Temple Wards",
+    ["agandaur_1"] = "Northguard",
     ["Hunvorn"] = "Rebel Barrow Wights",
     ["Scyld_eop_1"] = "Darkblades",
     ["Morholt"] = "Rhudaur Huscarles",
@@ -904,69 +904,71 @@ function swapBGWindow()
         end
     end
     if selectedUnit ~= nil then
-        if selectedUnit.character ~= nil then
-            temp_char_stuff = selectedUnit.character
-            if temp_char_stuff:getTypeID() == 7 then
-                ImGui.Text(temp_char_stuff.characterRecord.localizedDisplayName)
-                ImGui.Text("Current Bodyguard: "..temp_char_stuff.bodyguards.eduEntry.eduType)
-                ImGui.Separator()
-                rank = genRankCheck(nil, temp_char_stuff.characterRecord)
-                local name = temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)
-                genUnitCheck(temp_char_stuff.characterRecord, rank)
-                temp_gen_units_target, temp_gen_units_target_clicked = ImGui.Combo("", temp_gen_units_target, temp_gen_units, #temp_gen_units, #temp_gen_units+1)
-                ImGui.Text("Cooldown: 20 turns")
-                local cost = 0
-                local edu = M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1])
-                if edu ~= nil then
-                    cost = M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).recruitCost
-                end
-                ImGui.Text("Personal Guard: "..tostring(temp_char_stuff.characterRecord.personalSecurity))
-                if temp_char_stuff.characterRecord.personalSecurity < 10 then
-                    ImGui.Text("Add Personal Guard(500 each): ")
-                    ImGui.SameLine()
-                    guard_add, temp_used = ImGui.SliderInt("", guard_add, 0, (10-temp_char_stuff.characterRecord.personalSecurity))
-                    if guard_add > 0 then
-                        cost = cost+(guard_add*500)
+        if selectedUnit.army:findInSettlement() ~= nil then
+            if selectedUnit.character ~= nil then
+                temp_char_stuff = selectedUnit.character
+                if temp_char_stuff:getTypeID() == 7 then
+                    ImGui.Text(temp_char_stuff.characterRecord.localizedDisplayName)
+                    ImGui.Text("Current Bodyguard: "..temp_char_stuff.bodyguards.eduEntry.eduType)
+                    ImGui.Separator()
+                    rank = genRankCheck(nil, temp_char_stuff.characterRecord)
+                    local name = temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)
+                    genUnitCheck(temp_char_stuff.characterRecord, rank)
+                    temp_gen_units_target, temp_gen_units_target_clicked = ImGui.Combo("", temp_gen_units_target, temp_gen_units, #temp_gen_units, #temp_gen_units+1)
+                    ImGui.Text("Cooldown: 20 turns")
+                    local cost = 0
+                    local edu = M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1])
+                    if edu ~= nil then
+                        cost = M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).recruitCost
                     end
-                end
-                ImGui.Text("Cost: "..tostring(cost))
-                local army = temp_char_stuff.army
-                if temp_char_stuff.army == nil then
-                    if temp_char_stuff.settlement ~= nil then
-                        army = temp_char_stuff.settlement.army
-                    elseif temp_char_stuff.fort ~= nil then
-                        army = temp_char_stuff.fort.army
-                    elseif temp_char_stuff.armyNotLeaded ~= nil then
-                        army = temp_char_stuff.armyNotLeaded
+                    ImGui.Text("Personal Guard: "..tostring(temp_char_stuff.characterRecord.personalSecurity))
+                    if temp_char_stuff.characterRecord.personalSecurity < 10 then
+                        ImGui.Text("Add Personal Guard(500 each): ")
+                        ImGui.SameLine()
+                        guard_add, temp_used = ImGui.SliderInt("", guard_add, 0, (10-temp_char_stuff.characterRecord.personalSecurity))
+                        if guard_add > 0 then
+                            cost = cost+(guard_add*500)
+                        end
                     end
-                end
-                if army ~= nil then
-                    if persistent_gen_list[name] ~= nil then
-                        if persistent_gen_list[name].cooldown == 0 then
-                            if (ImGui.Button("Change", 100, 80)) then
-                                if army.numOfUnits < 20 then
-                                    if temp_char_stuff.faction.money >= cost then
-                                        persistent_gen_list[name].cooldown = 20
-                                        temp_char_stuff.characterRecord.personalSecurity = (temp_char_stuff.characterRecord.personalSecurity+guard_add)
-                                        stratmap.game.callConsole("add_money", "-" .. tostring(cost))
-                                        setBodyguard(temp_char_stuff, (temp_gen_units[temp_gen_units_target+1]), temp_char_stuff.bodyguards.exp, temp_char_stuff.bodyguards.weaponLVL, 1, "")
-                                        swap_bg_window = false
+                    ImGui.Text("Cost: "..tostring(cost))
+                    local army = temp_char_stuff.army
+                    if temp_char_stuff.army == nil then
+                        if temp_char_stuff.settlement ~= nil then
+                            army = temp_char_stuff.settlement.army
+                        elseif temp_char_stuff.fort ~= nil then
+                            army = temp_char_stuff.fort.army
+                        elseif temp_char_stuff.armyNotLeaded ~= nil then
+                            army = temp_char_stuff.armyNotLeaded
+                        end
+                    end
+                    if army ~= nil then
+                        if persistent_gen_list[name] ~= nil then
+                            if persistent_gen_list[name].cooldown == 0 then
+                                if (ImGui.Button("Change", 100, 80)) then
+                                    if army.numOfUnits < 20 then
+                                        if temp_char_stuff.faction.money >= cost then
+                                            persistent_gen_list[name].cooldown = 20
+                                            temp_char_stuff.characterRecord.personalSecurity = (temp_char_stuff.characterRecord.personalSecurity+guard_add)
+                                            stratmap.game.callConsole("add_money", "-" .. tostring(cost))
+                                            setBodyguard(temp_char_stuff, (temp_gen_units[temp_gen_units_target+1]), temp_char_stuff.bodyguards.exp, temp_char_stuff.bodyguards.weaponLVL, 1, "")
+                                            swap_bg_window = false
+                                        end
                                     end
                                 end
-                            end
-                            if army.numOfUnits > 19 then
-                                ImGui.TextColored(1,0,0,1,"Cannot swap with full army.")
+                                if army.numOfUnits > 19 then
+                                    ImGui.TextColored(1,0,0,1,"Cannot swap with full army.")
+                                end
+                            else
+                                ImGui.TextColored(1,0,0,1,"Cannot change for: "..tostring(persistent_gen_list[temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)].cooldown).." turns.")
                             end
                         else
-                            ImGui.TextColored(1,0,0,1,"Cannot change for: "..tostring(persistent_gen_list[temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)].cooldown).." turns.")
+                            ImGui.TextColored(1,0,0,1,"New general, cannot change yet.")
                         end
-                    else
-                        ImGui.TextColored(1,0,0,1,"New general, cannot change yet.")
                     end
                 end
+            else
+                ImGui.TextColored(0,1,0,1,"Please select a general unit card.")
             end
-        else
-            ImGui.TextColored(0,1,0,1,"Please select a general unit card.")
         end
     else
         ImGui.TextColored(0,1,0,1,"Please select a general unit card.")
@@ -985,6 +987,8 @@ end
 function genUnitCheck(char, rank)
     if gen_units_char == char then return end
     local faction = char.character.faction.name
+    print(faction)
+    print(rank)
     temp_gen_units = {}
     for i = 0, #gen_units_list[faction]["T1"] do
         local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list[faction]["T1"][i])
@@ -1015,14 +1019,14 @@ function genUnitCheck(char, rank)
         end
     end
     traits_temp = {}
-    eurListTraits(char)
-    printTable(traits_temp)
-    for i = 1, #traits_temp do 
-        if tableContains(combo_labtrait_list, traits_temp[i]) then
-            local eduEntry = M2TWEOPDU.getEduEntryByType(labtrait_units_list[traits_temp[i]])
+    --eurListTraits(char)
+    --printTable(traits_temp)
+    for i = 1, #labtrait_units_list do 
+        if char:getTraitLevel(labtrait_units_list[i]) > 0 then
+            local eduEntry = M2TWEOPDU.getEduEntryByType(labtrait_units_list[i])
             if eduEntry ~= nil then
                 if eduEntry:hasOwnership(eur_playerFactionId) then
-                    table.insert(temp_gen_units, labtrait_units_list[traits_temp[i]])
+                    table.insert(temp_gen_units, labtrait_units_list[i])
                 end
             end
         end
@@ -1035,9 +1039,29 @@ function genUnitCheck(char, rank)
             end
         end
     end
+    if tableContains(traits_temp, "FactionLeader") then
+        if leaderheir_combi_list[char.character.faction.name] then
+            local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[char.character.faction.name].leader.unit)
+            if eduEntry ~= nil then
+                if eduEntry:hasOwnership(char.character.faction.factionID) then
+                    table.insert(temp_gen_units, leaderheir_combi_list[char.character.faction.name].leader.unit)
+                end
+            end
+        end
+    end
+    if tableContains(traits_temp, "FactionHeir") then
+        if leaderheir_combi_list[char.character.faction.name] then
+            local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[char.character.faction.name].heir.unit)
+            if eduEntry ~= nil then
+                if eduEntry:hasOwnership(char.character.faction.factionID) then
+                    table.insert(temp_gen_units, leaderheir_combi_list[char.character.faction.name].heir.unit)
+                end
+            end
+        end
+    end
     gen_units_char = char
 end
-
+ 
 function genRankCheck(faction, char)
     temp_com_inf = 0
     if faction ~= nil then
@@ -1160,7 +1184,7 @@ function setBGSize(faction, character, unit)
                         --char.label = char.shortName..tostring(eur_turn_number)
                         character.characterRecord:giveValidLabel()
                     end
-                    if persistent_gen_list_reset[temp_char.characterRecord.label] == nil then
+                    if persistent_gen_list_reset[character.characterRecord.label] == nil then
                         if default_general_units[character.faction.name] ~= nil then
                             if default_general_units[character.faction.name].old == character.bodyguards.eduEntry.eduType then
                                 local army = character.army
@@ -1175,13 +1199,13 @@ function setBGSize(faction, character, unit)
                                 end
                                 if army.numOfUnits < 20 then
                                     setBodyguard(character, (default_general_units[character.faction.name].new), character.bodyguards.exp, character.bodyguards.weaponLVL, 0, "")
-                                    persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                    persistent_gen_list_reset[character.characterRecord.label] = true
                                 end
                             else
-                                persistent_gen_list_reset[temp_char.characterRecord.label] = true
-                                if not labtrait_units_list[temp_char.characterRecord.label] then
-                                    table.insert(combo_labtrait_list, temp_char.characterRecord.label)
-                                    labtrait_units_list[temp_char.characterRecord.label] = temp_char.bodyguards.eduEntry.eduType
+                                persistent_gen_list_reset[character.characterRecord.label] = true
+                                if not labtrait_units_list[character.characterRecord.label] then
+                                    table.insert(combo_labtrait_list, character.characterRecord.label)
+                                    labtrait_units_list[character.characterRecord.label] = character.bodyguards.eduEntry.eduType
                                 end
                             end
                         end

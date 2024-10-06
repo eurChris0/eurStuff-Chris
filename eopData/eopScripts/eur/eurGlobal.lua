@@ -96,6 +96,7 @@ end
 function eurSaveLoadValues(bool)
     if bool then
         eurEventsData = {
+            current_heir_check = current_heir_check,
             temp_units = temp_units,
             temp_unit_nu = temp_unit_nu,
             combo_labtrait_list = combo_labtrait_list,
@@ -156,6 +157,7 @@ function eurSaveLoadValues(bool)
          end
          ]]
     else
+        current_heir_check = eurEventsData["current_heir_check"]
         temp_units = eurEventsData["temp_units"]
         temp_unit_nu = eurEventsData["temp_unit_nu"]
         combo_labtrait_list = eurEventsData["combo_labtrait_list"]
@@ -538,10 +540,13 @@ function eurGlobalVars()
 end
 
 function eurListTraits(namedCharacter)
-    local thisTrait, traitsList, index = namedCharacter:getTraits(), namedCharacter.fullName.." traits:", 0
-    while thisTrait ~= nil do
-        table.insert(traits_temp, thisTrait.name)
-        traitsList, thisTrait, index = traitsList.."\n\tTrait "..index.." - Name: "..thisTrait.name.." - Level: "..thisTrait.level, thisTrait.nextTrait, index + 1
+    for i = 0, namedCharacter.traitCount - 1 do
+        local trait = namedCharacter:getTrait(i)
+        if trait ~= nil then
+            if trait.traitEntry ~= nil then
+                table.insert(traits_temp, trait.traitEntry.name)
+            end
+        end
     end
 end
 
