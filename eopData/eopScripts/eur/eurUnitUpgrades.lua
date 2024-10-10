@@ -4,6 +4,7 @@ local temp_unit_choice = 1
 local show_accept_button = false
 local upgrade_message = ""
 local unit_cost = 0
+local temp_upgrade_unit = nil
 
 local old_list = {
     [1]={["unit"]="Bow Quendi",["upgrade"]="Spear Quendi",["experience"]=2,["cost"]=0.5,["event"]=""},
@@ -166,8 +167,12 @@ function upgradeWindow()
     local UI_MANAGER = gameDataAll.get().uiCardManager
     local faction_id = M2TWEOP.getLocalFactionID()
     scroll_unit = UI_MANAGER.getUnitInfoScroll()
+    if not scroll_unit then return end
     if scroll_unit.unit ~= nil then
         unit = scroll_unit.unit
+        if unit ~= temp_upgrade_unit then
+            temp_unit_choice = 1
+        end
         if unit.army ~= nil then
             if unit.army.faction.factionID ~= faction_id then 
                 show_upgrade_window = false
@@ -177,8 +182,6 @@ function upgradeWindow()
                 ImGui.SetNextWindowBgAlpha(0)
                 ImGui.SetNextWindowSize(700*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
                 ImGui.Begin("Upgrades2", true, bit.bor(ImGuiWindowFlags.NoDecoration))
-                ImGui.NewLine()
-                ImGui.Separator()
                 eurStyle("basic_1", true)
                 if bg_small_1 then
                     ImGui.Image(bg_small_1.img, 695*eurbackgroundWindowSizeRight, 490*eurbackgroundWindowSizeBottom)
@@ -186,8 +189,9 @@ function upgradeWindow()
                 ImGui.SetNextWindowBgAlpha(0.5)
                 ImGui.SetNextWindowPos(1215*eurbackgroundWindowSizeRight, 70*eurbackgroundWindowSizeBottom)
                 if not UNIT_UPGRADES[unit.eduEntry.eduType] then return end
-                ImGui.BeginChild("Child Window##A12", 700*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom, ImGuiChildFlags.FrameStyle)
-                --upgradeWindowAlways, pressed = ImGui.Checkbox("Pin", upgradeWindowAlways)
+                ImGui.BeginChild("Child Window##A12", 700*eurbackgroundWindowSizeRight, 380*eurbackgroundWindowSizeBottom, ImGuiChildFlags.FrameStyle)
+                ImGui.NewLine()
+                ImGui.Separator()
                 ImGui.Text("The following units are available to upgrade:")
                 for j = 1, #UNIT_UPGRADES[unit.eduEntry.eduType].unit do
                     local eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[j])
@@ -197,9 +201,13 @@ function upgradeWindow()
                             ImGui.Text(
                                 "- " ..
                                     UNIT_UPGRADES[unit.eduEntry.eduType].unit[j] ..
-                                        ", " .. "Gold: " .. tostring(math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[j]))) .. ", Rank: " ..
-                                            tostring(UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j])
-                            )
+                                        ", " .. "Gold: " .. tostring(math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[j]))) .. ", Rank: ")
+                            ImGui.SameLine()
+                            if unit.exp >= UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j] then
+                                ImGui.TextColored(0,1,0,1,tostring(UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j]))
+                            else
+                                ImGui.TextColored(1,0,0,1,tostring(UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j]))
+                            end
                         end
                     end
                 end
@@ -213,7 +221,6 @@ function upgradeWindow()
                         if eduEntry:hasOwnership(faction_id) then
                             local check_counter = checkCounter(UNIT_UPGRADES[unit.eduEntry.eduType].counter[i])
                             if check_counter == true then
-                                local eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[i])
                                 local unit_tga = eduEntry.unitCardTga
                                 unit_cost =
                                     math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[i]))
@@ -248,6 +255,7 @@ function upgradeWindow()
                 end
                 ImGui.NewLine()
                 if show_accept_button then
+                    local eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[temp_unit_choice])
                     unit_cost = math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[temp_unit_choice]))
                     ImGui.Text("Upgrade to " .. UNIT_UPGRADES[unit.eduEntry.eduType].unit[temp_unit_choice] .. " for " .. tostring(unit_cost) .. " gold.")
                     if (centeredImageButton("Accept", 80, 50, 0)) then
@@ -291,9 +299,12 @@ function upgradeWindow()
                             M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
                         end
                     end
+                else
+                    ImGui.TextColored(1,0,0,1,"Minimum requirements for upgrade not met.")
                 end
             end
         end
+        temp_upgrade_unit = unit
     end
     ImGui.EndChild()
     if (centeredImageButton("Close", 80, 50, 0)) then
