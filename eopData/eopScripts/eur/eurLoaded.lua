@@ -254,31 +254,63 @@ wavs = {
     ]]
 }
 
-function loadImages()
-    --[[
-    path = '"'..modPath.."\\data\\ui\\units\\"..faction.name.."\\"..'"'
-    for dir1 in io.popen("dir "  ..path .." /b"):lines() do 
-        if dir1:find('^#') then
-            dir1 = string.gsub(dir1, "#", "")
-            dir1 = string.gsub(dir1, ".tga", "")
-            dir1 = string.lower(dir1)
-            table.insert(unit_names, dir1)
-            if eur_tga_table[dir1] == nil then
-                eur_tga_table[dir1] = { x = 0, y = 0, img = nil }
-                eur_tga_table[dir1].x, eur_tga_table[dir1].y, eur_tga_table[dir1].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\units\\"..faction.name.."\\#"..dir1..".tga")
+char_portraits = {}
+
+function turnImageCheck(faction)
+    if faction.isPlayerControlled == 0 then return end
+    for i = 0, faction.numOfCharacters - 1 do
+        local char = faction:getCharacter(i)
+        if char:getTypeID() == 7 then
+            if char.characterRecord.portrait_custom ~= "" then
+                local portrait = char.characterRecord.portrait_custom
+                if not char_portraits[portrait] then
+                    char_portraits[portrait] = { x = 0, y = 0, img = nil }
+                    char_portraits[portrait].x, char_portraits[portrait].y, char_portraits[portrait].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\custom_portraits\\"..portrait.."\\portrait_young.tga")
+                end
+            else
+                if char.characterRecord.portrait ~= "" then
+                    local portrait = char.characterRecord.portrait
+                    portrait = string.gsub(portrait, "mods/Divide_and_Conquer_EUR_EOP4/data/ui/"..eur_localculture.."/portraits/portraits/young/generals/", "")
+                    print(portrait)
+                    if not char_portraits[portrait] then
+                        char_portraits[portrait] = { x = 0, y = 0, img = nil }
+                        char_portraits[portrait].x, char_portraits[portrait].y, char_portraits[portrait].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\"..eur_localculture.."\\portraits\\portraits\\young\\generals\\"..portrait)
+                    end
+                end
             end
         end
     end
-    ]]
+end
+
+function loadImages()
+    local path = '"'..M2TWEOP.getModPath().."\\data\\ui\\units\\"..eur_player_faction.name.."\\"..'"'
+    for i = 0, 1500 do
+        local eduEntry = M2TWEOPDU.getEduEntry(i)
+        if eduEntry ~= nil then
+            if eduEntry:hasOwnership(eur_playerFactionId) then
+                --dir1 = string.lower(eduEntry.unitCardTga)
+                dir1 = eduEntry.unitCardTga
+                --table.insert(unit_names, dir1)
+                if eur_tga_table[dir1] == nil then
+                    eur_tga_table[dir1] = { x = 0, y = 0, img = nil }
+                    eur_tga_table[dir1].x, eur_tga_table[dir1].y, eur_tga_table[dir1].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\units\\"..eur_player_faction.name.."\\"..dir1)
+                end
+            end
+        end
+    end
     --printTable(eur_tga_table)
+    bg_small_1 = { x = 0, y = 0, img = nil }
     bg_1 = { x = 0, y = 0, img = nil }
     bg_2 = { x = 0, y = 0, img = nil }
+    bg_3_elven = { x = 0, y = 0, img = nil }
     scroll_bg = { x = 0, y = 0, img = nil }
     button_01 = { x = 0, y = 0, img = nil }
     button_02 = { x = 0, y = 0, img = nil }
 
+    bg_small_1.x, bg_small_1.y, bg_small_1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_small_1.png')
     bg_1.x, bg_1.y, bg_1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_1.png')
     bg_2.x, bg_2.y, bg_2.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_2.png')
+    bg_3_elven.x, bg_3_elven.y, bg_3_elven.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_3_elven.png')
     scroll_bg.x, scroll_bg.y, scroll_bg.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\scroll_bg.png')
     button_01.x, button_01.y, button_01.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button_01.png')
     button_02.x, button_02.y, button_02.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button_02.png')
@@ -356,4 +388,31 @@ function loadSounds()
             EOP_WAVS[wavs[i]] = M2TWEOPSounds.createEOPSound(M2TWEOP.getModPath().."/eopData/sounds/test/"..wavs[i]..".wav")
         end
     end
+end
+
+function loadCAS()
+    M2TWEOP.addModelToGame("data/models_strat/residences/empty_model.cas", 101)
+end
+
+function loadFonts()
+    font_0 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/RINGM___.TTF", 18, nil, nil)
+    font_1 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/Merriweather-Regular.ttf", 18, nil, nil)
+    --font_2 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/morris-roman.black.ttf", 18, nil, nil)
+    --font_3 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/markdownH1Font.ttf", 18, nil, nil)
+    --font_4 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/MedievalSharp-xOZ5.ttf", 18, nil, nil)
+    --font_5 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/Middleearth-ao6m.ttf", 18, nil, nil)
+    --font_6 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/anirb___.ttf", 18, nil, nil)
+    --font_7 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/anirm___.ttf", 18, nil, nil)
+    --font_8 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/Magicmedieval-pRV1.ttf", 18, nil, nil)
+    --font_9 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/markdownH2Font.ttf", 18, nil, nil)
+    --font_10 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/WitcherKnight-vmLdA.ttf", 18, nil, nil)
+    --font_11 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/ModernAntiqua-Zw5K.ttf.ttf", 18, nil, nil)
+    --font_12 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/DevinneSwash-qZd5.ttf", 18, nil, nil)
+    --font_13 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/Anironc-d9DK.ttf", 18, nil, nil)
+    --font_14 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/Fleshandblood-MVA5x.ttf", 18, nil, nil)
+    --font_15 = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/mainFont.ttf", 18, nil, nil)
+    
+    font_RINGM = font_list[font_choice+1]
+    font_list = {nil, font_0, font_1,}
+    font_list_names = {"None","Ringbearer","Merriweather", }
 end

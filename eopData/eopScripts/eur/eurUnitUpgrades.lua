@@ -114,7 +114,7 @@ function upgradeButton()
                         end
                     end
                     if owner_check == 0 then show_upgrade_window = false return end
-                    ImGui.SetNextWindowPos(10*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom)
+                    ImGui.SetNextWindowPos(70*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
                     ImGui.SetNextWindowBgAlpha(0.0)
                     ImGui.Begin("Upgrades", true, bit.bor(ImGuiWindowFlags.NoDecoration,ImGuiWindowFlags.NoBackground))
                     ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 0.1, 0.1)
@@ -126,8 +126,8 @@ function upgradeButton()
                     if not UNIT_UPGRADES[unit.eduEntry.eduType] then
                         --
                     else
-                        if button_01 then
-                            if ImGui.ImageButton("upgrades_button_1",button_01.img ,60,60) then
+                        if icon_unit then
+                            if ImGui.ImageButton("upgrades_button_1",icon_unit.img ,50,50) then
                                 if show_upgrade_window == false then
                                     show_upgrade_window = true
                                 else

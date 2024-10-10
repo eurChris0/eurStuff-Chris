@@ -15,6 +15,8 @@ local beta_changelog =
 
 ]]
 
+local turks_sicily_confed = false
+
 function optionsButton()
     ImGui.SetNextWindowPos(1320*eurbackgroundWindowSizeRight, 750*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0.0)
@@ -55,7 +57,7 @@ function optionsButton()
 end
 
 function optionsWindow()
-    ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 5*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0)
     ImGui.SetNextWindowSize(1500*eurbackgroundWindowSizeRight, 860*eurbackgroundWindowSizeBottom)
     ImGui.Begin("options_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration,ImGuiWindowFlags.NoBackground))
@@ -64,7 +66,7 @@ function optionsWindow()
         ImGui.Image(bg_2.img,1500*eurbackgroundWindowSizeRight, 850*eurbackgroundWindowSizeBottom)
     end
 
-    ImGui.SetNextWindowPos(210*eurbackgroundWindowSizeRight, 150*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowPos(210*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0.5)
     ImGui.BeginChild("Child Window_options_1", 1480*eurbackgroundWindowSizeRight, 700*eurbackgroundWindowSizeBottom)
     --centeredText("Epic Unity Rework V2 Beta", 0)
@@ -83,6 +85,31 @@ function optionsWindow()
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_tab_1", 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
             ImGui.NewLine()
+            --[[
+            ImGui.Text("Click to form re-united kingdom next turn.")
+            if (ImGui.Button("Re-united", 80, 20)) then
+                if not turks_sicily_confed then
+                    turks_sicily_confed = true
+                    local ND = eur_campaign:getFaction("turks")
+                    local Gondor = eur_campaign:getFaction("sicily")
+                    local aragorn = getnamedCharbyLabel("aragorn_1")
+                    if aragorn then
+                        aragorn:addTraitPoints("Aragorn", 7)
+                    end
+                    M2TWEOP.setScriptCounter("nd_choose_rk", 1)
+                    eur_campaign:setDipStance(dipRelType.alliance, ND, Gondor);
+
+                    if EOP_WAVS["uicah_menuclick1"] ~= nil then
+                        M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+                    end
+                end
+            end
+            if turks_sicily_confed then
+                ImGui.TextColored(0,1,0,1,"Gondor Confederation chosen!")
+            end
+            ]]
+            font_choice, clicked_font = ImGui.Combo("Font", font_choice, font_list_names, #font_list, #font_list+1)
+            font_RINGM = font_list[font_choice+1]
             options_replen, pressed = ImGui.Checkbox("Replenishment", options_replen)
             options_poe, pressed = ImGui.Checkbox("Passing of the Elves", options_poe)
             options_merge, pressed = ImGui.Checkbox("AI army merging", options_merge)
@@ -136,11 +163,11 @@ function optionsWindow()
                     ImGui.NewLine()
                     ImGui.TextWrapped("Campaign: ")
                     ImGui.TextWrapped("    - Units will replenish over the end turn when garrisoned, random amount based on unit size.")
-                    ImGui.TextWrapped("    - Dynamic pre-battle spoils based on victory type and army composition.")
+                    ImGui.TextWrapped("    - Dynamic post-battle spoils based on victory type and army composition.")
                     ImGui.TextWrapped("    - Auto-sorting for player's armies.")
                     ImGui.TextWrapped("    - Some T1 units are converted during a confederation to bring them in line with the player's faction.")
                     ImGui.TextWrapped("    - Units can be temporarily split during pre-battle.")
-                    ImGui.TextWrapped("    - If a unit is disbanded in a settlement where it can be recruits, adds to the recruitment pool.")
+                    ImGui.TextWrapped("    - If a unit is disbanded in a settlement where it can be recruited, adds to the recruitment pool.")
                     ImGui.TextWrapped("    - AI armies will automatically merge over the end turn.")
                     ImGui.TextWrapped("    - Settlements bought or sold through diplomacy will be automatically assigned a garrison.")
                     --ImGui.TextWrapped("    - ")

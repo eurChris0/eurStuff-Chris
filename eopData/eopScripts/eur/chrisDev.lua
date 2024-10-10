@@ -167,18 +167,50 @@ function devButton()
                 end
                 castle, castlepressed = ImGui.Checkbox("Castle", castle)
 
-                if (ImGui.Button("Add Sett", 100, 80)) then
-                    if checkTileEmpty(map_x, map_y) then
-                        if not tableContains(sett_names, setttext) then
-                            local sett = eur_player_faction:addSettlement(map_x, map_y, setttext, level, castle)
-                            if sett ~= nil then
-                                sett.creatorFactionID = 1
-                                table.insert(sett_names, setttext)
-                                local rand_nu = math.random(1, #settlement_names)
-                                setttext = settlement_names[rand_nu]
+                if (ImGui.Button("Add Model", 100, 80)) then
+                    for k, v in pairs(ruin_tiles) do
+                        ruin_tiles[k].active = true
+                        print("Adding model:", v.x, v.y)
+                        M2TW.stratMap.startDrawModelAt(101, v.x, v.y, 1)
+                    end
+                end
+                ImGui.SameLine()
+                if (ImGui.Button("Add Setts", 100, 80)) then
+                    M2TW.stratMap.stopDrawModel(101)
+                    for k, v in pairs(ruin_tiles) do
+                        if checkTileEmpty(v.x, v.y) then
+                            local tile = M2TW.stratMap.getTile(v.x, v.y)
+                            if tile.resource then
+                                tile.resource:setStratModel(101)
+                            end
+                            ruin_tiles[k].active = false
+                            print("Adding sett:", v.x, v.y)
+                            local sett = eur_player_faction:addSettlement(v.x, v.y, v.message, 0, false)
+                            if sett then
+                                M2TWEOP.setModel(v.x, v.y,101,101)
+                            else
+                                print("Adding sett failed:", v.x, v.y)
                             end
                         end
                     end
+                end
+                ImGui.SameLine()
+                if (ImGui.Button("Add Sett", 100, 80)) then
+                    --if ruin_tiles[tostring(map_x..map_y)] then
+                        if checkTileEmpty(map_x, map_y) then
+                            if not tableContains(sett_names, setttext) then
+                                ruin_tiles[tostring(map_x..map_y)].active = false
+                                M2TW.stratMap.stopDrawModel(101)
+                                local sett = eur_player_faction:addSettlement(map_x, map_y, "Hi there I am a Settlement", level, castle)
+                                if sett then
+                                    table.insert(sett_names, setttext)
+                                    local rand_nu = math.random(1, #settlement_names)
+                                    setttext = settlement_names[rand_nu]
+                                    M2TWEOP.setModel(map_x, map_y,101,101)
+                                end
+                            end
+                        end
+                    --end
                 end
                 ImGui.EndTabItem()
             end

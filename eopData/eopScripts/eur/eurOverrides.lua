@@ -81,6 +81,8 @@ if onFactionTurnEnd then
         eurEventUnlockCheck(eventData.faction.factionID)
         genRankCheck(eventData.faction, nil)
         swapHeirLeaderStuffAI(eventData.faction)
+        turnImageCheck(eventData.faction)
+        genUnlockNotifation(eventData.faction)
     end
 else
     function onFactionTurnEnd(eventData)
@@ -108,6 +110,8 @@ else
         eurEventUnlockCheck(eventData.faction.factionID)
         genRankCheck(eventData.faction, nil)
         swapHeirLeaderStuffAI(eventData.faction)
+        turnImageCheck(eventData.faction)
+        genUnlockNotifation(eventData.faction)
     end
 end
 

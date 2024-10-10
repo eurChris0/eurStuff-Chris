@@ -7,8 +7,109 @@ temp_gen_units = {}
 guard_add = 0
 temp_used = false
 
+temp_com_inf = 0
+
 gen_rank_char = nil
 gen_units_char = nil
+
+conquer_traits = {
+    ["FactionConqueror"] = 1,
+    ["VictorVirtue"] = 1,
+    ["MinasIthilLiberator"] = 0,
+    ["MinasIthilConqueror"] = 0,
+    ["MinasTirithConqueror"] = 0,
+    ["MinasTirithSacker"] = 0,
+    ["PelargirConqueror"] = 0,
+    ["PelargirSacker"] = 0,
+    ["DolAmrothConqueror"] = 0,
+    ["DolAmrothSacker"] = 0,
+    ["EdorasConqueror"] = 0,
+    ["EdorasPillager"] = 0,
+    ["HornburgConqueror"] = 0,
+    ["FennasDruinConqueror"] = 0,
+    ["FennasDruinPillager"] = 0,
+    ["FornostErainConqueror"] = 0,
+    ["BreeConqueror"] = 0,
+    ["BreePillager"] = 0,
+    ["BeornsHallsConqueror"] = 0,
+    ["BeornsHallsPillager"] = 0,
+    ["DaleConqueror"] = 0,
+    ["DalePlunderer"] = 0,
+    ["EsgarothConqueror"] = 0,
+    ["EsgarothPillager"] = 0,
+    ["CarasSantConqueror"] = 0,
+    ["CarasSantSacker"] = 0,
+    ["UmbarConqueror"] = 0,
+    ["UmbarSacker"] = 0,
+    ["FaenobelConqueror"] = 0,
+    ["FaenobelSacker"] = 0,
+    ["KhandConqueror"] = 0,
+    ["KhandSacker"] = 0,
+    ["MistrandConqueror"] = 0,
+    ["MistrandSacker"] = 0,
+    ["MithlondConqueror"] = 0,
+    ["MithlondDespoiler"] = 0,
+    ["ImladrisConqueror"] = 0,
+    ["ImladrisDespoiler"] = 0,
+    ["CarasGaladhonConqueror"] = 0,
+    ["CarasGaladhonDespoiler"] = 0,
+    ["ThranduilsHallsConqueror"] = 0,
+    ["ThranduilsHallsDespoiler"] = 0,
+    ["EreborConqueror"] = 0,
+    ["EreborPlunderer"] = 0,
+    ["ThorinsHallsConqueror"] = 0,
+    ["ThorinsHallsPlunderer"] = 0,
+    ["CarnDumConqueror"] = 0,
+    ["GundabadLiberator"] = 0,
+    ["GundabadConqueror"] = 0,
+    ["DainsHallsLiberator"] = 0,
+    ["DainsHallsConqueror"] = 0,
+    ["WestMoriaLiberator"] = 0,
+    ["WestMoriaConqueror"] = 0,
+    ["EastMoriaLiberator"] = 0,
+    ["EastMoriaConqueror"] = 0,
+    ["GoblintownConqueror"] = 0,
+    ["DolGuldurConqueror"] = 0,
+    ["AmonLancLiberator"] = 0,
+    ["IsengardConqueror"] = 0,
+    ["KirikhgatholConqueror"] = 0,
+    ["KirikhgatholPlunderer"] = 0,
+    ["DunLarachConqueror"] = 0,
+    ["DunLarachPillager"] = 0,
+    ["AlcfudConqueror"] = 0,
+    ["AlcfudPillager"] = 0,
+    ["MorannonConqueror"] = 0,
+    ["BaradDurConqueror"] = 0,
+    ["BattleChivalryGood"] = 7,
+    ["BattleChivalryEvil"] = 7,
+  }
+  
+  conquer_traits_units = {
+    ["special"] = {
+        "Pale Uruks",
+        "Dunedain Steelbowmen",
+        "Citadel Guard",
+        "Temple Knights",
+        "Hearthguard",
+        "Elvellyn Hammerguard",
+        "Framsguard",
+        "Witch-Realm Inquisitors",
+        "Enedwaith Marksmen",
+        "Troll-men Champions",
+        "Warlords Kataphracts",
+        "Dragons Wrath Guardians",
+        "Mithril Bodyguard",
+        "Gabilgathol Guard",
+        "Axeguard of Erebor",
+        "Aredhirith",
+        "Berio I Ngelaidh",
+        "Elderinwe Roquen",
+        "Saurons Will",
+        "Castellans of Dol Guldur",
+        "Black Pit Berserkers",
+        "Guard of the Hand",
+    },
+  }
 
 mod_general_units_list = {
     {name="Rohan Bodyguard",size=21},
@@ -154,6 +255,9 @@ gen_units_list = {
             [1] = "Guard of the Golden Hall",
             [2] = "Shieldmaidens of Rohan",
         },
+        ["special"] = {
+            "The Red Shields of Erkenbrand",
+        },
     },
     ["sicily"] = {
         ["T1"] = {
@@ -174,6 +278,9 @@ gen_units_list = {
             [1] = "Marksmen of Cair Andros",
             [2] = "Gondor Bodyguard",
         },
+        ["special"] = {
+            "Citadel Guard",
+        },
     },
     ["turks"] = {
         ["T1"] = {
@@ -189,6 +296,9 @@ gen_units_list = {
             [0] = "Dunedain Steelbowmen",
             [1] = "Dismounted Fornost-Erain Knights",
             [2] = "Dunedain Bodyguard",
+        },
+        ["special"] = {
+            "Dunedain Steelbowmen",
         },
     },
     ["russia"] = {
@@ -206,6 +316,9 @@ gen_units_list = {
             [1] = "Naru n'Aru Sentinels",
             [2] = "Pharazim Nobles",
         },
+        ["special"] = {
+            "Naru n'Aru Sentinels",
+        },
     },
     ["scotland"] = {
         ["T1"] = {
@@ -220,6 +333,9 @@ gen_units_list = {
             [0] = "Earls",
             [1] = "Barons",
             [2] = "Royal Guardsmen",
+        },
+        ["special"] = {
+            "Hearthguard",
         },
     },
     ["byzantium"] = {
@@ -237,6 +353,9 @@ gen_units_list = {
             [0] = "High Paladins",
             [1] = "Vintner-Court Paladins",
         },
+        ["special"] = {
+            "Elvellyn Hammerguard",
+        },
     },
     ["timurids"] = {
         ["T1"] = {
@@ -252,6 +371,9 @@ gen_units_list = {
         },
         ["T3"] = {
             [0] = "Skin-Changers",
+        },
+        ["special"] = {
+            "Framsguard",
         },
     },
     ["portugal"] = {
@@ -270,6 +392,9 @@ gen_units_list = {
             [2] = "Guardians of Carn Dum",
             [3] = "Angmar Bodyguards",
         },
+        ["special"] = {
+            "Witch-Realm Inquisitors",
+        },
     },
     ["aztecs"] = {
         ["T1"] = {
@@ -285,6 +410,9 @@ gen_units_list = {
             [1] = "Wulfguard Pikes",
             [2] = "Brenin's Guard",
         },
+        ["special"] = {
+            "Wulfguard Axemen",
+        },
     },
     ["teutonic_order"] = {
         ["T1"] = {
@@ -297,6 +425,9 @@ gen_units_list = {
         },
         ["T3"] = {
             [0] = "Clan Heralds",
+        },
+        ["special"] = {
+            "Enedwaith Marksmen",
         },
     },
     ["spain"] = {
@@ -315,6 +446,9 @@ gen_units_list = {
             [1] = "Serpent Archers",
             [2] = "Black Snake Guard",
         },
+        ["special"] = {
+            "Troll-men Champions",
+        },
     },
     ["khand"] = {
         ["T1"] = {
@@ -332,6 +466,9 @@ gen_units_list = {
             [2] = "Khand Elite Horse Archers",
             [3] = "Variag Nobles",
         },
+        ["special"] = {
+            "Warlords Kataphracts",
+        },
     },
     ["venice"] = {
         ["T1"] = {
@@ -347,6 +484,9 @@ gen_units_list = {
             [1] = "Dragon-Wrath Kataphracts",
             [2] = "Loke Rim Bodyguard",
         },
+        ["special"] = {
+            "Dragons Wrath Guardians",
+        },
     },
     ["norway"] = {
         ["T1"] = {
@@ -360,6 +500,9 @@ gen_units_list = {
             [0] = "Legion Deeping Guard",
             [1] = "Blacklock Engineers",
             [2] = "Zenith Guard",
+        },
+        ["special"] = {
+            "Axeguard of Erebor",
         },
     },
     ["hungary"] = {
@@ -378,6 +521,9 @@ gen_units_list = {
             [1] = "Tumunzahar Nobles",
             [2] = "Broadbeam Marksmen",
         },
+        ["special"] = {
+            "Gabilgathol Guard",
+        },
     },
     ["moors"] = {
         ["T1"] = {
@@ -394,7 +540,9 @@ gen_units_list = {
             [0] = "Durins Guard",
             [1] = "King's Mounted Hammerguard",
             [2] = "Blacklock Engineers",
-
+        },
+        ["special"] = {
+            "Mithril Bodyguard",
         },
     },
     ["mongols"] = {
@@ -412,6 +560,9 @@ gen_units_list = {
             [0] = "Arthirochon",
             [1] = "Tawar Areiniyr",
         },
+        ["special"] = {
+            "Aredhirith",
+        },
     },
     ["ireland"] = {
         ["T1"] = {
@@ -428,6 +579,9 @@ gen_units_list = {
         ["T3"] = {
             [0] = "Hitherbin",
             [1] = "Elbereths Sentinels",
+        },
+        ["special"] = {
+            "Berio I Ngelaidh",
         },
     },
     ["denmark"] = {
@@ -448,6 +602,9 @@ gen_units_list = {
             [1] = "Noldorin Archers",
             [2] = "Calaquendi Lords",
         },
+        ["special"] = {
+            "Mithlond Nobles",
+        },
     },
     ["england"] = {
         ["T1"] = {
@@ -463,6 +620,9 @@ gen_units_list = {
         ["T3"] = {
             [0] = "Temple Wards",
             [1] = "Uruk Bodyguard",
+        },
+        ["special"] = {
+            "Temple Knights",
         },
     },
     ["poland"] = {
@@ -480,6 +640,9 @@ gen_units_list = {
             [0] = "Khamuls Shadowguard",
             [1] = "Khamuls Shadow Rangers",
             [2] = "Mirkwood Bodyguard",
+        },
+        ["special"] = {
+            "Castellans of Dol Guldur",
         },
     },
     ["hre"] = {
@@ -499,6 +662,9 @@ gen_units_list = {
             [0] = "Azogs Defilers",
             [1] = "Goblin Bodyguards",
         },
+        ["special"] = {
+            "Saurons Will",
+        },
     },
     ["gundabad"] = {
         ["T1"] = {
@@ -516,6 +682,9 @@ gen_units_list = {
             [0] = "Mountain Guard",
             [1] = "Half-Trolls",
         },
+        ["special"] = {
+            "Pale Uruks",
+        },
     },
     ["france"] = {
         ["T1"] = {
@@ -530,6 +699,9 @@ gen_units_list = {
         ["T3"] = {
             [0] = "Uruk-hai Bodyguards",
             [1] = "Uruk-hai Bodyguards",
+        },
+        ["special"] = {
+            "Guard of the Hand",
         },
     },
     ["saxons"] = {
@@ -550,141 +722,10 @@ gen_units_list = {
             [1] = "Noldorin Archers",
             [2] = "Noldorin Bodyguards",
         },
+        ["special"] = {
+            "Elderinwe Roquen",
+        },
     },
-}
-
-combo_labtrait_list = {
-    "Gimilkhad",
-    "hurin_rk",
-    "Aragorn",
-    "Ugluk",
-    "Drangu",
-    "Elladan",
-    "Elrond",
-    "Gor_eop_1",
-    "Glirhuin_eop_1",
-    "celeborn_union",
-    "forlong_rk",
-    "Forlong",
-    "Folcred",
-    "Taraghlan_eop_1",
-    "radagast",
-    "Beorn_eop_1",
-    "alatar_1",
-    "Elrohir",
-    "Utbah_eop_1",
-    "Seitheach_eop_1",
-    "Eomer_eop_1",
-    "orophin_1",
-    "Erkenbrand_eop_1",
-    "Imrahil",
-    "Scyld_eop_1",
-    "Uglag_eop_1",
-    "Hama",
-    "Hunvorn",
-    "Adrahil",
-    "istion_rk",
-    "Tremac",
-    "Maernil",
-    "Balin",
-    "enpremi_union",
-    "Gleowine",
-    "golasgil_rk",
-    "Cirdan",
-    "agandaur_1",
-    "Vidusith_eop_1",
-    "Theodred_eop_1",
-    "Ghan_eop_1",
-    "Rudaz_eop_1",
-    "Fionghan_eop_1",
-    "Khaldoon_eop_1",
-    "Baragund_eop_1",
-    "Fastred_eop_1",
-    "rumil_union",
-    "glorfindel_1",
-    "Faramir",
-    "Gimli",
-    "Theoden",
-    "hirluin_rk",
-    "rumil_1",
-    "Gamling_eop_1",
-    "Saruman",
-    "Orodreth",
-    "Bane",
-    "gandalf_2",
-    "Gazluk_eop_1",
-    "Lunug_eop_1",
-    "Ja_Sur_eop_1",
-    "Yagthak",
-    "pallando_1",
-    "Erunestian_eop_1",
-    "haldir_union",
-    "Grain_eop_1",
-    "Ubaadah_eop_1",
-    "Thranduil",
-    "Hirluin",
-    "Morholt",
-    "Melmidoc_eop_1",
-    "Dain",
-    "Gothmog",
-    "Halbarad",
-    "Hazolg_eop_1",
-    "orthordir_union",
-    "Umaarah_eop_1",
-    "Ulairon",
-    "Forthwin",
-    "Athalhere_eop_1",
-    "Luag",
-    "Coruion_eop_1",
-    "bn_army_2",
-    "enpremi_1",
-    "Mazog",
-    "gondor_attackers_m",
-    "imrahil_rk",
-    "Kavatha_eop_1",
-    "Celeborn",
-    "lurtz_1",
-    "Denethor",
-    "Jasur_eop_1",
-    "Legolas",
-    "duinhir_rk",
-    "Agorolg_eop_1",
-    "balrog_1",
-    "oin_1",
-    "Margoz",
-    "guardian_moria_1",
-    "gandalf_1",
-    "orophin_union",
-    "legolas_union",
-    "thranduil_union",
-    "Dinenion_eop_1",
-    "ancantar_3",
-    "orodreth_rk",
-    "gandalf_3",
-    "Iorthon_eop_1",
-    "Knights of the Silver Swan",
-    "ancantar_1",
-    "adrahil_rk",
-    "mistven_rk",
-    "denethor_rk",
-    "Eomund_eop_1",
-    "Freca_eop_1",
-    "angbor_rk",
-    "boromir_rk",
-    "faramir_rk",
-    "Angbor",
-    "orthordir_1",
-    "dornornoston_1",
-    "bn_army_3",
-    "Menthar_eop_1",
-    "Ghurzog_eop_1",
-    "Sauron",
-    "Donnchaidh_eop_1",
-    "Nurwe",
-    "Gildor",
-    "Haldir",
-    "Brand_eop_1",
-    "Boromir",
 }
 
 labtrait_units_list = {
@@ -876,25 +917,25 @@ function swapBGButton()
 end
 
 function swapBGWindow()
-    local rank = 0
+    local char_rank = 0
     ImGui.SetNextWindowPos(10*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(1)
     ImGui.SetNextWindowSize(700*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
     ImGui.Begin("swap_bg_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration))
     eurStyle("basic_1", true)
-    ImGui.SetNextWindowBgAlpha(0)
-    ImGui.BeginChild("swap_bg_child_1", 700*eurbackgroundWindowSizeRight, 420*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
+    if bg_small_1 then
+        ImGui.Image(bg_small_1.img, 695*eurbackgroundWindowSizeRight, 490*eurbackgroundWindowSizeBottom)
+    end
+    ImGui.SetNextWindowPos(10*eurbackgroundWindowSizeRight, 70*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowBgAlpha(0.5)
+    ImGui.BeginChild("swap_bg_child_1", 700*eurbackgroundWindowSizeRight, 380*eurbackgroundWindowSizeBottom, ImGuiChildFlags.FrameStyle)
     ImGui.NewLine()
+    ImGui.SetNextWindowBgAlpha(0)
+    ImGui.BeginChild("swap_bg_child_sub_1", 300*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoDecoration)
     local UI_MANAGER = gameDataAll.get().uiCardManager
     local selectedUnit=UI_MANAGER:getSelectedUnitCard(0)
     if selectedUnit == nil then
-        local char=UI_MANAGER.selectedCharacter
         local sett=UI_MANAGER.selectedSettlement
-        if char ~= nil then
-            if char:getTypeID() == 7 then
-                selectedUnit = char.bodyguards
-            end
-        end
         if sett ~= nil then
             if sett.governor ~= nil then
                 if sett.governor:getTypeID() == 7 then
@@ -908,14 +949,32 @@ function swapBGWindow()
             if selectedUnit.character ~= nil then
                 temp_char_stuff = selectedUnit.character
                 if temp_char_stuff:getTypeID() == 7 then
+                    ImGui.Separator()
                     ImGui.Text(temp_char_stuff.characterRecord.localizedDisplayName)
                     ImGui.Text("Current Bodyguard: "..temp_char_stuff.bodyguards.eduEntry.eduType)
-                    ImGui.Separator()
-                    rank = genRankCheck(nil, temp_char_stuff.characterRecord)
+                    if char_portraits[temp_char_stuff.characterRecord.portrait_custom] then
+                        ImGui.Image(char_portraits[temp_char_stuff.characterRecord.portrait_custom].img,80,80)
+                        ImGui.SameLine()
+                        if eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga] then
+                            ImGui.Image(eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga].img,64,64)
+                        end
+                    end
+                    if temp_char_stuff.characterRecord.portrait then
+                        local portrait = temp_char_stuff.characterRecord.portrait
+                        portrait = string.gsub(portrait, "mods/Divide_and_Conquer_EUR_EOP4/data/ui/"..eur_localculture.."/portraits/portraits/young/generals/", "")
+                        if char_portraits[portrait] then
+                            ImGui.Image(char_portraits[portrait].img,80,80)
+                            ImGui.SameLine()
+                            if eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga] then
+                                ImGui.Image(eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga].img,64,64)
+                            end
+                        end
+                    end
+                    char_rank = genRankCheck(nil, temp_char_stuff.characterRecord)
                     local name = temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)
-                    genUnitCheck(temp_char_stuff.characterRecord, rank)
-                    temp_gen_units_target, temp_gen_units_target_clicked = ImGui.Combo("", temp_gen_units_target, temp_gen_units, #temp_gen_units, #temp_gen_units+1)
-                    ImGui.Text("Cooldown: 20 turns")
+                    genUnitCheck(temp_char_stuff.characterRecord, char_rank)
+                    temp_gen_units = removeDuplicates(temp_gen_units)
+                    --temp_gen_units_target, temp_gen_units_target_clicked = ImGui.Combo("", temp_gen_units_target, temp_gen_units, #temp_gen_units, #temp_gen_units+1)
                     local cost = 0
                     local edu = M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1])
                     if edu ~= nil then
@@ -923,28 +982,40 @@ function swapBGWindow()
                     end
                     ImGui.Text("Personal Guard: "..tostring(temp_char_stuff.characterRecord.personalSecurity))
                     if temp_char_stuff.characterRecord.personalSecurity < 10 then
+                        ImGui.Separator()
                         ImGui.Text("Add Personal Guard(500 each): ")
+                        if guard_add+temp_char_stuff.characterRecord.personalSecurity > 10 then
+                            guard_add = 0
+                        end
+                        if (ImGui.Button("-", 25, 25)) then
+                            if guard_add > 0 then
+                                guard_add=guard_add-1
+                            end
+                        end
                         ImGui.SameLine()
-                        guard_add, temp_used = ImGui.SliderInt("", guard_add, 0, (10-temp_char_stuff.characterRecord.personalSecurity))
+                        ImGui.Text(tostring(guard_add))
+                        ImGui.SameLine()
+                        if (ImGui.Button("+", 25, 25)) then
+                            if guard_add < 10-temp_char_stuff.characterRecord.personalSecurity then
+                                guard_add=guard_add+1
+                            end
+                        end
+                        --guard_add, temp_used = ImGui.SliderInt("", guard_add, 0, (10-temp_char_stuff.characterRecord.personalSecurity))
                         if guard_add > 0 then
                             cost = cost+(guard_add*500)
                         end
+                        ImGui.Separator()
                     end
+                    if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga] then
+                        ImGui.Image(eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga].img,64,64)
+                    end
+                    ImGui.Text("New Bodyguard: "..temp_gen_units[temp_gen_units_target+1])
                     ImGui.Text("Cost: "..tostring(cost))
-                    local army = temp_char_stuff.army
-                    if temp_char_stuff.army == nil then
-                        if temp_char_stuff.settlement ~= nil then
-                            army = temp_char_stuff.settlement.army
-                        elseif temp_char_stuff.fort ~= nil then
-                            army = temp_char_stuff.fort.army
-                        elseif temp_char_stuff.armyNotLeaded ~= nil then
-                            army = temp_char_stuff.armyNotLeaded
-                        end
-                    end
+                    local army = temp_char_stuff.settlement.army
                     if army ~= nil then
                         if persistent_gen_list[name] ~= nil then
                             if persistent_gen_list[name].cooldown == 0 then
-                                if (ImGui.Button("Change", 100, 80)) then
+                                if (ImGui.Button("Accept", 80, 50)) then
                                     if army.numOfUnits < 20 then
                                         if temp_char_stuff.faction.money >= cost then
                                             persistent_gen_list[name].cooldown = 20
@@ -974,6 +1045,88 @@ function swapBGWindow()
         ImGui.TextColored(0,1,0,1,"Please select a general unit card.")
     end
     ImGui.EndChild()
+    ImGui.SameLine()
+    ImGui.SetNextWindowBgAlpha(0)
+    ImGui.BeginChild("swap_bg_child_sub_2", 380*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoDecoration)
+    ImGui.Separator()
+    ImGui.Text("T1:")
+    for i = 1, #temp_gen_units do
+        if tableContains(gen_units_list[eur_player_faction.name]["T1"], temp_gen_units[i]) then
+            if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
+                if ImGui.ImageButton("swapBGButton_button_t1_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                    temp_gen_units_target=i-1
+                end
+            end
+            local hovered = ImGui.IsItemHovered()
+            if hovered then
+                ImGui.BeginTooltip()
+                ImGui.Text(temp_gen_units[i])
+                ImGui.EndTooltip()
+            end
+            ImGui.SameLine()
+        end
+    end
+    ImGui.NewLine()
+    ImGui.Text("T2:")
+    for i = 1, #temp_gen_units do
+        if tableContains(gen_units_list[eur_player_faction.name]["T2"], temp_gen_units[i]) then
+            if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
+                if ImGui.ImageButton("swapBGButton_button_t2_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                    temp_gen_units_target=i-1
+                end
+            end
+            local hovered = ImGui.IsItemHovered()
+            if hovered then
+                ImGui.BeginTooltip()
+                ImGui.Text(temp_gen_units[i])
+                ImGui.EndTooltip()
+            end
+            ImGui.SameLine()
+        end
+    end
+    ImGui.NewLine()
+    ImGui.Text("T3:")
+    for i = 1, #temp_gen_units do
+        if tableContains(gen_units_list[eur_player_faction.name]["T3"], temp_gen_units[i]) then
+            if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
+                if ImGui.ImageButton("swapBGButton_button_t3_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                    temp_gen_units_target=i-1
+                end
+            end
+            local hovered = ImGui.IsItemHovered()
+            if hovered then
+                ImGui.BeginTooltip()
+                ImGui.Text(temp_gen_units[i])
+                ImGui.EndTooltip()
+            end
+            ImGui.SameLine()
+        end
+    end
+    ImGui.NewLine()
+    ImGui.Text("Special:")
+    for i = 1, #temp_gen_units do
+        if not tableContains(gen_units_list[eur_player_faction.name]["T1"], temp_gen_units[i]) then
+            if not tableContains(gen_units_list[eur_player_faction.name]["T2"], temp_gen_units[i]) then
+                if not tableContains(gen_units_list[eur_player_faction.name]["T3"], temp_gen_units[i]) then
+                    if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
+                        if ImGui.ImageButton("swapBGButton_button_s_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                            temp_gen_units_target=i-1
+                        end
+                    end
+                    local hovered = ImGui.IsItemHovered()
+                    if hovered then
+                        ImGui.BeginTooltip()
+                        ImGui.Text(temp_gen_units[i])
+                        ImGui.EndTooltip()
+                    end
+                    ImGui.SameLine()
+                end
+            end
+        end
+    end
+    ImGui.NewLine()
+    ImGui.EndChild()
+    ImGui.EndChild()
     if (centeredImageButton("Close", 80, 50, 0)) then
         swap_bg_window = false
         if EOP_WAVS["uicah_menuclick1"] ~= nil then
@@ -984,11 +1137,10 @@ function swapBGWindow()
     ImGui.End()
 end
 
-function genUnitCheck(char, rank)
+function genUnitCheck(char, char_rank)
     if gen_units_char == char then return end
+    log("start units check")
     local faction = char.character.faction.name
-    print(faction)
-    print(rank)
     temp_gen_units = {}
     for i = 0, #gen_units_list[faction]["T1"] do
         local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list[faction]["T1"][i])
@@ -998,7 +1150,7 @@ function genUnitCheck(char, rank)
             end
         end
     end
-    if rank > 110 then
+    if char_rank > 110 then
         for i = 0, #gen_units_list[faction]["T2"] do
             local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list[faction]["T2"][i])
             if eduEntry ~= nil then
@@ -1008,7 +1160,7 @@ function genUnitCheck(char, rank)
             end
         end
     end
-    if rank > 170 then
+    if char_rank > 170 then
         for i = 0, #gen_units_list[faction]["T3"] do
             local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list[faction]["T3"][i])
             if eduEntry ~= nil then
@@ -1021,17 +1173,32 @@ function genUnitCheck(char, rank)
     traits_temp = {}
     --eurListTraits(char)
     --printTable(traits_temp)
-    for i = 1, #labtrait_units_list do 
-        if char:getTraitLevel(labtrait_units_list[i]) > 0 then
-            local eduEntry = M2TWEOPDU.getEduEntryByType(labtrait_units_list[i])
+    for k, v in pairs(labtrait_units_list) do 
+        log("checking trait "..k.." for: "..char.label)
+        if char:getTraitLevel(k) > 0 then
+            local eduEntry = M2TWEOPDU.getEduEntryByType(v)
             if eduEntry ~= nil then
                 if eduEntry:hasOwnership(eur_playerFactionId) then
-                    table.insert(temp_gen_units, labtrait_units_list[i])
+                    table.insert(temp_gen_units, v)
                 end
             end
         end
     end
-    if tableContains(combo_labtrait_list, char.label) then
+    for k, v in pairs(conquer_traits) do 
+        log("checking trait "..k.." for: "..char.label)
+        if char:getTraitLevel(k) > v then
+            for i = 1, #gen_units_list[faction]["special"] do
+                local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list[faction]["special"][i])
+                if eduEntry ~= nil then
+                    if eduEntry:hasOwnership(eur_playerFactionId) then
+                        table.insert(temp_gen_units, gen_units_list[faction]["special"][i])
+                    end
+                end
+            end
+        end
+    end
+    if labtrait_units_list[char.label] then
+        log("checking label: "..char.label)
         local eduEntry = M2TWEOPDU.getEduEntryByType(labtrait_units_list[char.label])
         if eduEntry ~= nil then
             if eduEntry:hasOwnership(eur_playerFactionId) then
@@ -1040,6 +1207,7 @@ function genUnitCheck(char, rank)
         end
     end
     if char:getTraitLevel("FactionLeader") > 0 then
+        log("checking trait FactionLeader for: "..char.label)
         if leaderheir_combi_list[char.character.faction.name] then
             local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[char.character.faction.name].leader.unit)
             if eduEntry ~= nil then
@@ -1050,6 +1218,7 @@ function genUnitCheck(char, rank)
         end
     end
     if char:getTraitLevel("FactionHeir") > 0 then
+        log("checking trait FactionHeir for: "..char.label)
         if leaderheir_combi_list[char.character.faction.name] then
             local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[char.character.faction.name].heir.unit)
             if eduEntry ~= nil then
@@ -1060,8 +1229,9 @@ function genUnitCheck(char, rank)
         end
     end
     gen_units_char = char
+    log("end units check")
 end
- 
+
 function genRankCheck(faction, char)
     temp_com_inf = 0
     if faction ~= nil then
@@ -1103,19 +1273,22 @@ function genRankCheck(faction, char)
         end
     end
     if char ~= nil then
-        if gen_rank_char == char then return end
-        local name = char.shortName..tostring(char.label)
-        if persistent_gen_list[name] ~= nil then
-            for i = 0, 10 do
-                if persistent_gen_list[name].command[i] ~= nil then
-                    temp_com_inf = temp_com_inf+(persistent_gen_list[name].command[i]+persistent_gen_list[name].loyalty[i]+persistent_gen_list[name].authority[i])
+        if gen_rank_char ~= char then
+            local name = char.shortName..tostring(char.label)
+            if persistent_gen_list[name] ~= nil then
+                for i = 0, 10 do
+                    if persistent_gen_list[name].command[i] ~= nil then
+                        temp_com_inf = temp_com_inf+(persistent_gen_list[name].command[i]+persistent_gen_list[name].loyalty[i]+persistent_gen_list[name].authority[i])
+                    end
                 end
+                return temp_com_inf
+            else
+                return 0
             end
-            return temp_com_inf
+            gen_rank_char = char
         else
-            return 0
+            return temp_com_inf
         end
-        gen_rank_char = char
     end
 end
 
@@ -1150,7 +1323,7 @@ function setBGSize(faction, character, unit)
                                 else
                                     persistent_gen_list_reset[temp_char.characterRecord.label] = true
                                     if not labtrait_units_list[temp_char.characterRecord.label] then
-                                        table.insert(combo_labtrait_list, temp_char.characterRecord.label)
+                                        --table.insert(combo_labtrait_list, temp_char.characterRecord.label)
                                         labtrait_units_list[temp_char.characterRecord.label] = temp_char.bodyguards.eduEntry.eduType
                                     end
                                 end
@@ -1204,7 +1377,7 @@ function setBGSize(faction, character, unit)
                             else
                                 persistent_gen_list_reset[character.characterRecord.label] = true
                                 if not labtrait_units_list[character.characterRecord.label] then
-                                    table.insert(combo_labtrait_list, character.characterRecord.label)
+                                    --table.insert(combo_labtrait_list, character.characterRecord.label)
                                     labtrait_units_list[character.characterRecord.label] = character.bodyguards.eduEntry.eduType
                                 end
                             end
@@ -1259,7 +1432,7 @@ function setBGSize(faction, character, unit)
                             else
                                 persistent_gen_list_reset[temp_char.characterRecord.label] = true
                                 if not labtrait_units_list[temp_char.characterRecord.label] then
-                                    table.insert(combo_labtrait_list, temp_char.characterRecord.label)
+                                    --table.insert(combo_labtrait_list, temp_char.characterRecord.label)
                                     labtrait_units_list[temp_char.characterRecord.label] = temp_char.bodyguards.eduEntry.eduType
                                 end
                             end
@@ -1319,4 +1492,66 @@ function setBodyguard(character, newBodyguardType, expLvl, armourLvl, weaponLvl,
     end
     temp_char_stuff = nil
     temp_char_stuff2 = nil
+end
+
+
+function genUnlockNotifation(faction)
+    if faction.isPlayerControlled == 0 then return end
+    log("start units check")
+    for i = 0, faction.numOfCharacters - 1 do
+        local char = faction:getCharacter(i)
+        if char:getTypeID() == 7 then
+            if char.label == "" then
+                char:giveValidLabel()
+            end
+            char = char.characterRecord
+            local char_rank = genRankCheck(nil, char)
+            if not char_unlocks[char.label] then
+                char_unlocks[char.label] = {}
+                char_unlocks[char.label].high = 0
+                char_unlocks[char.label].t2 = false
+                char_unlocks[char.label].t3 = false
+                char_unlocks[char.label].heir = false
+                char_unlocks[char.label].leader = false
+                char_unlocks[char.label].special = false
+            end
+            if char_rank == nil then return end
+            if char_rank > char_unlocks[char.label].high then
+                if not char_unlocks[char.label].t2 then
+                    if char_rank > 110 then
+                        char_unlocks[char.label].t2 = true
+                        stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.shortName)
+                    end
+                end
+                if not char_unlocks[char.label].t3 then
+                    if char_rank > 170 then
+                        char_unlocks[char.label].t3 = true
+                        stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.shortName)
+                    end
+                end
+            end
+            char_unlocks[char.label].high = char_rank
+            if not char_unlocks[char.label].special then
+                for k, v in pairs(conquer_traits) do 
+                    log("checking trait "..k.." for: "..char.label)
+                    if char:getTraitLevel(k) > v then
+                        char_unlocks[char.label].special = true
+                        stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.shortName)
+                    end
+                end
+            end
+            if not char_unlocks[char.label].leader then
+                if char:getTraitLevel("FactionLeader") > 0 then
+                    char_unlocks[char.label].leader = true
+                    stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.shortName)
+                end
+            end
+            if not char_unlocks[char.label].heir then
+                if char:getTraitLevel("FactionHeir") > 0 then
+                    char_unlocks[char.label].heir = true
+                    stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.shortName)
+                end
+            end
+        end
+    end
 end

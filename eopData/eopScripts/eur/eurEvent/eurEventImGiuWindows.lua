@@ -282,7 +282,7 @@ end
 
 function lorien_1(faction_name, bool)
     if bool then
-        ImGui.Text("Blessings of Yavanna(factionwide): ")
+        ImGui.Text("Yavanna's Blessing(factionwide): ")
         ImGui.NewLine()
         ImGui.BulletText("Growth")
         ImGui.SameLine()
@@ -473,8 +473,8 @@ function eventSideWindow(faction_name, faction)
         if not EUR_EVENTS[faction_name][event_number] then return end
         ImGui.SameLine()
         ImGui.BeginGroup()
-        ImGui.SetNextWindowBgAlpha(1)
-        ImGui.BeginChild("Events_window_02", 620*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
+        ImGui.SetNextWindowBgAlpha(0.5)
+        ImGui.BeginChild("Events_window_02", 620*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom, ImGuiChildFlags.FrameStyle)
         centeredText(EUR_EVENTS[faction_name][event_number].name, 20)
         ImGui.NewLine()
         ImGui.TextWrapped("Gold: "..tostring(EUR_EVENTS[faction_name][event_number].cost))
@@ -483,20 +483,23 @@ function eventSideWindow(faction_name, faction)
         end
         ImGui.TextWrapped("Cooldown: "..tostring(EUR_EVENTS[faction_name][event_number].cooldown))
         ImGui.NewLine()
+        ImGui.SetNextWindowBgAlpha(00)
+        ImGui.BeginChild("Events_window_05", 400*eurbackgroundWindowSizeRight, 150*eurbackgroundWindowSizeBottom)
         ImGui.TextWrapped(EUR_EVENTS[faction_name][event_number].desc)
-
-        ImGui.NewLine()
+        ImGui.EndChild()
         ImGui.NewLine()
 
         EUR_EVENTS[faction_name][event_number].func(faction_name, true)
 
         ImGui.EndChild()
+
         ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Events_window_03", 620*eurbackgroundWindowSizeRight, 25*eurbackgroundWindowSizeBottom)
+        ImGui.SetNextWindowPos(1115*eurbackgroundWindowSizeRight, 710*eurbackgroundWindowSizeBottom)
+        ImGui.BeginChild("Events_window_03", 620*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
         if EUR_EVENTS[faction_name][event_number].active_cooldown == 0 then
             if eur_event_min_cooldown == 0 then
                 if faction.money >= EUR_EVENTS[faction_name][event_number].cost then
-                    if (centeredImageButton("accept", 100, 20, 0)) then
+                    if (centeredImageButton("Accept", 80, 50, 0)) then
                         EUR_EVENTS[faction_name][event_number].func(faction_name, false)
                     end
                 else

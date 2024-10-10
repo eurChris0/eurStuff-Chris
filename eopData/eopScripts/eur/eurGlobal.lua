@@ -10,6 +10,10 @@ show_options_window = true
 temp_units = {}
 temp_unit_nu = 0
 
+char_unlocks = {}
+
+font_choice = 2
+
 persistent_gen_list = {}
 persistent_gen_list_reset = {}
 
@@ -66,6 +70,9 @@ swap_bg_button = false
 
 traits_temp = {}
 
+font_list = {}
+font_list_names = {}
+
 temp_char_stuff = nil
 show_temp_char_stuff = false
 
@@ -96,6 +103,8 @@ end
 function eurSaveLoadValues(bool)
     if bool then
         eurEventsData = {
+            char_unlocks = char_unlocks,
+            font_choice = font_choice,
             current_heir_check = current_heir_check,
             temp_units = temp_units,
             temp_unit_nu = temp_unit_nu,
@@ -157,6 +166,8 @@ function eurSaveLoadValues(bool)
          end
          ]]
     else
+        char_unlocks = eurEventsData["char_unlocks"]
+        font_choice = eurEventsData["font_choice"]
         current_heir_check = eurEventsData["current_heir_check"]
         temp_units = eurEventsData["temp_units"]
         temp_unit_nu = eurEventsData["temp_unit_nu"]
@@ -295,8 +306,26 @@ function wait(functionName, sec, arg1, arg2, arg3, arg4, arg5) -- more arguments
     table.insert(ourWaitingFuncs, Action:new(functionName, sec, arg1, arg2, arg3, arg4, arg5))
 end
 
+function removeDuplicates(table)
+    local hash = {}
+    local res = {}
+    for _,v in ipairs(table) do
+        if (not hash[v]) then
+            res[#res+1] = v
+            hash[v] = true
+        end
+    end
+    return res
+end
+
 function tableContains(table, value)
-    for i = 1, #table do
+    local i = 1
+    local j = 0
+    if table[0] then
+        i = 0
+        j = 1
+    end
+    for i = i, #table -0 do
         if (table[i] == value) then
             return true
         end
@@ -453,7 +482,7 @@ HWND GetActiveWindow(void);
 
 -- Initialization
 
-local screenHeight, screenWidth = 0, 0
+screenHeight, screenWidth = 0, 0
 eurbackgroundWindowSizeRight = 0
 eurbackgroundWindowSizeBottom = 0
 
@@ -473,6 +502,7 @@ function eurGlobalVars()
     eur_playerFactionId = M2TWEOP.getLocalFactionID()
     eur_player_faction = stratmap.game.getFaction(0)
     if eur_player_faction ~= nil then
+        font_RINGM = font_list[font_choice+1]
         if change_faction then
             setFactionAssets(eur_player_faction, "saxons", true)
             change_faction = false
@@ -609,6 +639,7 @@ end
 function eurStyle(style, set)
     if style == "basic_1" then
         if set then
+            ImGui.PushFont(font_RINGM)
             --ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 5, 5)
             --ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 0)
             ImGui.PushStyleVar(ImGuiStyleVar.ChildBorderSize, 0)
@@ -626,6 +657,7 @@ function eurStyle(style, set)
             ImGui.PushStyleColor(ImGuiCol.Header,1, 1, 1, 0.2)
             ImGui.PushStyleColor(ImGuiCol.HeaderActive,1, 1, 1, 0.0)
         else
+            ImGui.PopFont()
             ImGui.PopStyleVar(4)
             ImGui.PopStyleColor(9)
         end

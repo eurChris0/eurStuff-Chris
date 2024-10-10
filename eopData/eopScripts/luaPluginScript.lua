@@ -5,69 +5,79 @@
 --local mobdebug = require "helpers/mobdebug"
 --mobdebug.start('127.0.0.1', 8818)
 
-require('eur/chrisDev')
-require('helpers/EopLuaHelpers')
+dev_enabled = true
+eur_main_scripts = true
 
--- EUR Helpers
-eurEOPUnits = require('eur/eurEOPUnits')
---eurEOPUnits_speed = require('eur/eurEOPUnits_speed')
-require('eur/eurGlobal')
-require('eur/eurKeybinds')
-
-require('eur/eurLoaded')
-
-require('eur/eurOptions')
-
-require('eur/eurUnitUpgrades')
-require('eur/eurEvents')
-require('eur/eurPreBattleOptions')
-require('eur/eurGeneralBGSwap')
-require('eur/eurLeaderHeirSwap')
-
--- Helper for managing persistence of tables across save/load
-require('helpers/tableSave')
-
--- Our campaign config table.
-campaignConfig = { ["someConfigValue"] = 5 };
-
--- Fires when loading a save file
-function onLoadSaveFile(paths)
-    campaignPopup = true;
-
-    for index, path in pairs(paths) do
-        if (string.find(path, "configTable.lua"))
-        then
-            -- Function from helper, load saved table
-            campaignConfig = persistence.load(path);
-        end
-        if (string.find(path, "eurEventsData.lua"))
-        then
-           --function from helper, load saved table
-           eurEventsData = persistence.load(path);
-           if eurEventsData then
-            eurSaveLoadValues(false)
-           end
-        end
-    end
-    wait(eurGlobalVars, 0.5)
+if dev_enabled then
+    require('eur/chrisDev')
 end
 
--- Fires when creating a save file
--- Returns a list of M2TWEOP save files
-function onCreateSaveFile()
-    local savefiles = {};
-    currentPath = M2TWEOP.getPluginPath();
+eurEOPUnits = require('eur/eurEOPUnits')
+--eurEOPUnits_speed = require('eur/eurEOPUnits_speed')
 
-    -- Function from helper, save our table
-    persistence.store(currentPath .. "configTable.lua", campaignConfig);
+if eur_main_scripts then
+    require('helpers/EopLuaHelpers')
 
-    savefiles[1] = currentPath .. "configTable.lua";
+    -- EUR Helpers
+    require('eur/eurGlobal')
+    require('eur/eurKeybinds')
 
-    eurSaveLoadValues(true)
-    persistence.store(currentPath.."eurEventsData.lua",eurEventsData);
-    savefiles[2]=currentPath.."eurEventsData.lua";
+    require('eur/eurLoaded')
 
-    return savefiles;
+    require('eur/eurOptions')
+
+    require('eur/eurUnitUpgrades')
+    require('eur/eurEvents')
+    require('eur/eurPreBattleOptions')
+    require('eur/eurGeneralBGSwap')
+    require('eur/eurLeaderHeirSwap')
+    require('eur/eurRuins')
+
+    -- Helper for managing persistence of tables across save/load
+    require('helpers/tableSave')
+
+    -- Our campaign config table.
+    campaignConfig = { ["someConfigValue"] = 5 };
+
+    -- Fires when loading a save file
+    function onLoadSaveFile(paths)
+        campaignPopup = true;
+
+        for index, path in pairs(paths) do
+            if (string.find(path, "configTable.lua"))
+            then
+                -- Function from helper, load saved table
+                campaignConfig = persistence.load(path);
+            end
+            if (string.find(path, "eurEventsData.lua"))
+            then
+            --function from helper, load saved table
+            eurEventsData = persistence.load(path);
+            if eurEventsData then
+                eurSaveLoadValues(false)
+            end
+            end
+        end
+        wait(eurGlobalVars, 0.5)
+    end
+
+    -- Fires when creating a save file
+    -- Returns a list of M2TWEOP save files
+    function onCreateSaveFile()
+        local savefiles = {};
+        currentPath = M2TWEOP.getPluginPath();
+
+        -- Function from helper, save our table
+        persistence.store(currentPath .. "configTable.lua", campaignConfig);
+
+        savefiles[1] = currentPath .. "configTable.lua";
+
+        eurSaveLoadValues(true)
+        persistence.store(currentPath.."eurEventsData.lua",eurEventsData);
+        savefiles[2]=currentPath.."eurEventsData.lua";
+
+        return savefiles;
+    end
 end
 
 -- Fires when the plugin is first loaded at game start or restarted with restartLua()
@@ -88,6 +98,10 @@ function onPluginLoad()
     M2TWEOP.setBuildingChainLimit(15);
     M2TWEOP.setEDUUnitsSize(1,300);
     M2TWEOP.setGuildCooldown(5);
+
+    if eur_main_scripts then
+        loadCAS()
+    end
 end
 
 function onReadGameDbsAtStart()
@@ -95,7 +109,9 @@ function onReadGameDbsAtStart()
 end
 
 function onGameInit()
-    eurEOPUnits.populateEDB()
+    if eur_main_scripts then
+        eurEOPUnits.populateEDB()
+    end
 end 
 
 --- Called every time an image is rendered for display
@@ -103,58 +119,63 @@ end
 ---@param pDevice LPDIRECT3DDEVICE9
 function draw(pDevice)
     -- 
-    devButton()
+    if dev_enabled then
+        devButton()
+    end
     --
-    waitingFuncsTick()
-    if (ImGui.IsKeyPressed(ImGuiKey.GraveAccent))
-    and (ImGui.IsKeyDown(ImGuiKey.LeftCtrl))
-    then
-        M2TWEOP.toggleConsole()
-    elseif (ImGui.IsKeyPressed(ImGuiKey.GraveAccent))
-    and (ImGui.IsKeyDown(ImGuiKey.LeftAlt))
-    then
-        M2TWEOP.toggleDeveloperMode()
-    end
-    if eur_pre_battle then
-        preBattleButton()
-    end
-    if eur_pre_battle_window then
-        preBattleWindow()
-    end
-    if in_campaign_map == true then
-        eventsButton()
-        if show_upgrade_button == true then
-            upgradeButton()
-            if upgradeWindowAlways then
-                show_upgrade_window = true
+    if eur_main_scripts then
+        waitingFuncsTick()
+        if (ImGui.IsKeyPressed(ImGuiKey.GraveAccent))
+        and (ImGui.IsKeyDown(ImGuiKey.LeftCtrl))
+        then
+            M2TWEOP.toggleConsole()
+        elseif (ImGui.IsKeyPressed(ImGuiKey.GraveAccent))
+        and (ImGui.IsKeyDown(ImGuiKey.LeftAlt))
+        then
+            M2TWEOP.toggleDeveloperMode()
+        end
+        if eur_pre_battle then
+            preBattleButton()
+        end
+        if eur_pre_battle_window then
+            preBattleWindow()
+        end
+        if in_campaign_map == true then
+            eventsButton()
+            eurMapTooltips()
+            if show_upgrade_button == true then
+                upgradeButton()
+                if upgradeWindowAlways then
+                    show_upgrade_window = true
+                end
+            end
+            if show_upgrade_window == true then
+                upgradeWindow()
+            end
+            if show_events_window == true then
+                eventsWindow()
+            end
+            if show_options_button == true then
+                optionsButton()
+            end
+            if show_options_window == true then
+                optionsWindow()
+            end
+            if swap_bg_button == true then
+                swapBGButton()
+            end
+            if swap_bg_window == true then
+                swapBGWindow()
             end
         end
-        if show_upgrade_window == true then
-            upgradeWindow()
+        if (ImGui.IsKeyPressed(ImGuiKey.X)) then
+                tacticalViewUp()
+            elseif (ImGui.IsKeyPressed(ImGuiKey.Z)) then
+                tacticalViewDown()
+            elseif (ImGui.IsKeyPressed(ImGuiKey.Q)) 
+            and (ImGui.IsKeyDown(ImGuiKey.LeftCtrl)) then
+                BMapHighlight()
         end
-        if show_events_window == true then
-            eventsWindow()
-        end
-        if show_options_button == true then
-            optionsButton()
-        end
-        if show_options_window == true then
-            optionsWindow()
-        end
-        if swap_bg_button == true then
-            swapBGButton()
-        end
-        if swap_bg_window == true then
-            swapBGWindow()
-        end
-    end
-    if (ImGui.IsKeyPressed(ImGuiKey.X)) then
-            tacticalViewUp()
-        elseif (ImGui.IsKeyPressed(ImGuiKey.Z)) then
-            tacticalViewDown()
-        elseif (ImGui.IsKeyPressed(ImGuiKey.Q)) 
-        and (ImGui.IsKeyDown(ImGuiKey.LeftCtrl)) then
-            BMapHighlight()
     end
 end
 
@@ -171,22 +192,29 @@ function onCampaignMapLoaded()
     eur_numberOfFactions = stratmap.game.getFactionsCount()
     eur_playerFactionId = M2TWEOP.getLocalFactionID()
     eur_player_faction = stratmap.game.getFaction(0)
-    startLog(M2TWEOP.getModPath())
+    if eur_main_scripts then
+        startLog(M2TWEOP.getModPath())
 
-    loadImages()
-    wait(eurGlobalVars, 0.5)
-    wait(loadSounds, 1)
-    in_campaign_map = true
+        loadImages()
+        wait(eurGlobalVars, 0.5)
+        wait(loadSounds, 1)
+        in_campaign_map = true
+    end
 end
 
 function onUnloadCampaign()
-    in_campaign_map = false
+    if eur_main_scripts then
+        in_campaign_map = false
+    end
 end
 
 function onLoadingFonts()
-    font_RINGM = ImGui.GetIO().Fonts:AddFontFromFileTTF(M2TWEOP.getModPath().."/fonts/RINGM___.TTF", 18, nil, nil)
+    if eur_main_scripts then
+        loadFonts()
+    end
 end
 
-
--- EUR Overrides, for compatibility - GOES AT END
-require('eur/eurOverrides')
+if eur_main_scripts then
+    -- EUR Overrides, for compatibility - GOES AT END
+    require('eur/eurOverrides')
+end

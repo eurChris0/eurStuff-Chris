@@ -2,8 +2,7 @@ local elves_0_desc = [[Placeholder
 Desc]]
 local lorien_0_desc = [[Placeholder
 Desc]]
-local lorien_1_desc = [[Placeholder
-Desc]]
+local lorien_1_desc = [['In the form of the woman she is tall, and robed in green, but at times she takes other shapes. Some there are who have seen her standing like a tree under heaven, crowned with the Sun, and from all its branches there spilled a golden dew upon the barren earth.']]
 local lorien_2_desc = [[Placeholder
 Desc]]
 local lindon_0_desc = [[Placeholder

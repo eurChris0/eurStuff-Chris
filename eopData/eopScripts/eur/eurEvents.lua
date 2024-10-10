@@ -84,20 +84,19 @@ local pos_y = {}
 
 function eventsWindow()
 
-    ImGui.PushFont(font_RINGM)
-
-    ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 5*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0)
-    ImGui.SetNextWindowSize(1520*eurbackgroundWindowSizeRight, 750*eurbackgroundWindowSizeBottom)
-    ImGui.Begin("Events_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration))
+    ImGui.SetNextWindowSize(1500*eurbackgroundWindowSizeRight, 860*eurbackgroundWindowSizeBottom)
+    ImGui.Begin("Events_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration,ImGuiWindowFlags.NoBackground))
     eurStyle("basic_1", true)
-    --ImGui.Image(test.img, 700*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom)
-    --ImGui.Image(test2.img, 1520*eurbackgroundWindowSizeRight, 750*eurbackgroundWindowSizeBottom)
+    if bg_3_elven then
+        ImGui.Image(bg_3_elven.img,1500*eurbackgroundWindowSizeRight, 850*eurbackgroundWindowSizeBottom)
+    end
 
-    ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
-    ImGui.SetNextWindowBgAlpha(0.5)
-    ImGui.BeginChild("Events_window_main", 1520*eurbackgroundWindowSizeRight, 750*eurbackgroundWindowSizeBottom)
-    centeredText(eur_player_faction.localizedName .. " Events", 20)
+    ImGui.SetNextWindowPos(210*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowBgAlpha(0)
+    ImGui.BeginChild("Events_window_main", 1480*eurbackgroundWindowSizeRight, 700*eurbackgroundWindowSizeBottom)
+    --centeredText(eur_player_faction.localizedName .. " Events", 20)
     ImGui.NewLine()
     ImGui.SetNextWindowBgAlpha(0)
     ImGui.BeginChild("Events_window_child_01", 900*eurbackgroundWindowSizeRight, 600*eurbackgroundWindowSizeBottom)
@@ -160,7 +159,7 @@ function eventsWindow()
             end
             ImGui.EndChild()
 
-            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.SetNextWindowBgAlpha(0.5)
             ImGui.SetNextWindowPos(pos_x[i], pos_y[i])
             ImGui.BeginChild("Name3".. tostring(i), 250*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
             centeredText(EUR_EVENTS[eur_localFactionName][i].name, 0)
@@ -187,15 +186,14 @@ function eventsWindow()
     ImGui.EndChild()
 
     eventSideWindow(eur_localFactionName, eur_player_faction)
-    if (centeredImageButton("close", 100, 20, 0)) then
+    ImGui.EndChild()
+    if (centeredImageButton("Close", 80, 50, 0)) then
         show_events_window = false
         if EOP_WAVS["uicah_menuclick1"] ~= nil then
             M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
         end
     end
-
-    ImGui.EndChild()
+    
     eurStyle("basic_1", false)
-    ImGui.PopFont()
     ImGui.End()
 end
