@@ -1,5 +1,10 @@
 in_campaign_map = false
 
+local temp_unit_choice = 1
+local show_accept_button = false
+local upgrade_message = ""
+local unit_cost = 0
+
 local old_list = {
     [1]={["unit"]="Bow Quendi",["upgrade"]="Spear Quendi",["experience"]=2,["cost"]=0.5,["event"]=""},
     [2]={["unit"]="Bow Quendi",["upgrade"]="Sword Quendi",["experience"]=2,["cost"]=0.5,["event"]=""},
@@ -155,6 +160,9 @@ function upgradeButton()
 end
 
 function upgradeWindow()
+    show_accept_button = false
+    upgrade_message = ""
+    unit_cost = 0
     local UI_MANAGER = gameDataAll.get().uiCardManager
     local faction_id = M2TWEOP.getLocalFactionID()
     scroll_unit = UI_MANAGER.getUnitInfoScroll()
@@ -165,50 +173,33 @@ function upgradeWindow()
                 show_upgrade_window = false
             return end
             if unit.army:findInFort() or unit.army:findInSettlement() then
-                ImGui.SetNextWindowPos(75*eurbackgroundWindowSizeRight, 75*eurbackgroundWindowSizeBottom)
-                ImGui.SetNextWindowBgAlpha(0.0)
-                ImGui.Begin("Upgrades2", true, bit.bor(ImGuiWindowFlags.NoDecoration,ImGuiWindowFlags.NoBackground))
-                ImGui.PushStyleColor(ImGuiCol.Button, 0.2, 0.2, 0.2, 0.2)
-                ImGui.PushStyleColor(ImGuiCol.Text, 0.2, 0.2, 0.2, 1)
-                ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 1, 1, 1, 0.5)
-                ImGui.PushStyleColor(ImGuiCol.ButtonActive, 1, 1, 1, 0.5)
-                size_x, size_y = ImGui.GetWindowSize()
-                if scroll_bg then
-                    ImGui.Image(scroll_bg.img, 700*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom)
+                ImGui.SetNextWindowPos(1215*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
+                ImGui.SetNextWindowBgAlpha(0)
+                ImGui.SetNextWindowSize(700*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
+                ImGui.Begin("Upgrades2", true, bit.bor(ImGuiWindowFlags.NoDecoration))
+                ImGui.NewLine()
+                ImGui.Separator()
+                eurStyle("basic_1", true)
+                if bg_small_1 then
+                    ImGui.Image(bg_small_1.img, 695*eurbackgroundWindowSizeRight, 490*eurbackgroundWindowSizeBottom)
                 end
-                ImGui.SetNextWindowPos(100*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-                ImGui.SetNextWindowBgAlpha(0.0)
-                if not UNIT_UPGRADES[unit.eduEntry.eduType] then
-                    return
-                end
-                ImGui.BeginChild("Child Window##A12", 700*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom)
-                ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 0.2, 0.1)
+                ImGui.SetNextWindowBgAlpha(0.5)
+                ImGui.SetNextWindowPos(1215*eurbackgroundWindowSizeRight, 70*eurbackgroundWindowSizeBottom)
+                if not UNIT_UPGRADES[unit.eduEntry.eduType] then return end
+                ImGui.BeginChild("Child Window##A12", 700*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom, ImGuiChildFlags.FrameStyle)
                 --upgradeWindowAlways, pressed = ImGui.Checkbox("Pin", upgradeWindowAlways)
-                ImGui.TextColored(0.2, 0.2, 0.2, 1,"The following units are available to upgrade:")
+                ImGui.Text("The following units are available to upgrade:")
                 for j = 1, #UNIT_UPGRADES[unit.eduEntry.eduType].unit do
                     local eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[j])
                     if eduEntry:hasOwnership(faction_id) then
                         local check_counter = checkCounter(UNIT_UPGRADES[unit.eduEntry.eduType].counter[j])
                         if check_counter == true then
-                            ImGui.TextColored(0.2, 0.2, 0.2, 1,
+                            ImGui.Text(
                                 "- " ..
                                     UNIT_UPGRADES[unit.eduEntry.eduType].unit[j] ..
                                         ", " .. "Gold: " .. tostring(math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[j]))) .. ", Rank: " ..
                                             tostring(UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j])
                             )
-                        end
-                    end
-                end
-                for j = 1, #UNIT_UPGRADES[unit.eduEntry.eduType].unit do
-                    local eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[j]) 
-                    if eduEntry:hasOwnership(faction_id) then
-                        local unit_tga = eduEntry.unitCardTga
-                        unit_tga = string.gsub(unit_tga, "#", "")
-                        unit_tga = string.gsub(unit_tga, ".tga", "")
-                        unit_tga = string.lower(unit_tga)
-                        if eur_tga_table[unit_tga] ~= nil then
-                            ImGui.Image(eur_tga_table[unit_tga].img, 80, 80)
-                            ImGui.SameLine()
                         end
                     end
                 end
@@ -223,60 +214,81 @@ function upgradeWindow()
                             local check_counter = checkCounter(UNIT_UPGRADES[unit.eduEntry.eduType].counter[i])
                             if check_counter == true then
                                 local eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[i])
-                                local unit_cost =
+                                local unit_tga = eduEntry.unitCardTga
+                                unit_cost =
                                     math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[i]))
                                     if unit.army.faction.money >= unit_cost then
                                     -----local unitSize = getUnitSizeMult()
                                     local exp_req = UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[i]
-                                    local message =
-                                        "Upgrade to " ..
-                                        UNIT_UPGRADES[unit.eduEntry.eduType].unit[i] ..
-                                            " for " .. tostring(unit_cost) .. " gold."
                                     if unit.exp >= exp_req then
-                                        local clicked = ImGui.Button(message)
-                                        if (clicked == true) then
-                                            show_upgrade_button = false
-                                            show_upgrade_window = false
-                                            local upgradeName = UNIT_UPGRADES[unit.eduEntry.eduType].unit[i]
-                                            --if unit.armourLVL > 0 then
-                                            --    unit_armour = (unit.armourLVL - 1)
-                                            --else unit_armour = unit.armourLVL
-                                            --end
-                                            local old_unit_army = unit.army
-                                            local old_unit_exp = unit.exp
-                                            local old_unit_sol = unit.soldierCountStratMap
-                                            local old_unit_solmax = unit.soldierCountStratMapMax
-                                            local old_unit_edu = unit.eduEntry.eduType
-                                            local old_unit_weapon = unit.weaponLVL
-
-                                            unit:kill()
-                                            print(
-                                                "new unit " ..
-                                                    old_unit_edu .. " " .. UNIT_UPGRADES[old_unit_edu].expRequirement[i]
-                                            )
-                                            local upgradeUnit =
-                                                old_unit_army:createUnit(
-                                                upgradeName,
-                                                (old_unit_exp - UNIT_UPGRADES[old_unit_edu].expRequirement[i]),
-                                                0,
-                                                old_unit_weapon
-                                            )
-                                            if old_unit_sol < old_unit_solmax then
-                                                upgradeUnit.soldierCountStratMap =
-                                                    math.min(upgradeUnit.soldierCountStratMapMax, old_unit_sol)
+                                        show_accept_button = true
+                                        if eur_tga_table[unit_tga] then
+                                            local upgrade_clicked = ImGui.ImageButton("upgrade_button_0"..tostring(i),eur_tga_table[unit_tga].img, 64,64)
+                                            if (upgrade_clicked == true) then
+                                                temp_unit_choice=i
                                             end
-
-                                            -----print("replacing "..unit.eduEntry.eduType.." with "..UNIT_UPGRADES[unit.eduEntry.eduType].unit[i])
-                                            -----unit.eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[i])
-                                            -----unit.soldierCountStratMap = math.min(unit.soldierCountStratMap, unit.eduEntry.soldierCount * unitSize)
-                                            -----unit.exp = (unit.exp - exp_req)
-
-                                            stratmap.game.callConsole("add_money", "-" .. tostring(unit_cost))
-                                            return
+                                            local hovered = ImGui.IsItemHovered()
+                                            if hovered then
+                                                ImGui.BeginTooltip()
+                                                ImGui.Text(unit.eduEntry.eduType)
+                                                ImGui.EndTooltip()
+                                            end
+                                        else
+                                            local upgrade_clicked = ImGui.Button(upgrade_message)
+                                            if (upgrade_clicked == true) then
+                                                temp_unit_choice=i
+                                            end
                                         end
+                                        ImGui.SameLine()
                                     end
                                 end
                             end
+                        end
+                    end
+                end
+                ImGui.NewLine()
+                if show_accept_button then
+                    unit_cost = math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[temp_unit_choice]))
+                    ImGui.Text("Upgrade to " .. UNIT_UPGRADES[unit.eduEntry.eduType].unit[temp_unit_choice] .. " for " .. tostring(unit_cost) .. " gold.")
+                    if (centeredImageButton("Accept", 80, 50, 0)) then
+                        show_upgrade_window = false
+                        local upgradeName = UNIT_UPGRADES[unit.eduEntry.eduType].unit[temp_unit_choice]
+                        --if unit.armourLVL > 0 then
+                        --    unit_armour = (unit.armourLVL - 1)
+                        --else unit_armour = unit.armourLVL
+                        --end
+                        local old_unit_army = unit.army
+                        local old_unit_exp = unit.exp
+                        local old_unit_sol = unit.soldierCountStratMap
+                        local old_unit_solmax = unit.soldierCountStratMapMax
+                        local old_unit_edu = unit.eduEntry.eduType
+                        local old_unit_weapon = unit.weaponLVL
+            
+                        unit:kill()
+                        print(
+                            "new unit " ..
+                                old_unit_edu .. " " .. UNIT_UPGRADES[old_unit_edu].expRequirement[temp_unit_choice]
+                        )
+                        local upgradeUnit =
+                            old_unit_army:createUnit(
+                            upgradeName,
+                            (old_unit_exp - UNIT_UPGRADES[old_unit_edu].expRequirement[temp_unit_choice]),
+                            0,
+                            old_unit_weapon
+                        )
+                        if old_unit_sol < old_unit_solmax then
+                            upgradeUnit.soldierCountStratMap =
+                                math.min(upgradeUnit.soldierCountStratMapMax, old_unit_sol)
+                        end
+            
+                        -----print("replacing "..unit.eduEntry.eduType.." with "..UNIT_UPGRADES[unit.eduEntry.eduType].unit[i])
+                        -----unit.eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[i])
+                        -----unit.soldierCountStratMap = math.min(unit.soldierCountStratMap, unit.eduEntry.soldierCount * unitSize)
+                        -----unit.exp = (unit.exp - exp_req)
+            
+                        stratmap.game.callConsole("add_money", "-" .. tostring(unit_cost))
+                        if EOP_WAVS["uicah_menuclick1"] ~= nil then
+                            M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
                         end
                     end
                 end
@@ -284,7 +296,12 @@ function upgradeWindow()
         end
     end
     ImGui.EndChild()
-    ImGui.PopStyleVar()
-    ImGui.PopStyleColor(5)
+    if (centeredImageButton("Close", 80, 50, 0)) then
+        show_upgrade_window = false
+        if EOP_WAVS["uicah_menuclick1"] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+        end
+    end
+    eurStyle("basic_1", false)
     ImGui.End()
 end

@@ -40,13 +40,18 @@ end
 
 function preBattleWindow()
         ImGui.SetNextWindowPos(1215*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
-        ImGui.SetNextWindowBgAlpha(1)
+        ImGui.SetNextWindowBgAlpha(0)
         ImGui.SetNextWindowSize(700*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
         ImGui.Begin("pre_battle_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration))
         eurStyle("basic_1", true)
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("pre_battle_child_1", 700*eurbackgroundWindowSizeRight, 300*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
+        if bg_small_1 then
+            ImGui.Image(bg_small_1.img, 695*eurbackgroundWindowSizeRight, 490*eurbackgroundWindowSizeBottom)
+        end
+        ImGui.SetNextWindowBgAlpha(0.5)
+        ImGui.SetNextWindowPos(1215*eurbackgroundWindowSizeRight, 70*eurbackgroundWindowSizeBottom)
+        ImGui.BeginChild("pre_battle_child_1", 700*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom, ImGuiChildFlags.FrameStyle)
         ImGui.NewLine()
+        ImGui.Separator()
         local temp = {}
         local temp_name = {}
         if temp_player_army ~= nil then

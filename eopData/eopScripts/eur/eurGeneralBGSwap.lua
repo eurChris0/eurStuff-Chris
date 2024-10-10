@@ -961,7 +961,7 @@ function swapBGWindow()
                     ImGui.Text(temp_char_stuff.characterRecord.localizedDisplayName)
                     ImGui.Text("Current Bodyguard: "..temp_char_stuff.bodyguards.eduEntry.eduType)
                     if char_portraits[temp_char_stuff.characterRecord.portrait_custom] then
-                        ImGui.Image(char_portraits[temp_char_stuff.characterRecord.portrait_custom].img,80,80)
+                        ImGui.Image(char_portraits[temp_char_stuff.characterRecord.portrait_custom].img,64,64)
                         ImGui.SameLine()
                         if eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga] then
                             ImGui.Image(eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga].img,64,64)
@@ -1020,9 +1020,12 @@ function swapBGWindow()
                         if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga] then
                             ImGui.Image(eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga].img,64,64)
                         end
-                        ImGui.Text("New Bodyguard: "..temp_gen_units[temp_gen_units_target+1])
+                        ImGui.SameLine()
+                        ImGui.BeginGroup()
+                        ImGui.Text(temp_gen_units[temp_gen_units_target+1])
+                        ImGui.Text("Cost: "..tostring(cost))
+                        ImGui.EndGroup()
                     end
-                    ImGui.Text("Cost: "..tostring(cost))
                     local army = temp_char_stuff.settlement.army
                     if army ~= nil then
                         if persistent_gen_list[name] ~= nil then
