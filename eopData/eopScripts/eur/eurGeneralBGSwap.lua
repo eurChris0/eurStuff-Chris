@@ -917,7 +917,15 @@ function swapBGButton()
 end
 
 function swapBGWindow()
-    local char_rank = 0
+    if not temp_char_stuff then
+        temp_gen_units_target = 0
+        temp_gen_units = {}
+    else
+        if gen_units_char ~= temp_char_stuff then
+            temp_gen_units_target = 0
+            temp_gen_units = {}
+        end
+    end
     ImGui.SetNextWindowPos(10*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(1)
     ImGui.SetNextWindowSize(700*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
@@ -976,9 +984,11 @@ function swapBGWindow()
                     temp_gen_units = removeDuplicates(temp_gen_units)
                     --temp_gen_units_target, temp_gen_units_target_clicked = ImGui.Combo("", temp_gen_units_target, temp_gen_units, #temp_gen_units, #temp_gen_units+1)
                     local cost = 0
-                    local edu = M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1])
-                    if edu ~= nil then
-                        cost = M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).recruitCost
+                    if temp_gen_units[temp_gen_units_target+1] then
+                        local edu = M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1])
+                        if edu ~= nil then
+                            cost = M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).recruitCost
+                        end
                     end
                     ImGui.Text("Personal Guard: "..tostring(temp_char_stuff.characterRecord.personalSecurity))
                     if temp_char_stuff.characterRecord.personalSecurity < 10 then
@@ -1006,23 +1016,28 @@ function swapBGWindow()
                         end
                         ImGui.Separator()
                     end
-                    if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga] then
-                        ImGui.Image(eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga].img,64,64)
+                    if temp_gen_units[temp_gen_units_target+1] then
+                        if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga] then
+                            ImGui.Image(eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga].img,64,64)
+                        end
+                        ImGui.Text("New Bodyguard: "..temp_gen_units[temp_gen_units_target+1])
                     end
-                    ImGui.Text("New Bodyguard: "..temp_gen_units[temp_gen_units_target+1])
                     ImGui.Text("Cost: "..tostring(cost))
                     local army = temp_char_stuff.settlement.army
                     if army ~= nil then
                         if persistent_gen_list[name] ~= nil then
                             if persistent_gen_list[name].cooldown == 0 then
-                                if (ImGui.Button("Accept", 80, 50)) then
-                                    if army.numOfUnits < 20 then
-                                        if temp_char_stuff.faction.money >= cost then
-                                            persistent_gen_list[name].cooldown = 20
-                                            temp_char_stuff.characterRecord.personalSecurity = (temp_char_stuff.characterRecord.personalSecurity+guard_add)
-                                            stratmap.game.callConsole("add_money", "-" .. tostring(cost))
-                                            setBodyguard(temp_char_stuff, (temp_gen_units[temp_gen_units_target+1]), temp_char_stuff.bodyguards.exp, temp_char_stuff.bodyguards.weaponLVL, 1, "")
-                                            swap_bg_window = false
+                                if temp_gen_units[temp_gen_units_target+1] then
+                                    if (ImGui.Button("Accept", 80, 50)) then
+                                        if army.numOfUnits < 20 then
+                                            if temp_char_stuff.faction.money >= cost then
+                                                persistent_gen_list[name].cooldown = 20
+                                                temp_char_stuff.characterRecord.personalSecurity = (temp_char_stuff.characterRecord.personalSecurity+guard_add)
+                                                stratmap.game.callConsole("add_money", "-" .. tostring(cost))
+                                                setBodyguard(temp_char_stuff, (temp_gen_units[temp_gen_units_target+1]), temp_char_stuff.bodyguards.exp, temp_char_stuff.bodyguards.weaponLVL, 1, "")
+                                                swap_bg_window = false
+                                                temp_gen_units_target = 0
+                                            end
                                         end
                                     end
                                 end
@@ -1039,10 +1054,14 @@ function swapBGWindow()
                 end
             else
                 ImGui.TextColored(0,1,0,1,"Please select a general unit card.")
+                temp_gen_units_target = 0
+                temp_gen_units = {}
             end
         end
     else
         ImGui.TextColored(0,1,0,1,"Please select a general unit card.")
+        temp_gen_units_target = 0
+        temp_gen_units = {}
     end
     ImGui.EndChild()
     ImGui.SameLine()
@@ -1051,75 +1070,83 @@ function swapBGWindow()
     ImGui.Separator()
     ImGui.Text("T1:")
     for i = 1, #temp_gen_units do
-        if tableContains(gen_units_list[eur_player_faction.name]["T1"], temp_gen_units[i]) then
-            if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
-                if ImGui.ImageButton("swapBGButton_button_t1_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
-                    temp_gen_units_target=i-1
+        if temp_gen_units[i] then
+            if tableContains(gen_units_list[eur_player_faction.name]["T1"], temp_gen_units[i]) then
+                if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
+                    if ImGui.ImageButton("swapBGButton_button_t1_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                        temp_gen_units_target=i-1
+                    end
                 end
+                local hovered = ImGui.IsItemHovered()
+                if hovered then
+                    ImGui.BeginTooltip()
+                    ImGui.Text(temp_gen_units[i])
+                    ImGui.EndTooltip()
+                end
+                ImGui.SameLine()
             end
-            local hovered = ImGui.IsItemHovered()
-            if hovered then
-                ImGui.BeginTooltip()
-                ImGui.Text(temp_gen_units[i])
-                ImGui.EndTooltip()
-            end
-            ImGui.SameLine()
         end
     end
     ImGui.NewLine()
     ImGui.Text("T2:")
     for i = 1, #temp_gen_units do
-        if tableContains(gen_units_list[eur_player_faction.name]["T2"], temp_gen_units[i]) then
-            if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
-                if ImGui.ImageButton("swapBGButton_button_t2_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
-                    temp_gen_units_target=i-1
+        if temp_gen_units[i] then
+            if tableContains(gen_units_list[eur_player_faction.name]["T2"], temp_gen_units[i]) then
+                if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
+                    if ImGui.ImageButton("swapBGButton_button_t2_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                        temp_gen_units_target=i-1
+                    end
                 end
+                local hovered = ImGui.IsItemHovered()
+                if hovered then
+                    ImGui.BeginTooltip()
+                    ImGui.Text(temp_gen_units[i])
+                    ImGui.EndTooltip()
+                end
+                ImGui.SameLine()
             end
-            local hovered = ImGui.IsItemHovered()
-            if hovered then
-                ImGui.BeginTooltip()
-                ImGui.Text(temp_gen_units[i])
-                ImGui.EndTooltip()
-            end
-            ImGui.SameLine()
         end
     end
     ImGui.NewLine()
     ImGui.Text("T3:")
     for i = 1, #temp_gen_units do
-        if tableContains(gen_units_list[eur_player_faction.name]["T3"], temp_gen_units[i]) then
-            if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
-                if ImGui.ImageButton("swapBGButton_button_t3_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
-                    temp_gen_units_target=i-1
+        if temp_gen_units[i] then
+            if tableContains(gen_units_list[eur_player_faction.name]["T3"], temp_gen_units[i]) then
+                if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
+                    if ImGui.ImageButton("swapBGButton_button_t3_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                        temp_gen_units_target=i-1
+                    end
                 end
+                local hovered = ImGui.IsItemHovered()
+                if hovered then
+                    ImGui.BeginTooltip()
+                    ImGui.Text(temp_gen_units[i])
+                    ImGui.EndTooltip()
+                end
+                ImGui.SameLine()
             end
-            local hovered = ImGui.IsItemHovered()
-            if hovered then
-                ImGui.BeginTooltip()
-                ImGui.Text(temp_gen_units[i])
-                ImGui.EndTooltip()
-            end
-            ImGui.SameLine()
         end
     end
     ImGui.NewLine()
     ImGui.Text("Special:")
     for i = 1, #temp_gen_units do
-        if not tableContains(gen_units_list[eur_player_faction.name]["T1"], temp_gen_units[i]) then
-            if not tableContains(gen_units_list[eur_player_faction.name]["T2"], temp_gen_units[i]) then
-                if not tableContains(gen_units_list[eur_player_faction.name]["T3"], temp_gen_units[i]) then
-                    if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
-                        if ImGui.ImageButton("swapBGButton_button_s_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
-                            temp_gen_units_target=i-1
+        if temp_gen_units[i] then
+            if not tableContains(gen_units_list[eur_player_faction.name]["T1"], temp_gen_units[i]) then
+                if not tableContains(gen_units_list[eur_player_faction.name]["T2"], temp_gen_units[i]) then
+                    if not tableContains(gen_units_list[eur_player_faction.name]["T3"], temp_gen_units[i]) then
+                        if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
+                            if ImGui.ImageButton("swapBGButton_button_s_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                                temp_gen_units_target=i-1
+                            end
                         end
+                        local hovered = ImGui.IsItemHovered()
+                        if hovered then
+                            ImGui.BeginTooltip()
+                            ImGui.Text(temp_gen_units[i])
+                            ImGui.EndTooltip()
+                        end
+                        ImGui.SameLine()
                     end
-                    local hovered = ImGui.IsItemHovered()
-                    if hovered then
-                        ImGui.BeginTooltip()
-                        ImGui.Text(temp_gen_units[i])
-                        ImGui.EndTooltip()
-                    end
-                    ImGui.SameLine()
                 end
             end
         end
@@ -1135,6 +1162,7 @@ function swapBGWindow()
     end
     eurStyle("basic_1", false)
     ImGui.End()
+    gen_units_char = temp_char_stuff
 end
 
 function genUnitCheck(char, char_rank)
