@@ -108,18 +108,131 @@ function optionsWindow()
                 ImGui.TextColored(0,1,0,1,"Gondor Confederation chosen!")
             end
             ]]
+            ImGui.Separator()
             font_choice, clicked_font = ImGui.Combo("Font", font_choice, font_list_names, #font_list, #font_list+1)
             font_RINGM = font_list[font_choice+1]
+
+            ImGui.Separator()
             options_replen, pressed = ImGui.Checkbox("Replenishment", options_replen)
+            if options_replen then
+                ImGui.Text(replen_text)
+                replen_low = ImGui.Button("Low", 64, 64) 
+                if replen_low then
+                    replen_randmax = 1
+                    replen_multi = 120
+                    replen_text = "Rate: Low"
+                end
+                ImGui.SameLine()
+                replen_mid = ImGui.Button("Medium", 64, 64) 
+                if replen_mid then
+                    replen_randmax = 3
+                    replen_multi = 80
+                    replen_text = "Rate: Medium"
+                end
+                ImGui.SameLine()
+                replen_high = ImGui.Button("High", 64, 64) 
+                if replen_high then
+                    replen_randmax = 6
+                    replen_multi = 40
+                    replen_text = "Rate: High"
+                end
+                options_replen_beast, pressed = ImGui.Checkbox("Beast Units", options_replen_beast)
+                replen_always, pressed = ImGui.Checkbox("Replenish anywhere", replen_always)
+                if options_replen_beast then
+                    replen_beast_value = 0
+                else
+                    replen_beast_value = 8
+                end
+            end
+
+            ImGui.Separator()
+            options_unit_upgrades, pressed = ImGui.Checkbox("Unit upgrades", options_unit_upgrades)
+            if options_unit_upgrades then
+                ImGui.Text("Experience requirement reduction:")
+                if (ImGui.Button("-##03", 25, 25)) then
+                    if unit_upgrades_multi > 0 then
+                        unit_upgrades_multi=unit_upgrades_multi-1
+                    end
+                end
+                ImGui.SameLine()
+                ImGui.Text(tostring(unit_upgrades_multi))
+                ImGui.SameLine()
+                if (ImGui.Button("+##03", 25, 25)) then
+                    if unit_upgrades_multi < 2 then
+                        unit_upgrades_multi=unit_upgrades_multi+1
+                    end
+                end
+            end
+
+            ImGui.Separator()
+            options_pre_battle, pressed = ImGui.Checkbox("Pre-battle options", options_pre_battle)
+
+            ImGui.Separator()
+            options_addspoils, pressed = ImGui.Checkbox("Variable post-battle loot", options_addspoils)
+
+            ImGui.Separator()
             options_poe, pressed = ImGui.Checkbox("Passing of the Elves", options_poe)
+            if options_poe then
+                random_poe, pressed = ImGui.Checkbox("Random turns", random_poe)
+                if random_poe then
+                    ImGui.Text("Turns: "..tostring(poe_turns_min).." to "..tostring(poe_turns_max))
+                else
+                    ImGui.Text("Turns: "..tostring(poe_turns_max))
+                end
+                if random_poe then
+                    ImGui.Text("Min:")
+                    if (ImGui.Button("-##01", 25, 25)) then
+                        if poe_turns_min > 1 then
+                            if poe_turns_min <= poe_turns_max then
+                                poe_turns_min=poe_turns_min-1
+                            end
+                        end
+                    end
+                    ImGui.SameLine()
+                    ImGui.Text(tostring(poe_turns_min))
+                    ImGui.SameLine()
+                    if (ImGui.Button("+##01", 25, 25)) then
+                        if poe_turns_min < 8 then
+                            if poe_turns_min < poe_turns_max then
+                                poe_turns_min=poe_turns_min+1
+                            end
+                        end
+                    end
+                end
+                if random_poe then
+                    ImGui.Text("Max:")
+                end
+                if (ImGui.Button("-##02", 25, 25)) then
+                    if poe_turns_max > 1 then
+                        if poe_turns_max > poe_turns_min then
+                            poe_turns_max=poe_turns_max-1
+                        end
+                    end
+                end
+                ImGui.SameLine()
+                ImGui.Text(tostring(poe_turns_max))
+                ImGui.SameLine()
+                if (ImGui.Button("+##02", 25, 25)) then
+                    if poe_turns_max < 8 then
+                        if poe_turns_max >= poe_turns_min then
+                            poe_turns_max=poe_turns_max+1
+                        end
+                    end
+                end
+            end
+
+            ImGui.Separator()
             options_merge, pressed = ImGui.Checkbox("AI army merging", options_merge)
-            options_sort, pressed = ImGui.Checkbox("Auto unit sorting", options_sort)
-            --options_prepost_save, pressed = ImGui.Checkbox("Pre/Post battle save", options_prepost_save)
+
+            ImGui.Separator()
+            options_sort, pressed = ImGui.Checkbox("Auto sorting", options_sort)
+            if options_sort then
+                ImGui.Text("Sort order:") 
+                sort_order.a, clicked = ImGui.Combo("First", sort_order.a, {"EDU Name", "Category(eg infantry)", "Class(eg heavy)", "Soldier Count", "Experience", "(Default)Category + Class", "AI unit value"}, 7, 8)
+                sort_order.b, clicked2 = ImGui.Combo("Second", sort_order.b, {"(Default)EDU Name", "Category(eg infantry)", "Class(eg heavy)", "Soldier Count", "Experience", "Category + Class", "AI unit value"}, 7, 8)
+                sort_order.c, clicked3 = ImGui.Combo("Third", sort_order.c, {"EDU Name", "Category(eg infantry)", "Class(eg heavy)", "(Default)Soldier Count", "Experience", "Category + Class", "AI unit value"}, 7, 8)
+            end
             
-            sort_order.a, clicked = ImGui.Combo("First", sort_order.a, {"EDU Name", "Category(eg infantry)", "Class(eg heavy)", "Soldier Count", "Experience", "(Default)Category + Class", "AI unit value"}, 7, 8)
-            sort_order.b, clicked2 = ImGui.Combo("Second", sort_order.b, {"(Default)EDU Name", "Category(eg infantry)", "Class(eg heavy)", "Soldier Count", "Experience", "Category + Class", "AI unit value"}, 7, 8)
-            sort_order.c, clicked3 = ImGui.Combo("Third", sort_order.c, {"EDU Name", "Category(eg infantry)", "Class(eg heavy)", "(Default)Soldier Count", "Experience", "Category + Class", "AI unit value"}, 7, 8)
-        
             ImGui.EndChild()
             ImGui.EndTabItem()
         end

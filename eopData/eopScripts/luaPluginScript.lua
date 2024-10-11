@@ -5,7 +5,7 @@
 --local mobdebug = require "helpers/mobdebug"
 --mobdebug.start('127.0.0.1', 8818)
 
-dev_enabled = false
+dev_enabled = true
 eur_main_scripts = true
 
 if dev_enabled then
@@ -134,23 +134,24 @@ function draw(pDevice)
         then
             M2TWEOP.toggleDeveloperMode()
         end
-        if eur_pre_battle then
-            preBattleButton()
-        end
-        if eur_pre_battle_window then
-            preBattleWindow()
+        if options_pre_battle then
+            if eur_pre_battle then
+                preBattleButton()
+            end
+            if eur_pre_battle_window then
+                preBattleWindow()
+            end
         end
         if in_campaign_map == true then
             eventsButton()
             eurMapTooltips()
-            if show_upgrade_button == true then
-                upgradeButton()
-                if upgradeWindowAlways then
-                    show_upgrade_window = true
+            if options_unit_upgrades then
+                if show_upgrade_button == true then
+                    upgradeButton()
                 end
-            end
-            if show_upgrade_window == true then
-                upgradeWindow()
+                if show_upgrade_window == true then
+                    upgradeWindow()
+                end
             end
             if show_events_window == true then
                 eventsWindow()

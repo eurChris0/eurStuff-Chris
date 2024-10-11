@@ -16,6 +16,9 @@ function spoils.postBattleChecks(faction)
                     spoils_loot = math.ceil(spoils_loot*our_num_units)
                 end
                 total_spoils_loot = (total_spoils_loot+spoils_loot)
+                if not options_addspoils then
+                    spoils_loot = (400/counterValue)
+                end
                 print("starting post battle check...")
                 stratmap.game.callConsole("add_money", tostring(spoils_loot))
                 print("adding cash " .. tostring(spoils_loot))

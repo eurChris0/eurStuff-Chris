@@ -35,8 +35,11 @@ function supplyLines_func.elvenPassing(faction)
     if checkCounter("elvesPassing") then return end
     FACTION_RANK = {}
     math.randomseed(os.time())
-    local random_turn = math.random(1,2)
-    if (eur_turn_number % 2 == 0) then
+    local random_turn = math.random(poe_turns_min, poe_turns_max)
+    if random_poe then
+        poe_turns_max = random_turn
+    end
+    if (eur_turn_number % poe_turns_max == 0) then
         local sett_nu = eur_player_faction.settlementsNum
         local uiList = ""
         local event_pic = "action_stealth"

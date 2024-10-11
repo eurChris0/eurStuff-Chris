@@ -203,10 +203,10 @@ function upgradeWindow()
                                     UNIT_UPGRADES[unit.eduEntry.eduType].unit[j] ..
                                         ", " .. "Gold: " .. tostring(math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[j]))) .. ", Rank: ")
                             ImGui.SameLine()
-                            if unit.exp >= UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j] then
-                                ImGui.TextColored(0,1,0,1,tostring(UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j]))
+                            if unit.exp >= (UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j]-unit_upgrades_multi) then
+                                ImGui.TextColored(0,1,0,1,tostring(UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j]-unit_upgrades_multi))
                             else
-                                ImGui.TextColored(1,0,0,1,tostring(UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j]))
+                                ImGui.TextColored(1,0,0,1,tostring(UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[j]-unit_upgrades_multi))
                             end
                         end
                     end
@@ -226,7 +226,7 @@ function upgradeWindow()
                                     math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[i]))
                                     if unit.army.faction.money >= unit_cost then
                                     -----local unitSize = getUnitSizeMult()
-                                    local exp_req = UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[i]
+                                    local exp_req = (UNIT_UPGRADES[unit.eduEntry.eduType].expRequirement[i]-unit_upgrades_multi)
                                     if unit.exp >= exp_req then
                                         show_accept_button = true
                                         if eur_tga_table[unit_tga] then
@@ -275,12 +275,12 @@ function upgradeWindow()
                         unit:kill()
                         print(
                             "new unit " ..
-                                old_unit_edu .. " " .. UNIT_UPGRADES[old_unit_edu].expRequirement[temp_unit_choice]
+                                old_unit_edu .. " " .. (UNIT_UPGRADES[old_unit_edu].expRequirement[temp_unit_choice]-unit_upgrades_multi)
                         )
                         local upgradeUnit =
                             old_unit_army:createUnit(
                             upgradeName,
-                            (old_unit_exp - UNIT_UPGRADES[old_unit_edu].expRequirement[temp_unit_choice]),
+                            (old_unit_exp - (UNIT_UPGRADES[old_unit_edu].expRequirement[temp_unit_choice]-unit_upgrades_multi)),
                             0,
                             old_unit_weapon
                         )

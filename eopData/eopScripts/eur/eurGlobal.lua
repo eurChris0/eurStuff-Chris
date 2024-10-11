@@ -7,6 +7,26 @@ options_prepost_save = false
 
 show_options_window = true
 
+replen_randmax = 3
+replen_multi = 80
+replen_beast_value = 8
+options_replen_beast = false
+
+replen_low = false
+replen_mid = true
+replen_high = false
+replen_text = "Rate: Medium"
+replen_always = false
+poe_turns_min = 1
+poe_turns_max = 2
+random_poe = false
+options_unit_upgrades = true
+unit_upgrades_multi = 0
+options_pre_battle = true
+options_addspoils = true
+
+
+
 temp_units = {}
 temp_unit_nu = 0
 
@@ -103,6 +123,22 @@ end
 function eurSaveLoadValues(bool)
     if bool then
         eurEventsData = {
+            replen_low = replen_low,
+            replen_mid = replen_mid,
+            replen_high = replen_high,
+            replen_text = replen_text,
+            replen_always = replen_always,
+            poe_turns_min = poe_turns_min,
+            poe_turns_max = poe_turns_max,
+            random_poe = random_poe,
+            options_unit_upgrades = options_unit_upgrades,
+            unit_upgrades_multi = unit_upgrades_multi,
+            options_pre_battle = options_pre_battle,
+            options_addspoils = options_addspoils,
+            options_replen_beast = options_replen_beast,
+            replen_randmax = replen_randmax,
+            replen_multi = replen_multi,
+            replen_beast_value = replen_beast_value,
             char_unlocks = char_unlocks,
             font_choice = font_choice,
             current_heir_check = current_heir_check,
@@ -166,6 +202,22 @@ function eurSaveLoadValues(bool)
          end
          ]]
     else
+        replen_low = eurEventsData["replen_low"]
+        replen_mid = eurEventsData["replen_mid"]
+        replen_high = eurEventsData["replen_high"]
+        replen_text = eurEventsData["replen_text"]
+        replen_always = eurEventsData["replen_always"]
+        poe_turns_min = eurEventsData["poe_turns_min"]
+        poe_turns_max = eurEventsData["poe_turns_max"]
+        random_poe = eurEventsData["random_poe"]
+        options_unit_upgrades = eurEventsData["options_unit_upgrades"]
+        unit_upgrades_multi = eurEventsData["unit_upgrades_multi"]
+        options_pre_battle = eurEventsData["options_pre_battle"]
+        options_addspoils = eurEventsData["options_addspoils"]
+        options_replen_beast = eurEventsData["options_replen_beast"]
+        replen_randmax = eurEventsData["replen_randmax"]
+        replen_multi = eurEventsData["replen_multi"]
+        replen_beast_value = eurEventsData["replen_beast_value"]
         char_unlocks = eurEventsData["char_unlocks"]
         font_choice = eurEventsData["font_choice"]
         current_heir_check = eurEventsData["current_heir_check"]

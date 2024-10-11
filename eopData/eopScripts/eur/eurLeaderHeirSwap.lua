@@ -156,7 +156,11 @@ function swapHeirLeaderStuffAI(faction)
                         local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[faction.name].leader.unit)
                         if eduEntry ~= nil then
                             if eduEntry:hasOwnership(faction.factionID) then
-                                setBodyguard(char.character, (leaderheir_combi_list[faction.name].leader.unit), char.character.bodyguards.exp, char.character.bodyguards.weaponLVL, 1, "")
+                                if char.character.bodyguards.army then
+                                    if char.character.bodyguards.army.numOfUnits < 20 then
+                                        setBodyguard(char.character, (leaderheir_combi_list[faction.name].leader.unit), char.character.bodyguards.exp, char.character.bodyguards.weaponLVL, 1, "")
+                                    end
+                                end
                             end
                         end
                     end
@@ -174,7 +178,11 @@ function swapHeirLeaderStuffAI(faction)
                         local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[faction.name].heir.unit)
                         if eduEntry ~= nil then
                             if eduEntry:hasOwnership(faction.factionID) then
-                                setBodyguard(char.character, (leaderheir_combi_list[faction.name].heir.unit), char.character.bodyguards.exp, char.character.bodyguards.weaponLVL, 1, "")
+                                if char.character.bodyguards.army then
+                                    if char.character.bodyguards.army.numOfUnits < 20 then
+                                        setBodyguard(char.character, (leaderheir_combi_list[faction.name].heir.unit), char.character.bodyguards.exp, char.character.bodyguards.weaponLVL, 1, "")
+                                    end
+                                end
                             end
                         end
                     end
