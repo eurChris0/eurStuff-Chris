@@ -700,7 +700,7 @@ gen_units_list = {
         },
         ["T3"] = {
             [0] = "Uruk-hai Bodyguards",
-            [1] = "Uruk-hai Bodyguards",
+            [1] = "Champions of the White-Hand",
         },
         ["special"] = {
             "Guard of the Hand",
@@ -1369,12 +1369,58 @@ function setBGSize(faction, character, unit)
                                     end
                                     if army.numOfUnits < 20 then
                                         local level = (temp_char.characterRecord.command+temp_char.characterRecord.loyalty)
-                                        if level > 10 then
+                                        if level > 8 then
                                             local rand = math.random(1, #gen_units_list[faction.name]["T2"])
                                             new_bg = gen_units_list[faction.name]["T2"][rand-1]
                                         else
                                             local rand = math.random(1, #gen_units_list[faction.name]["T1"])
                                             new_bg = gen_units_list[faction.name]["T1"][rand-1]
+                                        end
+                                        if new_bg then
+                                            setBodyguard(temp_char, (new_bg), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")
+                                            persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                        end
+                                    end
+                                else
+                                    persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                    if not labtrait_units_list[temp_char.characterRecord.label] then
+                                        --table.insert(combo_labtrait_list, temp_char.characterRecord.label)
+                                        labtrait_units_list[temp_char.characterRecord.label] = temp_char.bodyguards.eduEntry.eduType
+                                    end
+                                end
+                            end
+                        end
+                    else
+                        if temp_char.characterRecord.label == "" then
+                            --char.label = char.shortName..tostring(eur_turn_number)
+                            temp_char.characterRecord:giveValidLabel()
+                        end
+                        if persistent_gen_list_reset[temp_char.characterRecord.label] == nil then
+                            if default_general_units[faction.name] ~= nil then
+                                if default_general_units[faction.name].old == temp_char.bodyguards.eduEntry.eduType then
+                                    local army = temp_char.army
+                                    if temp_char.army == nil then
+                                        if temp_char.settlement ~= nil then
+                                            army = temp_char.settlement.army
+                                        elseif temp_char.fort ~= nil then
+                                            army = temp_char.fort.army
+                                        elseif temp_char.armyNotLeaded ~= nil then
+                                            army = temp_char.armyNotLeaded
+                                        end
+                                    end
+                                    if army.numOfUnits < 20 then
+                                        local level = (temp_char.characterRecord.command+temp_char.characterRecord.loyalty)
+                                        if level > 7 then
+                                            if math.random(1, 100) > 75 then
+                                                local rand = math.random(1, #gen_units_list[faction.name]["special"])
+                                                new_bg = gen_units_list[faction.name]["special"][rand-1]
+                                            else
+                                                local rand = math.random(1, #gen_units_list[faction.name]["T3"])
+                                                new_bg = gen_units_list[faction.name]["T3"][rand-1]
+                                            end
+                                        else
+                                            local rand = math.random(1, #gen_units_list[faction.name]["T2"])
+                                            new_bg = gen_units_list[faction.name]["T2"][rand-1]
                                         end
                                         if new_bg then
                                             setBodyguard(temp_char, (new_bg), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")

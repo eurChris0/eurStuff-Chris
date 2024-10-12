@@ -237,7 +237,7 @@ function upgradeWindow()
                                             local hovered = ImGui.IsItemHovered()
                                             if hovered then
                                                 ImGui.BeginTooltip()
-                                                ImGui.Text(unit.eduEntry.eduType)
+                                                ImGui.Text(eduEntry.eduType)
                                                 ImGui.EndTooltip()
                                             end
                                         else
@@ -258,47 +258,6 @@ function upgradeWindow()
                     local eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[temp_unit_choice])
                     unit_cost = math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[temp_unit_choice]))
                     ImGui.Text("Upgrade to " .. UNIT_UPGRADES[unit.eduEntry.eduType].unit[temp_unit_choice] .. " for " .. tostring(unit_cost) .. " gold.")
-                    if (centeredImageButton("Accept", 80, 50, 0)) then
-                        show_upgrade_window = false
-                        local upgradeName = UNIT_UPGRADES[unit.eduEntry.eduType].unit[temp_unit_choice]
-                        --if unit.armourLVL > 0 then
-                        --    unit_armour = (unit.armourLVL - 1)
-                        --else unit_armour = unit.armourLVL
-                        --end
-                        local old_unit_army = unit.army
-                        local old_unit_exp = unit.exp
-                        local old_unit_sol = unit.soldierCountStratMap
-                        local old_unit_solmax = unit.soldierCountStratMapMax
-                        local old_unit_edu = unit.eduEntry.eduType
-                        local old_unit_weapon = unit.weaponLVL
-            
-                        unit:kill()
-                        print(
-                            "new unit " ..
-                                old_unit_edu .. " " .. (UNIT_UPGRADES[old_unit_edu].expRequirement[temp_unit_choice]-unit_upgrades_multi)
-                        )
-                        local upgradeUnit =
-                            old_unit_army:createUnit(
-                            upgradeName,
-                            (old_unit_exp - (UNIT_UPGRADES[old_unit_edu].expRequirement[temp_unit_choice]-unit_upgrades_multi)),
-                            0,
-                            old_unit_weapon
-                        )
-                        if old_unit_sol < old_unit_solmax then
-                            upgradeUnit.soldierCountStratMap =
-                                math.min(upgradeUnit.soldierCountStratMapMax, old_unit_sol)
-                        end
-            
-                        -----print("replacing "..unit.eduEntry.eduType.." with "..UNIT_UPGRADES[unit.eduEntry.eduType].unit[i])
-                        -----unit.eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[i])
-                        -----unit.soldierCountStratMap = math.min(unit.soldierCountStratMap, unit.eduEntry.soldierCount * unitSize)
-                        -----unit.exp = (unit.exp - exp_req)
-            
-                        stratmap.game.callConsole("add_money", "-" .. tostring(unit_cost))
-                        if EOP_WAVS["uicah_menuclick1"] ~= nil then
-                            M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
-                        end
-                    end
                 else
                     ImGui.TextColored(1,0,0,1,"Minimum requirements for upgrade not met.")
                 end
@@ -307,7 +266,53 @@ function upgradeWindow()
         temp_upgrade_unit = unit
     end
     ImGui.EndChild()
-    if (centeredImageButton("Close", 80, 50, 0)) then
+    if show_accept_button then
+        local eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[temp_unit_choice])
+        unit_cost = math.ceil((eduEntry.recruitCost * UNIT_UPGRADES[unit.eduEntry.eduType].cost_multi[temp_unit_choice]))
+        if (centeredImageButton("Accept", 80, 50, -40)) then
+            show_upgrade_window = false
+            local upgradeName = UNIT_UPGRADES[unit.eduEntry.eduType].unit[temp_unit_choice]
+            --if unit.armourLVL > 0 then
+            --    unit_armour = (unit.armourLVL - 1)
+            --else unit_armour = unit.armourLVL
+            --end
+            local old_unit_army = unit.army
+            local old_unit_exp = unit.exp
+            local old_unit_sol = unit.soldierCountStratMap
+            local old_unit_solmax = unit.soldierCountStratMapMax
+            local old_unit_edu = unit.eduEntry.eduType
+            local old_unit_weapon = unit.weaponLVL
+
+            unit:kill()
+            print(
+                "new unit " ..
+                    old_unit_edu .. " " .. (UNIT_UPGRADES[old_unit_edu].expRequirement[temp_unit_choice]-unit_upgrades_multi)
+            )
+            local upgradeUnit =
+                old_unit_army:createUnit(
+                upgradeName,
+                (old_unit_exp - (UNIT_UPGRADES[old_unit_edu].expRequirement[temp_unit_choice]-unit_upgrades_multi)),
+                0,
+                old_unit_weapon
+            )
+            if old_unit_sol < old_unit_solmax then
+                upgradeUnit.soldierCountStratMap =
+                    math.min(upgradeUnit.soldierCountStratMapMax, old_unit_sol)
+            end
+
+            -----print("replacing "..unit.eduEntry.eduType.." with "..UNIT_UPGRADES[unit.eduEntry.eduType].unit[i])
+            -----unit.eduEntry = M2TWEOPDU.getEduEntryByType(UNIT_UPGRADES[unit.eduEntry.eduType].unit[i])
+            -----unit.soldierCountStratMap = math.min(unit.soldierCountStratMap, unit.eduEntry.soldierCount * unitSize)
+            -----unit.exp = (unit.exp - exp_req)
+
+            stratmap.game.callConsole("add_money", "-" .. tostring(unit_cost))
+            if EOP_WAVS["uicah_menuclick1"] ~= nil then
+                M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+            end
+        end
+        ImGui.SameLine()
+    end
+    if (centeredImageButton("Close", 80, 50, 40)) then
         show_upgrade_window = false
         if EOP_WAVS["uicah_menuclick1"] ~= nil then
             M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])

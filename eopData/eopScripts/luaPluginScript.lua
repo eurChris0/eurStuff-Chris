@@ -5,7 +5,7 @@
 --local mobdebug = require "helpers/mobdebug"
 --mobdebug.start('127.0.0.1', 8818)
 
-dev_enabled = true
+dev_enabled = false
 eur_main_scripts = true
 
 if dev_enabled then
@@ -141,6 +141,9 @@ function draw(pDevice)
             if eur_pre_battle_window then
                 preBattleWindow()
             end
+        end
+        if eurbackgroundWindowSizeRight == 0 then
+            calcWindow()
         end
         if in_campaign_map == true then
             eventsButton()
