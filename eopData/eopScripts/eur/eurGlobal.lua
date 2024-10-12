@@ -24,7 +24,9 @@ options_unit_upgrades = true
 unit_upgrades_multi = 0
 options_pre_battle = true
 options_addspoils = true
-
+options_gen_upgrades = true
+options_gen_bg_size = true
+options_first_run = true
 
 
 temp_units = {}
@@ -84,6 +86,7 @@ FACTION_COLOURS = {
 --temporary
 show_options_button = false
 show_events_window = false
+show_options_accept = false
 
 swap_bg_window = false
 swap_bg_button = false
@@ -123,6 +126,9 @@ end
 function eurSaveLoadValues(bool)
     if bool then
         eurEventsData = {
+            options_gen_upgrades = options_gen_upgrades,
+            options_gen_bg_size = options_gen_bg_size,
+            options_first_run = options_first_run,
             replen_low = replen_low,
             replen_mid = replen_mid,
             replen_high = replen_high,
@@ -202,6 +208,9 @@ function eurSaveLoadValues(bool)
          end
          ]]
     else
+        options_gen_upgrades = eurEventsData["options_gen_upgrades"]
+        options_gen_bg_size = eurEventsData["options_gen_bg_size"]
+        options_first_run = eurEventsData["options_first_run"]
         replen_low = eurEventsData["replen_low"]
         replen_mid = eurEventsData["replen_mid"]
         replen_high = eurEventsData["replen_high"]
@@ -545,6 +554,31 @@ screenWidth = rect.right-rect.left
 screenHeight = rect.bottom-rect.top
 eurbackgroundWindowSizeRight = screenWidth/1920 ; eurbackgroundWindowSizeBottom = screenHeight/1080
 
+img_x, img_y = 64, 64
+
+if eurbackgroundWindowSizeRight < 0.5 then
+    img_x, img_y = 24, 24
+elseif eurbackgroundWindowSizeRight < 1 then
+    img_x, img_y = 32, 32
+end
+
+function calcWindow()
+    local window = ffi.C.GetActiveWindow()
+    local rect = ffi.new("RECT")
+    ffi.C.GetClientRect(window, rect)
+    screenWidth = rect.right-rect.left
+    screenHeight = rect.bottom-rect.top
+    eurbackgroundWindowSizeRight = screenWidth/1920 ; eurbackgroundWindowSizeBottom = screenHeight/1080
+
+    img_x, img_y = 64, 64
+
+    if eurbackgroundWindowSizeRight < 0.5 then
+        img_x, img_y = 24, 24
+    elseif eurbackgroundWindowSizeRight < 1 then
+        img_x, img_y = 32, 32
+    end
+end
+
 function eurGlobalVars()
     ---load campaign vars
     eur_gameData = gameDataAll.get()
@@ -583,11 +617,8 @@ function eurGlobalVars()
             end
         end
         --save unit values
-        for i = 1, #mod_general_units_list do
-            local eduEntry = M2TWEOPDU.getEduEntryByType(mod_general_units_list[i].name)
-            if eduEntry ~= nil then
-                eduEntry.soldierCount = mod_general_units_list[i].size
-            end
+        if not options_first_run then
+            genEDUcheck()
         end
         for i = 0, 1500 do
             local eduEntry = M2TWEOPDU.getEduEntry(i)
@@ -616,6 +647,32 @@ function eurGlobalVars()
         if lindon_0_count > 0 then
             if not lindon_0_bu_added then
                 ulmoAdd()
+            end
+        end
+    end
+    wait(calcWindow, 2)
+end
+
+function genEDUcheck()
+    if options_gen_bg_size then
+        for i = 1, #mod_general_units_list do
+            local eduEntry = M2TWEOPDU.getEduEntryByType(mod_general_units_list[i].name)
+            if eduEntry ~= nil then
+                if not original_general_units_list[eduEntry.eduType] then
+                    original_general_units_list[eduEntry.eduType] = eduEntry.soldierCount
+                end
+                eduEntry.soldierCount = mod_general_units_list[i].size
+            end
+        end
+    else
+        for i = 1, #mod_general_units_list do
+            local eduEntry = M2TWEOPDU.getEduEntryByType(mod_general_units_list[i].name)
+            if eduEntry ~= nil then
+                if eduEntry.soldierCount == mod_general_units_list[i].size then
+                    if original_general_units_list[eduEntry.eduType] then
+                    eduEntry.soldierCount = original_general_units_list[eduEntry.eduType]
+                    end
+                end
             end
         end
     end

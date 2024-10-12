@@ -16,6 +16,7 @@ local beta_changelog =
 ]]
 
 local turks_sicily_confed = false
+local show_bg_size_text = false
 
 function optionsButton()
     ImGui.SetNextWindowPos(1320*eurbackgroundWindowSizeRight, 750*eurbackgroundWindowSizeBottom)
@@ -142,6 +143,51 @@ function optionsWindow()
                     replen_beast_value = 0
                 else
                     replen_beast_value = 8
+                end
+            end
+
+            ImGui.Separator()
+            options_gen_upgrades, pressed = ImGui.Checkbox("General upgrades", options_gen_upgrades)
+            ImGui.TextColored(0,1,0,1,"Cannot be reverted during campaign.")
+            
+            ImGui.Separator()
+            options_gen_bg_size, bg_size_pressed = ImGui.Checkbox("General variable bodyguard size", options_gen_bg_size)
+            if bg_size_pressed then
+                show_bg_size_text = true
+            end
+            if show_bg_size_text then
+                ImGui.TextColored(1,0,0,1,"Press button after enable/disable.")
+            end
+            if not options_gen_bg_size then
+                local options_gen_revert = ImGui.Button("Revert", 64, 64) 
+                if options_gen_revert then
+                    for i = 1, #mod_general_units_list do
+                        local eduEntry = M2TWEOPDU.getEduEntryByType(mod_general_units_list[i].name)
+                        if eduEntry ~= nil then
+                            if eduEntry.soldierCount == mod_general_units_list[i].size then
+                                if original_general_units_list[eduEntry.eduType] then
+                                    eduEntry.soldierCount = original_general_units_list[eduEntry.eduType]
+                                    show_bg_size_text = false
+                                end
+                            end
+                            show_bg_size_text = false
+                        end
+                    end
+                end
+            else
+                local options_gen_redo = ImGui.Button("Redo", 64, 64) 
+                if options_gen_redo then
+                    for i = 1, #mod_general_units_list do
+                        local eduEntry = M2TWEOPDU.getEduEntryByType(mod_general_units_list[i].name)
+                        if eduEntry ~= nil then
+                            if not original_general_units_list[eduEntry.eduType] then
+                                original_general_units_list[eduEntry.eduType] = eduEntry.soldierCount
+                            end
+                            eduEntry.soldierCount = mod_general_units_list[i].size
+                            show_bg_size_text = false
+                        end
+                    end
+                    show_bg_size_text = false
                 end
             end
 
@@ -306,7 +352,38 @@ function optionsWindow()
 
     ImGui.EndChild()
     if (centeredImageButton("Close", 80, 50, 0)) then
-        show_options_window = false
+        if options_first_run then
+            show_options_window = false
+            show_options_accept = true
+        else
+            show_options_window = false
+        end
+        if EOP_WAVS["uicah_menuclick1"] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+        end
+    end
+    eurStyle("basic_1", false)
+    ImGui.End()
+end
+
+function optionsAccept()
+    ImGui.SetNextWindowSize(400*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowPos(760*eurbackgroundWindowSizeRight, 440*eurbackgroundWindowSizeBottom)
+    ImGui.Begin("options_accept_background", true, bit.bor(ImGuiWindowFlags.NoDecoration))
+    eurStyle("basic_1", true)
+    centeredText("Accept and start campaign?",0)
+    if (centeredImageButton("Yes", 80, 50, -40)) then
+        show_options_accept = false
+        options_first_run = false
+        setBGSize(eur_player_faction, nil, nil)
+        if EOP_WAVS["uicah_menuclick1"] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+        end
+    end
+    ImGui.SameLine()
+    if (centeredImageButton("No", 80, 50, 40)) then
+        show_options_window = true
+        show_options_accept = false
         if EOP_WAVS["uicah_menuclick1"] ~= nil then
             M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
         end

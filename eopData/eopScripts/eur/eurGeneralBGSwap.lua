@@ -111,6 +111,8 @@ conquer_traits = {
     },
   }
 
+original_general_units_list = {}
+
 mod_general_units_list = {
     {name="Rohan Bodyguard",size=21},
     {name="Pharazim Nobles",size=21},
@@ -928,18 +930,18 @@ function swapBGWindow()
     end
     ImGui.SetNextWindowPos(10*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(1)
-    ImGui.SetNextWindowSize(700*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowSize(840*eurbackgroundWindowSizeRight, 600*eurbackgroundWindowSizeBottom)
     ImGui.Begin("swap_bg_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration))
     eurStyle("basic_1", true)
     if bg_small_1 then
-        ImGui.Image(bg_small_1.img, 695*eurbackgroundWindowSizeRight, 490*eurbackgroundWindowSizeBottom)
+        ImGui.Image(bg_small_1.img, 835*eurbackgroundWindowSizeRight, 590*eurbackgroundWindowSizeBottom)
     end
-    ImGui.SetNextWindowPos(10*eurbackgroundWindowSizeRight, 70*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowPos(10*eurbackgroundWindowSizeRight, 85*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0.5)
-    ImGui.BeginChild("swap_bg_child_1", 700*eurbackgroundWindowSizeRight, 380*eurbackgroundWindowSizeBottom, ImGuiChildFlags.FrameStyle)
+    ImGui.BeginChild("swap_bg_child_1", 840*eurbackgroundWindowSizeRight, 450*eurbackgroundWindowSizeBottom, ImGuiChildFlags.FrameStyle)
     ImGui.NewLine()
     ImGui.SetNextWindowBgAlpha(0)
-    ImGui.BeginChild("swap_bg_child_sub_1", 300*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoDecoration)
+    ImGui.BeginChild("swap_bg_child_sub_1", 370*eurbackgroundWindowSizeRight, 420*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoDecoration)
     local UI_MANAGER = gameDataAll.get().uiCardManager
     local selectedUnit=UI_MANAGER:getSelectedUnitCard(0)
     if selectedUnit == nil then
@@ -961,10 +963,10 @@ function swapBGWindow()
                     ImGui.Text(temp_char_stuff.characterRecord.localizedDisplayName)
                     ImGui.Text("Current Bodyguard: "..temp_char_stuff.bodyguards.eduEntry.eduType)
                     if char_portraits[temp_char_stuff.characterRecord.portrait_custom] then
-                        ImGui.Image(char_portraits[temp_char_stuff.characterRecord.portrait_custom].img,64,64)
+                        ImGui.Image(char_portraits[temp_char_stuff.characterRecord.portrait_custom].img,img_x, img_y)
                         ImGui.SameLine()
                         if eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga] then
-                            ImGui.Image(eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga].img,64,64)
+                            ImGui.Image(eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga].img,img_x, img_y)
                         end
                     end
                     if temp_char_stuff.characterRecord.portrait then
@@ -974,7 +976,7 @@ function swapBGWindow()
                             ImGui.Image(char_portraits[portrait].img,80,80)
                             ImGui.SameLine()
                             if eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga] then
-                                ImGui.Image(eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga].img,64,64)
+                                ImGui.Image(eur_tga_table[temp_char_stuff.bodyguards.eduEntry.unitCardTga].img,img_x, img_y)
                             end
                         end
                     end
@@ -1018,7 +1020,7 @@ function swapBGWindow()
                     end
                     if temp_gen_units[temp_gen_units_target+1] then
                         if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga] then
-                            ImGui.Image(eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga].img,64,64)
+                            ImGui.Image(eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1]).unitCardTga].img,img_x, img_y)
                         end
                         ImGui.SameLine()
                         ImGui.BeginGroup()
@@ -1069,14 +1071,14 @@ function swapBGWindow()
     ImGui.EndChild()
     ImGui.SameLine()
     ImGui.SetNextWindowBgAlpha(0)
-    ImGui.BeginChild("swap_bg_child_sub_2", 380*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoDecoration)
+    ImGui.BeginChild("swap_bg_child_sub_2", 450*eurbackgroundWindowSizeRight, 420*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoDecoration)
     ImGui.Separator()
     ImGui.Text("T1:")
     for i = 1, #temp_gen_units do
         if temp_gen_units[i] then
             if tableContains(gen_units_list[eur_player_faction.name]["T1"], temp_gen_units[i]) then
                 if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
-                    if ImGui.ImageButton("swapBGButton_button_t1_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                    if ImGui.ImageButton("swapBGButton_button_t1_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,img_x, img_y) then
                         temp_gen_units_target=i-1
                     end
                 end
@@ -1086,7 +1088,11 @@ function swapBGWindow()
                     ImGui.Text(temp_gen_units[i])
                     ImGui.EndTooltip()
                 end
-                ImGui.SameLine()
+                if i == 4 then
+                    ImGui.NewLine()
+                else
+                    ImGui.SameLine()
+                end
             end
         end
     end
@@ -1096,7 +1102,7 @@ function swapBGWindow()
         if temp_gen_units[i] then
             if tableContains(gen_units_list[eur_player_faction.name]["T2"], temp_gen_units[i]) then
                 if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
-                    if ImGui.ImageButton("swapBGButton_button_t2_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                    if ImGui.ImageButton("swapBGButton_button_t2_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,img_x, img_y) then
                         temp_gen_units_target=i-1
                     end
                 end
@@ -1106,7 +1112,11 @@ function swapBGWindow()
                     ImGui.Text(temp_gen_units[i])
                     ImGui.EndTooltip()
                 end
-                ImGui.SameLine()
+                if i == 4 then
+                    ImGui.NewLine()
+                else
+                    ImGui.SameLine()
+                end
             end
         end
     end
@@ -1116,7 +1126,7 @@ function swapBGWindow()
         if temp_gen_units[i] then
             if tableContains(gen_units_list[eur_player_faction.name]["T3"], temp_gen_units[i]) then
                 if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
-                    if ImGui.ImageButton("swapBGButton_button_t3_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                    if ImGui.ImageButton("swapBGButton_button_t3_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,img_x, img_y) then
                         temp_gen_units_target=i-1
                     end
                 end
@@ -1126,7 +1136,11 @@ function swapBGWindow()
                     ImGui.Text(temp_gen_units[i])
                     ImGui.EndTooltip()
                 end
-                ImGui.SameLine()
+                if i == 4 then
+                    ImGui.NewLine()
+                else
+                    ImGui.SameLine()
+                end
             end
         end
     end
@@ -1138,7 +1152,7 @@ function swapBGWindow()
                 if not tableContains(gen_units_list[eur_player_faction.name]["T2"], temp_gen_units[i]) then
                     if not tableContains(gen_units_list[eur_player_faction.name]["T3"], temp_gen_units[i]) then
                         if eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga] then
-                            if ImGui.ImageButton("swapBGButton_button_s_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,64,64) then
+                            if ImGui.ImageButton("swapBGButton_button_s_0"..tostring(i),eur_tga_table[M2TWEOPDU.getEduEntryByType(temp_gen_units[i]).unitCardTga].img,img_x, img_y) then
                                 temp_gen_units_target=i-1
                             end
                         end
@@ -1148,7 +1162,11 @@ function swapBGWindow()
                             ImGui.Text(temp_gen_units[i])
                             ImGui.EndTooltip()
                         end
-                        ImGui.SameLine()
+                        if i == 4 then
+                            ImGui.NewLine()
+                        else
+                            ImGui.SameLine()
+                        end
                     end
                 end
             end
@@ -1324,6 +1342,8 @@ function genRankCheck(faction, char)
 end
 
 function setBGSize(faction, character, unit)
+    if not options_gen_bg_size then return end
+    if options_first_run then return end
     if faction ~= nil then
         for i = 0, faction.numOfCharacters - 1 do
             temp_char = faction:getCharacter(i)
@@ -1348,8 +1368,18 @@ function setBGSize(faction, character, unit)
                                         end
                                     end
                                     if army.numOfUnits < 20 then
-                                        setBodyguard(temp_char, (default_general_units[faction.name].new), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")
-                                        persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                        local level = (temp_char.characterRecord.command+temp_char.characterRecord.loyalty)
+                                        if level > 10 then
+                                            local rand = math.random(1, #gen_units_list[faction.name]["T2"])
+                                            new_bg = gen_units_list[faction.name]["T2"][rand-1]
+                                        else
+                                            local rand = math.random(1, #gen_units_list[faction.name]["T1"])
+                                            new_bg = gen_units_list[faction.name]["T1"][rand-1]
+                                        end
+                                        if new_bg then
+                                            setBodyguard(temp_char, (new_bg), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")
+                                            persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                        end
                                     end
                                 else
                                     persistent_gen_list_reset[temp_char.characterRecord.label] = true

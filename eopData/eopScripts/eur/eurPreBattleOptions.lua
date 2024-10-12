@@ -39,17 +39,17 @@ function preBattleButton()
 end
 
 function preBattleWindow()
-        ImGui.SetNextWindowPos(1215*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
+        ImGui.SetNextWindowPos(1075*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
         ImGui.SetNextWindowBgAlpha(0)
-        ImGui.SetNextWindowSize(700*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
+        ImGui.SetNextWindowSize(840*eurbackgroundWindowSizeRight, 600*eurbackgroundWindowSizeBottom)
         ImGui.Begin("pre_battle_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration))
         eurStyle("basic_1", true)
         if bg_small_1 then
-            ImGui.Image(bg_small_1.img, 695*eurbackgroundWindowSizeRight, 490*eurbackgroundWindowSizeBottom)
+            ImGui.Image(bg_small_1.img, 835*eurbackgroundWindowSizeRight, 590*eurbackgroundWindowSizeBottom)
         end
         ImGui.SetNextWindowBgAlpha(0.5)
-        ImGui.SetNextWindowPos(1215*eurbackgroundWindowSizeRight, 70*eurbackgroundWindowSizeBottom)
-        ImGui.BeginChild("pre_battle_child_1", 700*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom, ImGuiChildFlags.FrameStyle)
+        ImGui.SetNextWindowPos(1075*eurbackgroundWindowSizeRight, 85*eurbackgroundWindowSizeBottom)
+        ImGui.BeginChild("pre_battle_child_1", 840*eurbackgroundWindowSizeRight, 450*eurbackgroundWindowSizeBottom, ImGuiChildFlags.FrameStyle)
         ImGui.NewLine()
         ImGui.Separator()
         local temp = {}
@@ -74,7 +74,7 @@ function preBattleWindow()
                 if temp[1] ~= nil then
                     local unit = temp[temp_temp_player_army_target+1]
                     temp_value, used = ImGui.SliderInt("", temp_value, 20, unit.soldierCountStratMap-20, "%d")
-                    if (ImGui.Button("Split", 80, 20)) then
+                    if (ImGui.Button("Split", 80, 50)) then
                         local val1 = math.floor(unit.soldierCountStratMap-temp_value)
                         local val2 = math.floor(temp_value)
                         if val1+val2 < unit.soldierCountStratMap then

@@ -230,7 +230,7 @@ function upgradeWindow()
                                     if unit.exp >= exp_req then
                                         show_accept_button = true
                                         if eur_tga_table[unit_tga] then
-                                            local upgrade_clicked = ImGui.ImageButton("upgrade_button_0"..tostring(i),eur_tga_table[unit_tga].img, 64,64)
+                                            local upgrade_clicked = ImGui.ImageButton("upgrade_button_0"..tostring(i),eur_tga_table[unit_tga].img, img_x, img_y)
                                             if (upgrade_clicked == true) then
                                                 temp_unit_choice=i
                                             end

@@ -145,6 +145,9 @@ function draw(pDevice)
         if in_campaign_map == true then
             eventsButton()
             eurMapTooltips()
+            if show_options_accept then
+                optionsAccept()
+            end
             if options_unit_upgrades then
                 if show_upgrade_button == true then
                     upgradeButton()
