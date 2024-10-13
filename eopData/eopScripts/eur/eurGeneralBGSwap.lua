@@ -237,6 +237,10 @@ default_general_units = {
         old = "Uruk-hai Bodyguards",
         new = "Uruk-hai Raiders",
     },
+    ["saxons"] = {
+        old = "Noldorin Bodyguards",
+        new = "Spear Quendi",
+    },
 }
 
 gen_units_list = {
@@ -271,14 +275,12 @@ gen_units_list = {
         ["T2"] = {
             [0] = "Gondor Spearmen",
             [1] = "Gondor Infantry",
-            [2] = "Gondor Pikemen",
-            [3] = "Gondor Archers",
-            [4] = "Gondor Cavalry",
+            [2] = "Gondor Archers",
+            [3] = "Gondor Cavalry",
         },
         ["T3"] = {
-            [0] = "Citadel Guard",
-            [1] = "Marksmen of Cair Andros",
-            [2] = "Gondor Bodyguard",
+            [0] = "Marksmen of Cair Andros",
+            [1] = "Gondor Bodyguard",
         },
         ["special"] = {
             "Citadel Guard",
@@ -287,16 +289,15 @@ gen_units_list = {
     ["turks"] = {
         ["T1"] = {
             [0] = "Dunedain Wardens",
-            [1] = "Dunedain Rangers",
+            [1] = "Dunedain Scouts",
         },
         ["T2"] = {
             [0] = "Dunedain Armsmen",
-            [1] = "Dunedain Scouts",
-            [2] = "Sworn Horsemen",
+            [1] = "Dunedain Rangers",
         },
         ["T3"] = {
-            [0] = "Dunedain Steelbowmen",
-            [1] = "Dismounted Fornost-Erain Knights",
+            [0] = "Sons of Numenor",
+            [1] = "Fornost-Erain Knights",
             [2] = "Dunedain Bodyguard",
         },
         ["special"] = {
@@ -504,7 +505,7 @@ gen_units_list = {
             [2] = "Zenith Guard",
         },
         ["special"] = {
-            "Axeguard of Erebor",
+            "Mithril Bodyguard",
         },
     },
     ["hungary"] = {
@@ -544,7 +545,7 @@ gen_units_list = {
             [2] = "Blacklock Engineers",
         },
         ["special"] = {
-            "Mithril Bodyguard",
+            "Axeguard of Erebor",
         },
     },
     ["mongols"] = {
@@ -594,15 +595,16 @@ gen_units_list = {
             [3] = "Lindar Bowmen",
         },
         ["T2"] = {
-            [0] = "Sindar Spearmen",
-            [1] = "Sindar Archers",
-            [2] = "Amanyar Riders",
-            [3] = "Amanyar Rangers",
+            [0] = "Sindar Axemen",
+            [1] = "Sindar Spearmen",
+            [2] = "Sindar Archers",
+            [3] = "Sindar Riders",
         },
         ["T3"] = {
-            [0] = "Noldorin Defenders",
-            [1] = "Noldorin Archers",
-            [2] = "Calaquendi Lords",
+            [0] = "Heavy Falathrim Axeguard",
+            [1] = "Heavy Falathrim Archers",
+            [2] = "Heavy Falathrim Skirmishers",
+            [3] = "Calaquendi Lords",
         },
         ["special"] = {
             "Mithlond Nobles",
@@ -714,8 +716,8 @@ gen_units_list = {
             [3] = "Bow Quendi",
         },
         ["T2"] = {
-            [0] = "Sindar Spearmen",
-            [1] = "Sindar Archers",
+            [0] = "Amanyar Swordmasters",
+            [1] = "Amanyar Archers",
             [2] = "Amanyar Riders",
             [3] = "Amanyar Rangers",
         },
@@ -1561,6 +1563,8 @@ end
 
 
 function setBodyguard(character, newBodyguardType, expLvl, armourLvl, weaponLvl, bgAlias)
+    local edu = M2TWEOPDU.getEduEntryByType(newBodyguardType)
+    if edu == nil then return end
     print('Setting random new bodyguard for')
     print(character.characterRecord.localizedDisplayName)
     print(newBodyguardType)
