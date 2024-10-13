@@ -264,8 +264,10 @@ function turnImageCheck(faction)
             if char.characterRecord.portrait_custom ~= "" then
                 local portrait = char.characterRecord.portrait_custom
                 if not char_portraits[portrait] then
-                    char_portraits[portrait] = { x = 0, y = 0, img = nil }
-                    char_portraits[portrait].x, char_portraits[portrait].y, char_portraits[portrait].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\custom_portraits\\"..portrait.."\\portrait_young.tga")
+                    if file_exists(M2TWEOP.getModPath().."\\data\\ui\\custom_portraits\\"..portrait.."\\portrait_young.tga") then
+                        char_portraits[portrait] = { x = 0, y = 0, img = nil }
+                        char_portraits[portrait].x, char_portraits[portrait].y, char_portraits[portrait].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\custom_portraits\\"..portrait.."\\portrait_young.tga")
+                    end
                 end
             else
                 if char.characterRecord.portrait ~= "" then
@@ -273,8 +275,10 @@ function turnImageCheck(faction)
                     portrait = string.gsub(portrait, "mods/Divide_and_Conquer_EUR_EOP4/data/ui/"..eur_localculture.."/portraits/portraits/young/generals/", "")
                     print(portrait)
                     if not char_portraits[portrait] then
-                        char_portraits[portrait] = { x = 0, y = 0, img = nil }
-                        char_portraits[portrait].x, char_portraits[portrait].y, char_portraits[portrait].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\"..eur_localculture.."\\portraits\\portraits\\young\\generals\\"..portrait)
+                        if file_exists(M2TWEOP.getModPath().."\\data\\ui\\"..eur_localculture.."\\portraits\\portraits\\young\\generals\\"..portrait) then
+                            char_portraits[portrait] = { x = 0, y = 0, img = nil }
+                            char_portraits[portrait].x, char_portraits[portrait].y, char_portraits[portrait].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\"..eur_localculture.."\\portraits\\portraits\\young\\generals\\"..portrait)
+                        end
                     end
                 end
             end
@@ -292,8 +296,10 @@ function loadImages()
                 dir1 = eduEntry.unitCardTga
                 --table.insert(unit_names, dir1)
                 if eur_tga_table[dir1] == nil then
-                    eur_tga_table[dir1] = { x = 0, y = 0, img = nil }
-                    eur_tga_table[dir1].x, eur_tga_table[dir1].y, eur_tga_table[dir1].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\units\\"..eur_player_faction.name.."\\"..dir1)
+                    if file_exists(M2TWEOP.getModPath().."\\data\\ui\\units\\"..eur_player_faction.name.."\\"..dir1) then
+                        eur_tga_table[dir1] = { x = 0, y = 0, img = nil }
+                        eur_tga_table[dir1].x, eur_tga_table[dir1].y, eur_tga_table[dir1].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\units\\"..eur_player_faction.name.."\\"..dir1)
+                    end
                 end
             end
         end
