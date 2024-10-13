@@ -306,7 +306,9 @@ function loadImages()
     scroll_bg = { x = 0, y = 0, img = nil }
     button_01 = { x = 0, y = 0, img = nil }
     button_02 = { x = 0, y = 0, img = nil }
+    sortstack1 = { x = 0, y = 0, img = nil }
 
+    sortstack1.x, sortstack1.y, sortstack1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\sortstack1.png')
     bg_small_1.x, bg_small_1.y, bg_small_1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_small_1.png')
     bg_1.x, bg_1.y, bg_1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_1.png')
     bg_2.x, bg_2.y, bg_2.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_2.png')

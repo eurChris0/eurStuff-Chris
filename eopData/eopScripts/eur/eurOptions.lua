@@ -18,30 +18,37 @@ local beta_changelog =
 local turks_sicily_confed = false
 local show_bg_size_text = false
 
-temp_options_selected = {
+temp_options_tree = {
+    ["campaign"] = false,
     ["font"] = false,
     ["replen"] = false,
     ["genup"] = false,
     ["genbgsize"] = false,
     ["unitup"] = false,
     ["prebat"] = false,
-    ["spoils"] = false,
     ["poe"] = false,
-    ["mergeAI"] = false,
-    ["sortstack"] = false,
+}
+
+temp_options_selected = {
+    ["campaign"] = false,
+    ["font"] = false,
+    ["replen"] = false,
+    ["genup"] = false,
+    ["genbgsize"] = false,
+    ["unitup"] = false,
+    ["prebat"] = false,
+    ["poe"] = false,
 }
 
 temp_options_show = {
+    ["campaign"] = false,
     ["font"] = false,
     ["replen"] = false,
     ["genup"] = false,
     ["genbgsize"] = false,
     ["unitup"] = false,
     ["prebat"] = false,
-    ["spoils"] = false,
     ["poe"] = false,
-    ["mergeAI"] = false,
-    ["sortstack"] = false,
 }
 
 function optionsButton()
@@ -110,6 +117,7 @@ function optionsWindow()
             ImGui.EndTabItem()
         end
         if (ImGui.BeginTabItem("Settings##01")) then
+            show_collapse_button = true
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_tab_1", 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
             ImGui.NewLine()
@@ -138,15 +146,13 @@ function optionsWindow()
             ]]
 
             optionsFont(true)
+            optionsCampaign(true)
             optionsReplen(true)
             optionsGeneralUpgrades(true)
             optionsGeneralBGSize(true)
             optionsUnitUpgrades(true)
             optionsPrebattle(true)
-            optionsSpoils(true)
             optionsPOE(true)
-            optionsMerge(true)
-            optionsSort(true)
             
             ImGui.EndChild()
 
@@ -155,19 +161,19 @@ function optionsWindow()
             ImGui.BeginChild("Child Window_options_tab_2", 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
 
             optionsFont(false)
+            optionsCampaign(false)
             optionsReplen(false)
             optionsGeneralUpgrades(false)
             optionsGeneralBGSize(false)
             optionsUnitUpgrades(false)
             optionsPrebattle(false)
-            optionsSpoils(false)
             optionsPOE(false)
-            optionsMerge(false)
-            optionsSort(false)
 
             ImGui.EndChild()
 
             ImGui.EndTabItem()
+        else
+            show_collapse_button = false
         end
         if (ImGui.BeginTabItem("Scripts##01")) then
             ImGui.SetNextWindowBgAlpha(0)
@@ -214,7 +220,7 @@ function optionsWindow()
                     ImGui.TextWrapped("    - Some T1 units are converted during a confederation to bring them in line with the player's faction.")
                     ImGui.TextWrapped("    - Units can be temporarily split during pre-battle.")
                     ImGui.TextWrapped("    - If a unit is disbanded in a settlement where it can be recruited, adds to the recruitment pool.")
-                    ImGui.TextWrapped("    - AI armies will automatically merge over the end turn.")
+                    
                     ImGui.TextWrapped("    - Settlements bought or sold through diplomacy will be automatically assigned a garrison.")
                     --ImGui.TextWrapped("    - ")
                     ImGui.NewLine()
@@ -332,21 +338,42 @@ end
 function optionsGeneralUpgrades(bool)
     local name = "genup"
     if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        ImGui.Separator()
-        options_gen_upgrades, pressed = ImGui.Checkbox("General upgrades", options_gen_upgrades)
-        ImGui.TextColored(0,1,0,1,"Cannot be reverted during campaign.")
-        hoveredCheck(name)
-        ImGui.EndChild()
+        temp_options_tree[name] = ImGui.CollapsingHeader("General Upgrades")
+        if temp_options_tree[name] then
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
+            options_gen_upgrades, pressed = ImGui.Checkbox("Enabled", options_gen_upgrades)
+            ImGui.TextColored(0,1,0,1,"Cannot be reverted during campaign.")
+            ImGui.Text("Cooldown(turns):")
+            if (ImGui.Button("-##06", 25, 25)) then
+                if bg_swap_cooldown > 4 then
+                    bg_swap_cooldown=bg_swap_cooldown-5
+                end
+            end
+            ImGui.SameLine()
+            ImGui.Text(tostring(bg_swap_cooldown))
+            ImGui.SameLine()
+            if (ImGui.Button("+##06", 25, 25)) then
+                if bg_swap_cooldown < 40 then
+                    bg_swap_cooldown=bg_swap_cooldown+5
+                end
+            end
+            hoveredCheck(name)
+            ImGui.EndChild()
+        end
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
+            ImGui.Text("General's Bodyguard Upgrades")
+            ImGui.BulletText("All generals")
+            ImGui.BulletText("Not all units.")
+            ImGui.BulletText("Added button to character panel, shows when garrisoned in a settlement.")
+            ImGui.BulletText("T1, T2 and T3 units available depending on generals level(calculated on command and loyalty or authority).")
+            ImGui.BulletText("Generals that start with the generic bodyguard are automatically changed to a T1 or T2 unit, depending on their level.")
+            ImGui.BulletText("Level calculated over a 10 turn period.")
+            ImGui.BulletText("Special tier units unlocked based on traits gained(conquerer, faction leader ect).")
+            ImGui.NewLine()
             ImGui.EndChild()
         end
     end
@@ -355,11 +382,11 @@ end
 function optionsReplen(bool)
     local name = "replen"
     if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        ImGui.Separator()
-        options_replen, pressed = ImGui.Checkbox("Replenishment", options_replen)
-        if options_replen then
+        temp_options_tree[name] = ImGui.CollapsingHeader("Replenishment")
+        if temp_options_tree[name] then
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 160*eurbackgroundWindowSizeBottom)
+            options_replen, pressed = ImGui.Checkbox("Enabled", options_replen)
             ImGui.Text(replen_text)
             replen_low = ImGui.Button("Low", 64, 64) 
             if replen_low then
@@ -388,17 +415,24 @@ function optionsReplen(bool)
             else
                 replen_beast_value = 8
             end
+            hoveredCheck(name)
+            ImGui.EndChild()
         end
-        hoveredCheck(name)
-        ImGui.EndChild()
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
+            ImGui.Text("Replenishment")
+            ImGui.BulletText("All units replenish over the end turn(player and AI).")
+            ImGui.BulletText("Default only garrisoned units.")
+            ImGui.BulletText("Default beast units disabled(Trolls, Ents ect).")
+            ImGui.BulletText("Variable replenishment based seed number and unit size.")
+            ImGui.NewLine()
+            ImGui.Text("Options:")
+            ImGui.BulletText("Set replenishment rate to low, medium or high.")
+            ImGui.BulletText("Enable replenishment anywhere.")
+            ImGui.BulletText("Enable for beast units.")
+            ImGui.NewLine()
             ImGui.EndChild()
         end
     end
@@ -407,59 +441,70 @@ end
 function optionsGeneralBGSize(bool)
     local name = "genbgsize"
     if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-
-        ImGui.Separator()
-        options_gen_bg_size, bg_size_pressed = ImGui.Checkbox("General variable bodyguard size", options_gen_bg_size)
-        if bg_size_pressed then
-            show_bg_size_text = true
-        end
-        if show_bg_size_text then
-            ImGui.TextColored(1,0,0,1,"Press button after enable/disable.")
-        end
-        if not options_gen_bg_size then
-            local options_gen_revert = ImGui.Button("Revert", 64, 64) 
-            if options_gen_revert then
-                for i = 1, #mod_general_units_list do
-                    local eduEntry = M2TWEOPDU.getEduEntryByType(mod_general_units_list[i].name)
-                    if eduEntry ~= nil then
-                        if eduEntry.soldierCount == mod_general_units_list[i].size then
-                            if original_general_units_list[eduEntry.eduType] then
-                                eduEntry.soldierCount = original_general_units_list[eduEntry.eduType]
-                                show_bg_size_text = false
+        temp_options_tree[name] = ImGui.CollapsingHeader("Variable Bodyguard Size")
+        if temp_options_tree[name] then
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
+            options_gen_bg_size, bg_size_pressed = ImGui.Checkbox("Enabled", options_gen_bg_size)
+            if not options_gen_bg_size then 
+                if bg_size_pressed then
+                    for i = 1, #mod_general_units_list do
+                        local eduEntry = M2TWEOPDU.getEduEntryByType(mod_general_units_list[i].name)
+                        if eduEntry ~= nil then
+                            if eduEntry.soldierCount == mod_general_units_list[i].size then
+                                if original_general_units_list[eduEntry.eduType] then
+                                    eduEntry.soldierCount = original_general_units_list[eduEntry.eduType]
+                                    print("reverting")
+                                end
                             end
                         end
-                        show_bg_size_text = false
                     end
                 end
-            end
-        else
-            local options_gen_redo = ImGui.Button("Redo", 64, 64) 
-            if options_gen_redo then
-                for i = 1, #mod_general_units_list do
-                    local eduEntry = M2TWEOPDU.getEduEntryByType(mod_general_units_list[i].name)
-                    if eduEntry ~= nil then
-                        if not original_general_units_list[eduEntry.eduType] then
-                            original_general_units_list[eduEntry.eduType] = eduEntry.soldierCount
+            else
+                if bg_size_pressed then
+                    for i = 1, #mod_general_units_list do
+                        local eduEntry = M2TWEOPDU.getEduEntryByType(mod_general_units_list[i].name)
+                        if eduEntry ~= nil then
+                            if not original_general_units_list[eduEntry.eduType] then
+                                original_general_units_list[eduEntry.eduType] = eduEntry.soldierCount
+                            end
+                            eduEntry.soldierCount = mod_general_units_list[i].size
+                            print("increasing")
                         end
-                        eduEntry.soldierCount = mod_general_units_list[i].size
-                        show_bg_size_text = false
                     end
                 end
-                show_bg_size_text = false
             end
+            ImGui.Text("Minimun bodyguard size(rounded up):")
+            if (ImGui.Button("-##03", 25, 25)) then
+                if bg_min_size_multi > 2 then
+                    bg_min_size_multi=bg_min_size_multi-1
+                end
+            end
+            ImGui.SameLine()
+            ImGui.Text("1 / "..tostring(bg_min_size_multi))
+            ImGui.SameLine()
+            if (ImGui.Button("+##03", 25, 25)) then
+                if bg_min_size_multi < 4 then
+                    bg_min_size_multi=bg_min_size_multi+1
+                end
+            end
+            hoveredCheck(name)
+            ImGui.EndChild()
         end
-        hoveredCheck(name)
-        ImGui.EndChild()
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
             ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
+            ImGui.Text("Variable Bodyguard Size")
+            ImGui.BulletText("Player and AI.")
+            ImGui.BulletText("Generic bodyguard size inceased in-line with regular units.")
+            ImGui.BulletText("Bodyguard size based on command(measured over end turn).")
+            ImGui.BulletText("Personal security remains unaffected.")
+            ImGui.NewLine()
+            ImGui.NewLine()
+            ImGui.Text("Options:")
+            ImGui.BulletText("Change minimum bodyguard size(default 1/4 at 0 command stars).")
             ImGui.EndChild()
         end
     end
@@ -468,11 +513,11 @@ end
 function optionsUnitUpgrades(bool)
     local name = "unitup"
     if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        ImGui.Separator()
-        options_unit_upgrades, pressed = ImGui.Checkbox("Unit upgrades", options_unit_upgrades)
-        if options_unit_upgrades then
+        temp_options_tree[name] = ImGui.CollapsingHeader("Unit Upgrades")
+        if temp_options_tree[name] then
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
+            options_unit_upgrades, pressed = ImGui.Checkbox("Enabled", options_unit_upgrades)
             ImGui.Text("Experience requirement reduction:")
             if (ImGui.Button("-##03", 25, 25)) then
                 if unit_upgrades_multi > 0 then
@@ -487,17 +532,22 @@ function optionsUnitUpgrades(bool)
                     unit_upgrades_multi=unit_upgrades_multi+1
                 end
             end
+            hoveredCheck(name)
+            ImGui.EndChild()
         end
-        hoveredCheck(name)
-        ImGui.EndChild()
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
+            ImGui.Text("Unit Upgrades")
+            ImGui.BulletText("Not all units.")
+            ImGui.BulletText("Added button to unit scroll for unit upgrades.")
+            ImGui.BulletText("Minimum experience requirement, unit loses the same amount of experience during upgrade.")
+            ImGui.BulletText("Upgrade paths to higher tier units of the same type and sidegrade paths to units within the same tier.")
+            ImGui.NewLine()
+            ImGui.Text("Options:")
+            ImGui.BulletText("Reduce experience requirement(global).")
+            ImGui.NewLine()
             ImGui.EndChild()
         end
     end
@@ -506,55 +556,35 @@ end
 function optionsPrebattle(bool)
     local name = "prebat"
     if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        ImGui.Separator()
-        options_pre_battle, pressed = ImGui.Checkbox("Pre-battle options", options_pre_battle)
-        hoveredCheck(name)
-        ImGui.EndChild()
-    else
-        if temp_options_show[name] then
+        temp_options_tree[name] = ImGui.CollapsingHeader("Pre-battle Options")
+        if temp_options_tree[name] then
             ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
+            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
+            options_pre_battle, pressed = ImGui.Checkbox("Enabled", options_pre_battle)
+            hoveredCheck(name)
             ImGui.EndChild()
         end
-    end
-end
-
-function optionsSpoils(bool)
-    local name = "spoils"
-    if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        ImGui.Separator()
-        options_addspoils, pressed = ImGui.Checkbox("Variable post-battle loot", options_addspoils)
-        hoveredCheck(name)
-        ImGui.EndChild()
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
+            ImGui.Text("Pre-battle Options")
+            ImGui.BulletText("Split a unit for the upcoming battle.")
+            ImGui.NewLine()
             ImGui.EndChild()
         end
     end
 end
 
 function optionsPOE(bool)
+    if not ELVEN_FACTIONS[eur_localFactionName] then return end
     local name = "poe"
     if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        ImGui.Separator()
-        options_poe, pressed = ImGui.Checkbox("Passing of the Elves", options_poe)
-        if options_poe then
+        temp_options_tree[name] = ImGui.CollapsingHeader("Passing of the Elves")
+        if temp_options_tree[name] then
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
+            options_poe, pressed = ImGui.Checkbox("Enabled", options_poe)
             random_poe, pressed = ImGui.Checkbox("Random turns", random_poe)
             if random_poe then
                 ImGui.Text("Turns: "..tostring(poe_turns_min).." to "..tostring(poe_turns_max))
@@ -601,133 +631,128 @@ function optionsPOE(bool)
                     end
                 end
             end
+            hoveredCheck(name)
+            ImGui.EndChild()
         end
-        hoveredCheck(name)
-        ImGui.EndChild()
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
+            ImGui.Text("Passing of the Elves")
+            ImGui.BulletText("Long desc here.")
+            ImGui.NewLine()
+            ImGui.Text("Options:")
+            ImGui.BulletText("Frequency of passings(turns).")
+            ImGui.BulletText("Change to random frequency(min-max turns).")
+            ImGui.NewLine()
             ImGui.EndChild()
         end
     end
 end
 
-function optionsMerge(bool)
-    local name = "mergeAI"
+function optionsFont(bool)
+    local name = "font"
     if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        ImGui.Separator()
-        options_merge, pressed = ImGui.Checkbox("AI army merging", options_merge)
-        hoveredCheck(name)
-        ImGui.EndChild()
+        temp_options_tree[name] = ImGui.CollapsingHeader("UI Options")
+        if temp_options_tree[name] then
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
+            font_choice, clicked_font = ImGui.Combo("Font", font_choice, font_list_names, #font_list, #font_list+1)
+            font_RINGM = font_list[font_choice+1]
+            hoveredCheck(name)
+            ImGui.EndChild()
+        end
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
+
             ImGui.EndChild()
         end
     end
 end
 
-function optionsSort(bool)
-    local name = "sortstack"
+function optionsCampaign(bool)
+    local name = "campaign"
     if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        ImGui.Separator()
-        options_sort, pressed = ImGui.Checkbox("Auto sorting", options_sort)
-        if options_sort then
+        temp_options_tree[name] = ImGui.CollapsingHeader("Campaign Miscellaneous")
+        if temp_options_tree[name] then
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom)
+            options_hardcore, hardpressed = ImGui.Checkbox("Hardcore mode", options_hardcore)
+            if hardpressed then
+                if options_hardcore then
+                    eur_campaign.restrictAutoResolve = 1
+                else
+                    eur_campaign.restrictAutoResolve = 0
+                end
+            end
+            ImGui.Separator()
+            options_addspoils, pressed = ImGui.Checkbox("Post-battle loot", options_addspoils)
+            ImGui.Separator()
+            options_merge, pressed = ImGui.Checkbox("AI Army merging", options_merge)
+            ImGui.Text("Turns between merges:")
+            if (ImGui.Button("-##05", 25, 25)) then
+                if merge_turn_multi > 1 then
+                    merge_turn_multi=merge_turn_multi-1
+                end
+            end
+            ImGui.SameLine()
+            ImGui.Text(tostring(merge_turn_multi))
+            ImGui.SameLine()
+            if (ImGui.Button("+##05", 25, 25)) then
+                if merge_turn_multi < 10 then
+                    merge_turn_multi=merge_turn_multi+1
+                end
+            end
+            ImGui.Separator()
+            options_sort, pressed = ImGui.Checkbox("Army Sorting", options_sort)
             ImGui.Text("Sort order:") 
             sort_order.a, clicked = ImGui.Combo("First", sort_order.a, {"EDU Name", "Category(eg infantry)", "Class(eg heavy)", "Soldier Count", "Experience", "(Default)Category + Class", "AI unit value"}, 7, 8)
             sort_order.b, clicked2 = ImGui.Combo("Second", sort_order.b, {"(Default)EDU Name", "Category(eg infantry)", "Class(eg heavy)", "Soldier Count", "Experience", "Category + Class", "AI unit value"}, 7, 8)
             sort_order.c, clicked3 = ImGui.Combo("Third", sort_order.c, {"EDU Name", "Category(eg infantry)", "Class(eg heavy)", "(Default)Soldier Count", "Experience", "Category + Class", "AI unit value"}, 7, 8)
-        end
-        hoveredCheck(name)
-        ImGui.EndChild()
-    else
-        if temp_options_show[name] then
-            ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
+            ImGui.Separator()
+            hoveredCheck(name)
             ImGui.EndChild()
         end
-    end
-end
-
-function optionsFont(bool)
-    local name = "font"
-    if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        font_choice, clicked_font = ImGui.Combo("Font", font_choice, font_list_names, #font_list, #font_list+1)
-        font_RINGM = font_list[font_choice+1]
-        hoveredCheck(name)
-        ImGui.EndChild()
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
-            ImGui.EndChild()
-        end
-    end
-end
 
-function optionsFont(bool)
-    local name = "font"
-    if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        font_choice, clicked_font = ImGui.Combo("Font", font_choice, font_list_names, #font_list, #font_list+1)
-        font_RINGM = font_list[font_choice+1]
-        hoveredCheck(name)
-        ImGui.EndChild()
-    else
-        if temp_options_show[name] then
-            ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
+            ImGui.Text("Hardcore mode:")
+            ImGui.BulletText("Disables auto-resolve.")
+            ImGui.NewLine()
+            ImGui.Separator()
+            ImGui.NewLine()
+            ImGui.Text("Post-battle loot")
+            ImGui.BulletText("After winning a battle, the player has a chance of looting the enemy baggage train.")
+            ImGui.BulletText("Chance of looting based on victory type.")
+            ImGui.BulletText("Amount of gold based on victory type and army compositions.")
+            ImGui.NewLine()
+            ImGui.Separator()
+            ImGui.NewLine()
+            ImGui.Text("AI Army Merging")
+            ImGui.BulletText("Automatically merges all small AI armies over the end turn, regardless of distance.")
+            ImGui.NewLine()
+            ImGui.Text("Options:")
+            ImGui.BulletText("Frequency of merges(turns).")
+            ImGui.NewLine()
+            ImGui.Separator()
+            ImGui.NewLine()
+            ImGui.Text("Army Sorting")
+            ImGui.BulletText("Sorts unit cards within all player armies over the end turn.")
+            ImGui.NewLine()
+            ImGui.Text("Options:")
+            ImGui.BulletText("Decide the first, second and third order of sorting.")
+            ImGui.NewLine()
+            if sortstack1 then
+                ImGui.Image(sortstack1.img,630*eurbackgroundWindowSizeRight, 266*eurbackgroundWindowSizeBottom)
             end
-            ImGui.EndChild()
-        end
-    end
-end
+            ImGui.NewLine()
+            ImGui.Separator()
+            ImGui.NewLine()
 
-function optionsFont(bool)
-    local name = "font"
-    if bool then
-        ImGui.SetNextWindowBgAlpha(0)
-        ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
-        font_choice, clicked_font = ImGui.Combo("Font", font_choice, font_list_names, #font_list, #font_list+1)
-        font_RINGM = font_list[font_choice+1]
-        hoveredCheck(name)
-        ImGui.EndChild()
-    else
-        if temp_options_show[name] then
-            ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            ImGui.Text(name)
-            if test1 then
-                ImGui.Image(test1.img,500*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
-            end
             ImGui.EndChild()
         end
     end

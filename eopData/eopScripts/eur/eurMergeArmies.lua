@@ -5,6 +5,7 @@
 local merge = {}
 
 function merge.getAIarmies()
+	if (eur_turn_number % merge_turn_multi ~= 0) then return end
 	local factionsNum=stratmap.game.getFactionsCount();
 	for f = 0, factionsNum-1 do
 		local fac = stratmap.game.getFaction(f);

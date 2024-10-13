@@ -16,7 +16,7 @@ local sett_levels = {
     [5] = 350,
 }
 
-local ELVEN_FACTIONS = {
+ELVEN_FACTIONS = {
     ["saxons"] = true,
     ["denmark"] = true,
     ["mongols"] = true,

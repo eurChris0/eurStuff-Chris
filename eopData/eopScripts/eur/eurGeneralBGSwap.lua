@@ -1036,7 +1036,7 @@ function swapBGWindow()
                                     if (ImGui.Button("Accept", 80, 50)) then
                                         if army.numOfUnits < 20 then
                                             if temp_char_stuff.faction.money >= cost then
-                                                persistent_gen_list[name].cooldown = 20
+                                                persistent_gen_list[name].cooldown = bg_swap_cooldown
                                                 temp_char_stuff.characterRecord.personalSecurity = (temp_char_stuff.characterRecord.personalSecurity+guard_add)
                                                 stratmap.game.callConsole("add_money", "-" .. tostring(cost))
                                                 setBodyguard(temp_char_stuff, (temp_gen_units[temp_gen_units_target+1]), temp_char_stuff.bodyguards.exp, temp_char_stuff.bodyguards.weaponLVL, 1, "")
@@ -1438,7 +1438,7 @@ function setBGSize(faction, character, unit)
                         end
                     end
                     local un_max = temp_char.bodyguards.soldierCountStratMapMax
-                    local un_min = (un_max / 4)
+                    local un_min = (un_max / bg_min_size_multi)
                     local multi = (un_max - un_min) / 10
                     local command_add = 0
                     if temp_char.characterRecord.command > 0 then
@@ -1492,7 +1492,7 @@ function setBGSize(faction, character, unit)
                     end
                 end
                 local un_max = character.bodyguards.soldierCountStratMapMax
-                local un_min = (un_max / 4)
+                local un_min = (un_max / bg_min_size_multi)
                 local multi = (un_max - un_min) / 10
                 local command_add = 0
                 if character.characterRecord.command > 0 then
@@ -1547,7 +1547,7 @@ function setBGSize(faction, character, unit)
                     end
                 end
                 local un_max = temp_char.bodyguards.soldierCountStratMapMax
-                local un_min = (un_max / 4)
+                local un_min = (un_max / bg_min_size_multi)
                 local multi = (un_max - un_min) / 10
                 local additional = ((temp_char.characterRecord.personalSecurity+temp_char.characterRecord.bodyguardSize) * 2.5)
                 local new_max = math.floor(un_min + (multi*temp_char.characterRecord.command) + additional)

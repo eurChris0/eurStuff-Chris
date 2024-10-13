@@ -5,7 +5,7 @@
 --local mobdebug = require "helpers/mobdebug"
 --mobdebug.start('127.0.0.1', 8818)
 
-dev_enabled = false
+dev_enabled = true
 eur_main_scripts = true
 
 if dev_enabled then

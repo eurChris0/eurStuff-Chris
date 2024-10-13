@@ -27,6 +27,10 @@ options_addspoils = true
 options_gen_upgrades = true
 options_gen_bg_size = true
 options_first_run = true
+merge_turn_multi = 1
+bg_swap_cooldown = 20
+options_hardcore = false
+bg_min_size_multi = 4
 
 
 temp_units = {}
@@ -126,6 +130,10 @@ end
 function eurSaveLoadValues(bool)
     if bool then
         eurEventsData = {
+            bg_min_size_multi = bg_min_size_multi,
+            merge_turn_multi = merge_turn_multi,
+            bg_swap_cooldown = bg_swap_cooldown,
+            options_hardcore = options_hardcore,
             options_gen_upgrades = options_gen_upgrades,
             options_gen_bg_size = options_gen_bg_size,
             options_first_run = options_first_run,
@@ -208,6 +216,10 @@ function eurSaveLoadValues(bool)
          end
          ]]
     else
+        bg_min_size_multi = eurEventsData["bg_min_size_multi"]
+        merge_turn_multi = eurEventsData["merge_turn_multi"]
+        bg_swap_cooldown = eurEventsData["bg_swap_cooldown"]
+        options_hardcore = eurEventsData["options_hardcore"]
         options_gen_upgrades = eurEventsData["options_gen_upgrades"]
         options_gen_bg_size = eurEventsData["options_gen_bg_size"]
         options_first_run = eurEventsData["options_first_run"]
