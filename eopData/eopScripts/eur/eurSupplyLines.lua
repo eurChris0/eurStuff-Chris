@@ -29,6 +29,9 @@ local SKIP_SETT = {
 
 local rank = 15
 
+random_timer = 0
+rand_max = 2
+
 function supplyLines_func.elvenPassing(faction)
     if block_poe_turns > 0 then return end
     if not ELVEN_FACTIONS[faction.name] then return end
@@ -37,9 +40,16 @@ function supplyLines_func.elvenPassing(faction)
     math.randomseed(os.time())
     local random_turn = math.random(poe_turns_min, poe_turns_max)
     if random_poe then
-        poe_turns_max = random_turn
+        if random_timer == 0 then
+            random_timer = random_turn
+            rand_max = random_turn
+        else
+            random_timer = random_timer-1
+        end
+    else
+        rand_max = poe_turns_max
     end
-    if (eur_turn_number % poe_turns_max == 0) then
+    if (eur_turn_number % rand_max == 0) then
         local sett_nu = eur_player_faction.settlementsNum
         local uiList = ""
         local event_pic = "action_stealth"

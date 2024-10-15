@@ -28,7 +28,7 @@ options_gen_upgrades = true
 options_gen_bg_size = true
 options_first_run = true
 merge_turn_multi = 1
-bg_swap_cooldown = 20
+bg_swap_cooldown = 10
 options_hardcore = false
 bg_min_size_multi = 4
 

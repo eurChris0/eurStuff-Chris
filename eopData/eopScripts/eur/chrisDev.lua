@@ -303,18 +303,11 @@ function onSettlementSelected2(eventData)
         end
     end
 
-    for i = 0, eur_campaign.numberOfFactions - 1 do
-        local faction = eur_campaign:getFactionByOrder(i)
-        for j = 0, faction.numOfCharacters - 1 do
-            local char = faction:getCharacter(j)
-            if char.characterRecord ~= nil then
-                print(char.characterRecord.label)
-                print(character.ability)
-                if character.ability == "" then
-                    print("true")
-                else
-                    print("false")
-                end
+    for i = 0, 1500 do
+        local eduEntry = M2TWEOPDU.getEduEntry(i)
+        if eduEntry ~= nil then
+            if eduEntry:hasOwnership(eur_playerFactionId) then
+                print(eduEntry.eduType)
             end
         end
     end

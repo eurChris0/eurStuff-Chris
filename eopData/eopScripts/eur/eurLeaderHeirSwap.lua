@@ -98,7 +98,7 @@ leaderheir_combi_list = {
     },
     ["france"] = {
         leader = {unit="Guard of the Hand",ability="LEGION",},
-        heir = {unit="Nazg Hai",ability="ORC_DRAUGHT",},
+        heir = {unit="Berserkers",ability="ORC_DRAUGHT",},
     },
 }
 

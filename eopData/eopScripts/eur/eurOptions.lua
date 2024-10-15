@@ -8,7 +8,6 @@ Testing focus
 local beta_focus = 
 [[
 
-
 ]]
 local beta_changelog = 
 [[Changelog: 
@@ -354,7 +353,7 @@ function optionsGeneralUpgrades(bool)
             ImGui.Text(tostring(bg_swap_cooldown))
             ImGui.SameLine()
             if (ImGui.Button("+##06", 25, 25)) then
-                if bg_swap_cooldown < 40 then
+                if bg_swap_cooldown < 30 then
                     bg_swap_cooldown=bg_swap_cooldown+5
                 end
             end

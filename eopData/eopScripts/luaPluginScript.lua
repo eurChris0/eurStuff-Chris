@@ -165,14 +165,21 @@ function draw(pDevice)
             if show_options_button == true then
                 optionsButton()
             end
-            if show_options_window == true then
-                optionsWindow()
+            if not show_options_accept then
+                if show_options_window == true then
+                    optionsWindow()
+                end
             end
             if swap_bg_button == true then
                 swapBGButton()
             end
-            if swap_bg_window == true then
-                swapBGWindow()
+            if not show_bg_accept then
+                if swap_bg_window == true then
+                    swapBGWindow()
+                end
+            end
+            if show_bg_accept then
+                bgSwapAccept()
             end
         end
         if (ImGui.IsKeyPressed(ImGuiKey.X)) then

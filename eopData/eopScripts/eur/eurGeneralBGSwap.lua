@@ -770,7 +770,7 @@ labtrait_units_list = {
     ["Elrond"] = "GilGalads Company",
     ["Elladan"] = "Dunedain Bodyguard",
     ["Elrohir"] = "Dunedain Bodyguard",
-    ["Gildor"] = "Noldorin Bodyguards",
+    ["Gildor"] = "Noldorin Archers",
     ["Celeborn"] = "Berio I Ngelaidh",
     ["Haldir"] = "Galadhrim Archers",
     ["Thranduil"] = "Aredhirith",
@@ -865,6 +865,8 @@ labtrait_units_list = {
     ["Gazluk_eop_1"] = "Temple Wards",
 }
 
+local cost = 0
+
 function swapBGButton()
     ImGui.SetNextWindowPos(1770*eurbackgroundWindowSizeRight, 210*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0.0)
@@ -930,6 +932,9 @@ function swapBGWindow()
             temp_gen_units = {}
         end
     end
+    cost = 0
+    local army = nil
+    local name = ""
     ImGui.SetNextWindowPos(10*eurbackgroundWindowSizeRight, 10*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(1)
     ImGui.SetNextWindowSize(840*eurbackgroundWindowSizeRight, 600*eurbackgroundWindowSizeBottom)
@@ -983,11 +988,10 @@ function swapBGWindow()
                         end
                     end
                     char_rank = genRankCheck(nil, temp_char_stuff.characterRecord)
-                    local name = temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)
+                    name = temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)
                     genUnitCheck(temp_char_stuff.characterRecord, char_rank)
                     temp_gen_units = removeDuplicates(temp_gen_units)
                     --temp_gen_units_target, temp_gen_units_target_clicked = ImGui.Combo("", temp_gen_units_target, temp_gen_units, #temp_gen_units, #temp_gen_units+1)
-                    local cost = 0
                     if temp_gen_units[temp_gen_units_target+1] then
                         local edu = M2TWEOPDU.getEduEntryByType(temp_gen_units[temp_gen_units_target+1])
                         if edu ~= nil then
@@ -1029,34 +1033,6 @@ function swapBGWindow()
                         ImGui.Text(temp_gen_units[temp_gen_units_target+1])
                         ImGui.Text("Cost: "..tostring(cost))
                         ImGui.EndGroup()
-                    end
-                    local army = temp_char_stuff.settlement.army
-                    if army ~= nil then
-                        if persistent_gen_list[name] ~= nil then
-                            if persistent_gen_list[name].cooldown == 0 then
-                                if temp_gen_units[temp_gen_units_target+1] then
-                                    if (ImGui.Button("Accept", 80, 50)) then
-                                        if army.numOfUnits < 20 then
-                                            if temp_char_stuff.faction.money >= cost then
-                                                persistent_gen_list[name].cooldown = bg_swap_cooldown
-                                                temp_char_stuff.characterRecord.personalSecurity = (temp_char_stuff.characterRecord.personalSecurity+guard_add)
-                                                stratmap.game.callConsole("add_money", "-" .. tostring(cost))
-                                                setBodyguard(temp_char_stuff, (temp_gen_units[temp_gen_units_target+1]), temp_char_stuff.bodyguards.exp, temp_char_stuff.bodyguards.weaponLVL, 1, "")
-                                                swap_bg_window = false
-                                                temp_gen_units_target = 0
-                                            end
-                                        end
-                                    end
-                                end
-                                if army.numOfUnits > 19 then
-                                    ImGui.TextColored(1,0,0,1,"Cannot swap with full army.")
-                                end
-                            else
-                                ImGui.TextColored(1,0,0,1,"Cannot change for: "..tostring(persistent_gen_list[temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)].cooldown).." turns.")
-                            end
-                        else
-                            ImGui.TextColored(1,0,0,1,"New general, cannot change yet.")
-                        end
                     end
                 end
             else
@@ -1177,7 +1153,36 @@ function swapBGWindow()
     ImGui.NewLine()
     ImGui.EndChild()
     ImGui.EndChild()
-    if (centeredImageButton("Close", 80, 50, 0)) then
+    if temp_char_stuff then
+        if temp_char_stuff.settlement then
+            army = temp_char_stuff.settlement.army
+            if army ~= nil then
+                if persistent_gen_list[name] ~= nil then
+                    if persistent_gen_list[name].cooldown == 0 then
+                        if temp_gen_units[temp_gen_units_target+1] then
+                            if army.numOfUnits < 20 then
+                                if temp_char_stuff.faction.money >= cost then
+                                    if (centeredImageButton("Accept", 80, 50, -40)) then
+                                        show_bg_accept = true
+                                        swap_bg_window = false
+                                    end
+                                    ImGui.SameLine()
+                                end
+                            end
+                        end
+                        if army.numOfUnits > 19 then
+                            ImGui.TextColored(1,0,0,1,"Cannot swap with full army.")
+                        end
+                    else
+                        ImGui.TextColored(1,0,0,1,"Cannot change for: "..tostring(persistent_gen_list[temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)].cooldown).." turns.")
+                    end
+                else
+                    ImGui.TextColored(1,0,0,1,"New general, cannot change yet.")
+                end
+            end
+        end
+    end
+    if (centeredImageButton("Close", 80, 50, 40)) then
         swap_bg_window = false
         if EOP_WAVS["uicah_menuclick1"] ~= nil then
             M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
@@ -1186,6 +1191,39 @@ function swapBGWindow()
     eurStyle("basic_1", false)
     ImGui.End()
     gen_units_char = temp_char_stuff
+end
+
+function bgSwapAccept()
+    ImGui.SetNextWindowSize(400*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowPos(760*eurbackgroundWindowSizeRight, 440*eurbackgroundWindowSizeBottom)
+    ImGui.Begin("bg_accept_1", true, bit.bor(ImGuiWindowFlags.NoDecoration))
+    eurStyle("basic_1", true)
+    centeredText("Swap bodyguard to "..temp_gen_units[temp_gen_units_target+1].." for "..tostring(cost).." gold?",0)
+    ImGui.NewLine()
+    centeredText("Cooldown: 5 turns.")
+    if (centeredImageButton("Yes", 80, 50, -40)) then
+        local name = temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)
+        persistent_gen_list[name].cooldown = bg_swap_cooldown
+        temp_char_stuff.characterRecord.personalSecurity = (temp_char_stuff.characterRecord.personalSecurity+guard_add)
+        stratmap.game.callConsole("add_money", "-" .. tostring(cost))
+        setBodyguard(temp_char_stuff, (temp_gen_units[temp_gen_units_target+1]), temp_char_stuff.bodyguards.exp, temp_char_stuff.bodyguards.weaponLVL, 1, "")
+        swap_bg_window = false
+        show_bg_accept = false
+        temp_gen_units_target = 0
+    end
+    if EOP_WAVS["uicah_menuclick1"] ~= nil then
+        M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+    end
+    ImGui.SameLine()
+    if (centeredImageButton("No", 80, 50, 40)) then
+        swap_bg_window = true
+        show_bg_accept = false
+        if EOP_WAVS["uicah_menuclick1"] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+        end
+    end
+    eurStyle("basic_1", false)
+    ImGui.End()
 end
 
 function genUnitCheck(char, char_rank)
@@ -1480,8 +1518,23 @@ function setBGSize(faction, character, unit)
                                     end
                                 end
                                 if army.numOfUnits < 20 then
-                                    setBodyguard(character, (default_general_units[character.faction.name].new), character.bodyguards.exp, character.bodyguards.weaponLVL, 0, "")
-                                    persistent_gen_list_reset[character.characterRecord.label] = true
+                                    local level = (temp_char.characterRecord.command+temp_char.characterRecord.loyalty)
+                                    if level > 7 then
+                                        if math.random(1, 100) > 75 then
+                                            local rand = math.random(1, #gen_units_list[faction.name]["special"])
+                                            new_bg = gen_units_list[faction.name]["special"][rand-1]
+                                        else
+                                            local rand = math.random(1, #gen_units_list[faction.name]["T3"])
+                                            new_bg = gen_units_list[faction.name]["T3"][rand-1]
+                                        end
+                                    else
+                                        local rand = math.random(1, #gen_units_list[faction.name]["T2"])
+                                        new_bg = gen_units_list[faction.name]["T2"][rand-1]
+                                    end
+                                    if new_bg then
+                                        setBodyguard(temp_char, (new_bg), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")
+                                        persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                    end
                                 end
                             else
                                 persistent_gen_list_reset[character.characterRecord.label] = true
@@ -1535,8 +1588,23 @@ function setBGSize(faction, character, unit)
                                     end
                                 end
                                 if army.numOfUnits < 20 then
-                                    setBodyguard(temp_char, (default_general_units[temp_char.faction.name].new), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")
-                                    persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                    local level = (temp_char.characterRecord.command+temp_char.characterRecord.loyalty)
+                                    if level > 7 then
+                                        if math.random(1, 100) > 75 then
+                                            local rand = math.random(1, #gen_units_list[faction.name]["special"])
+                                            new_bg = gen_units_list[faction.name]["special"][rand-1]
+                                        else
+                                            local rand = math.random(1, #gen_units_list[faction.name]["T3"])
+                                            new_bg = gen_units_list[faction.name]["T3"][rand-1]
+                                        end
+                                    else
+                                        local rand = math.random(1, #gen_units_list[faction.name]["T2"])
+                                        new_bg = gen_units_list[faction.name]["T2"][rand-1]
+                                    end
+                                    if new_bg then
+                                        setBodyguard(temp_char, (new_bg), temp_char.bodyguards.exp, temp_char.bodyguards.weaponLVL, 0, "")
+                                        persistent_gen_list_reset[temp_char.characterRecord.label] = true
+                                    end
                                 end
                             else
                                 persistent_gen_list_reset[temp_char.characterRecord.label] = true
