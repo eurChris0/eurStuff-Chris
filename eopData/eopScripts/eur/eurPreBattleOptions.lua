@@ -1,3 +1,7 @@
+local invalid_split_cat = {
+    "ship",
+    "siege",
+}
 
 function preBattleButton()
     ImGui.SetNextWindowPos(90*eurbackgroundWindowSizeRight, 140*eurbackgroundWindowSizeBottom)
@@ -58,10 +62,12 @@ function preBattleWindow()
             for i = 0, temp_player_army.numOfUnits - 1 do
                 local unit = temp_player_army:getUnit(i)
                 if unit.character == nil then
-                    if not tableContains(temp_units, unit) then
-                        if unit.soldierCountStratMap > 40 then
-                            table.insert(temp, unit)
-                            table.insert(temp_name, unit.eduEntry.eduType)
+                    if not tableContains(invalid_split_cat, unit.eduEntry.category) then
+                        if not tableContains(temp_units, unit) then
+                            if unit.soldierCountStratMap > 40 then
+                                table.insert(temp, unit)
+                                table.insert(temp_name, unit.eduEntry.eduType)
+                            end
                         end
                     end
                 end

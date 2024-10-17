@@ -777,10 +777,17 @@ function eurStyle(style, set)
             ImGui.PushStyleColor(ImGuiCol.HeaderHovered,1, 1, 1, 0.2)
             ImGui.PushStyleColor(ImGuiCol.Header,1, 1, 1, 0.2)
             ImGui.PushStyleColor(ImGuiCol.HeaderActive,1, 1, 1, 0.0)
+            ImGui.PushStyleColor(ImGuiCol.ScrollbarGrabActive,0.2, 0.2, 0.2, 0.5)
+            ImGui.PushStyleColor(ImGuiCol.ScrollbarBg,1, 1, 1, 0)
+            ImGui.PushStyleColor(ImGuiCol.ScrollbarGrabHovered,0.2, 0.2, 0.2, 0.5)
+            ImGui.PushStyleColor(ImGuiCol.ScrollbarGrab,0.2, 0.2, 0.2, 1)
+            ImGui.PushStyleColor(ImGuiCol.Tab,0.5, 0.5, 0.5, 0.5)
+            ImGui.PushStyleColor(ImGuiCol.TabActive,0.5, 0.5, 0.5, 1)
+            
         else
             ImGui.PopFont()
             ImGui.PopStyleVar(4)
-            ImGui.PopStyleColor(9)
+            ImGui.PopStyleColor(15)
         end
     end
 end

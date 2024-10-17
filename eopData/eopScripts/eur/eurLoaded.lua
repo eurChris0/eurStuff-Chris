@@ -270,14 +270,16 @@ function turnImageCheck(faction)
                     end
                 end
             else
-                if char.characterRecord.portrait ~= "" then
-                    local portrait = char.characterRecord.portrait
-                    portrait = string.gsub(portrait, "mods/Divide_and_Conquer_EUR_EOP4/data/ui/"..eur_localculture.."/portraits/portraits/young/generals/", "")
-                    print(portrait)
-                    if not char_portraits[portrait] then
-                        if file_exists(M2TWEOP.getModPath().."\\data\\ui\\"..eur_localculture.."\\portraits\\portraits\\young\\generals\\"..portrait) then
-                            char_portraits[portrait] = { x = 0, y = 0, img = nil }
-                            char_portraits[portrait].x, char_portraits[portrait].y, char_portraits[portrait].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\"..eur_localculture.."\\portraits\\portraits\\young\\generals\\"..portrait)
+                if eur_localculture then
+                    if char.characterRecord.portrait ~= "" then
+                        local portrait = char.characterRecord.portrait
+                        portrait = string.gsub(portrait, "mods/Divide_and_Conquer_EUR_EOP4/data/ui/"..eur_localculture.."/portraits/portraits/young/generals/", "")
+                        print(portrait)
+                        if not char_portraits[portrait] then
+                            if file_exists(M2TWEOP.getModPath().."\\data\\ui\\"..eur_localculture.."\\portraits\\portraits\\young\\generals\\"..portrait) then
+                                char_portraits[portrait] = { x = 0, y = 0, img = nil }
+                                char_portraits[portrait].x, char_portraits[portrait].y, char_portraits[portrait].img = M2TWEOP.loadTexture(M2TWEOP.getModPath().."\\data\\ui\\"..eur_localculture.."\\portraits\\portraits\\young\\generals\\"..portrait)
+                            end
                         end
                     end
                 end
@@ -304,6 +306,62 @@ function loadImages()
             end
         end
     end
+
+    faction_info_aa = { x = 0, y = 0, img = nil }
+    faction_info_anduin = { x = 0, y = 0, img = nil }
+    faction_info_angmar = { x = 0, y = 0, img = nil }
+    faction_info_bree = { x = 0, y = 0, img = nil }
+    faction_info_da = { x = 0, y = 0, img = nil }
+    faction_info_dale_sa = { x = 0, y = 0, img = nil }
+    faction_info_dg = { x = 0, y = 0, img = nil }
+    faction_info_dorwinion = { x = 0, y = 0, img = nil }
+    faction_info_dunland = { x = 0, y = 0, img = nil }
+    faction_info_el = { x = 0, y = 0, img = nil }
+    faction_info_enedwaith = { x = 0, y = 0, img = nil }
+    faction_info_erebor = { x = 0, y = 0, img = nil }
+    faction_info_gondor = { x = 0, y = 0, img = nil }
+    faction_info_gundabad = { x = 0, y = 0, img = nil }
+    faction_info_harad = { x = 0, y = 0, img = nil }
+    faction_info_he = { x = 0, y = 0, img = nil }
+    faction_info_isengard = { x = 0, y = 0, img = nil }
+    faction_info_kd = { x = 0, y = 0, img = nil }
+    faction_info_khand = { x = 0, y = 0, img = nil }
+    faction_info_lorien = { x = 0, y = 0, img = nil }
+    faction_info_mordor = { x = 0, y = 0, img = nil }
+    faction_info_moria = { x = 0, y = 0, img = nil }
+    faction_info_nd = { x = 0, y = 0, img = nil }
+    faction_info_rhun = { x = 0, y = 0, img = nil }
+    faction_info_rohan = { x = 0, y = 0, img = nil }
+    faction_info_wr = { x = 0, y = 0, img = nil }
+
+    faction_info_aa.x, faction_info_aa.y, faction_info_aa.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_aa.tga')
+    faction_info_anduin.x, faction_info_anduin.y, faction_info_anduin.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_anduin.tga')
+    faction_info_angmar.x, faction_info_angmar.y, faction_info_angmar.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_angmar.tga')
+    faction_info_bree.x, faction_info_bree.y, faction_info_bree.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_bree.tga')
+    faction_info_da.x, faction_info_da.y, faction_info_da.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_da.tga')
+    faction_info_dale_sa.x, faction_info_dale_sa.y, faction_info_dale_sa.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_dale_sa.tga')
+    faction_info_dg.x, faction_info_dg.y, faction_info_dg.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_dg.tga')
+    faction_info_dorwinion.x, faction_info_dorwinion.y, faction_info_dorwinion.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_dorwinion.tga')
+    faction_info_dunland.x, faction_info_dunland.y, faction_info_dunland.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_dunland.tga')
+    faction_info_el.x, faction_info_el.y, faction_info_el.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_el.tga')
+    faction_info_enedwaith.x, faction_info_enedwaith.y, faction_info_enedwaith.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_enedwaith.tga')
+    faction_info_erebor.x, faction_info_erebor.y, faction_info_erebor.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_erebor.tga')
+    faction_info_gondor.x, faction_info_gondor.y, faction_info_gondor.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_gondor.tga')
+    faction_info_gundabad.x, faction_info_gundabad.y, faction_info_gundabad.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_gundabad.tga')
+    faction_info_harad.x, faction_info_harad.y, faction_info_harad.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_harad.tga')
+    faction_info_he.x, faction_info_he.y, faction_info_he.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_he.tga')
+    faction_info_isengard.x, faction_info_isengard.y, faction_info_isengard.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_isengard.tga')
+    faction_info_kd.x, faction_info_kd.y, faction_info_kd.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_kd.tga')
+    faction_info_khand.x, faction_info_khand.y, faction_info_khand.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_khand.tga')
+    faction_info_lorien.x, faction_info_lorien.y, faction_info_lorien.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_lorien.tga')
+    faction_info_mordor.x, faction_info_mordor.y, faction_info_mordor.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_mordor.tga')
+    faction_info_moria.x, faction_info_moria.y, faction_info_moria.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_moria.tga')
+    faction_info_nd.x, faction_info_nd.y, faction_info_nd.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_nd.tga')
+    faction_info_rhun.x, faction_info_rhun.y, faction_info_rhun.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_rhun.tga')
+    faction_info_rohan.x, faction_info_rohan.y, faction_info_rohan.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_rohan.tga')
+    faction_info_wr.x, faction_info_wr.y, faction_info_wr.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_wr.tga')
+    faction_info_nd.x, faction_info_nd.y, faction_info_nd.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\data\\ui\\southern_european\\eventpics\\faction_info_nd.tga')
+
     --printTable(eur_tga_table)
     bg_small_1 = { x = 0, y = 0, img = nil }
     bg_1 = { x = 0, y = 0, img = nil }
@@ -313,6 +371,9 @@ function loadImages()
     button_01 = { x = 0, y = 0, img = nil }
     button_02 = { x = 0, y = 0, img = nil }
     sortstack1 = { x = 0, y = 0, img = nil }
+    map1 = { x = 0, y = 0, img = nil }
+
+    map1.x, map1.y, map1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\pp-me-newest-big.png')
 
     sortstack1.x, sortstack1.y, sortstack1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\sortstack1.png')
     bg_small_1.x, bg_small_1.y, bg_small_1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_small_1.png')
@@ -369,6 +430,10 @@ function loadImages()
     EUR_EVENTS["denmark"][2].image = test1
     EUR_EVENTS["denmark"][3].image = eldarlight
 
+    faction_events_text["turks"]["Faction Info: Northern Dúnedain"].img = faction_info_nd.img
+    faction_events_text["turks"]["Northern Dúnedain"].img = faction_info_nd.img
+    faction_events_text["russia"]["Faction Info: Ar-Adûnâim"].img = faction_info_aa.img
+    
 end
 
 function unloadImages()

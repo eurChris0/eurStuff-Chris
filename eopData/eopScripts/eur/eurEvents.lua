@@ -85,9 +85,9 @@ local pos_y = {}
 function eventsWindow()
 
     ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 5*eurbackgroundWindowSizeBottom)
-    ImGui.SetNextWindowBgAlpha(0)
+    ImGui.SetNextWindowBgAlpha(1)
     ImGui.SetNextWindowSize(1500*eurbackgroundWindowSizeRight, 860*eurbackgroundWindowSizeBottom)
-    ImGui.Begin("Events_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration,ImGuiWindowFlags.NoBackground))
+    ImGui.Begin("Events_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration))
     eurStyle("basic_1", true)
     if bg_3_elven then
         ImGui.Image(bg_3_elven.img,1500*eurbackgroundWindowSizeRight, 850*eurbackgroundWindowSizeBottom)

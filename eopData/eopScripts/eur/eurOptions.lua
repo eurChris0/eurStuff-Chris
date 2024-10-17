@@ -1,3 +1,5 @@
+require('eur/eurHistoricEventText')
+
 local beta_intro = 
 [[Welcome to the Epic Unity Rework V2 beta. This is a pre-release build and subject to change, please do not discuss specifics of the beta outside of the beta testing channels.
 
@@ -50,6 +52,216 @@ temp_options_show = {
     ["poe"] = false,
 }
 
+temp_event_selected = {
+    ["turks"] = {
+        ["Northern Dúnedain"] = true,
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Northern Dúnedain"] = false,
+    },
+    ["russia"] = {
+        ["Alternate Start"] = true,
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["milan"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["sicily"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["scotland"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["byzantium"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["timurids"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["portugal"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["aztecs"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["teutonic_order"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["spain"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["khand"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["venice"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["norway"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["hungary"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["moors"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["mongols"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["ireland"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["denmark"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["england"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["poland"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["hre"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["gundabad"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["france"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["saxons"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+}
+
+temp_event_show = {
+    ["turks"] = {
+        ["Northern Dúnedain"] = true,
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Northern Dúnedain"] = false,
+    },
+    ["russia"] = {
+        ["Alternate Start"] = true,
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["milan"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["sicily"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["scotland"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["byzantium"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["timurids"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["portugal"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["aztecs"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["teutonic_order"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["spain"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["khand"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["venice"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["norway"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["hungary"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["moors"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["mongols"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["ireland"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["denmark"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["england"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["poland"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["hre"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["gundabad"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["france"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+    ["saxons"] = {
+        ["Welcome to EUR V2"] = false,
+        ["Faction Info: Ar-Adûnâim"] = false,
+    },
+}
+
 function optionsButton()
     ImGui.SetNextWindowPos(1320*eurbackgroundWindowSizeRight, 750*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0.0)
@@ -90,7 +302,11 @@ function optionsButton()
 end
 
 function optionsWindow()
+    local temp_i = 0
+    local temp_pos_x = {}
+    local temp_pos_y = {}
     local pos_x, pos_y = 0,0
+    local show_additional = false
     ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 5*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(1)
     ImGui.SetNextWindowSize(1500*eurbackgroundWindowSizeRight, 860*eurbackgroundWindowSizeBottom)
@@ -107,12 +323,67 @@ function optionsWindow()
     if (ImGui.BeginTabBar("options_tabbar_1")) then
         if (ImGui.BeginTabItem("About##01")) then
             ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_tab_1", 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
-            ImGui.NewLine()
-            ImGui.TextWrapped(beta_intro)
-            ImGui.TextWrapped("    - Elven Factions")
+            ImGui.BeginChild("Child Window_options_subtab_1", 375*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
+            if temp_event_selected[eur_player_faction.name] then
+                for k, v in pairs(temp_event_selected[eur_player_faction.name]) do
+                    ImGui.BeginChild("Name3".. k, 375*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
+                    temp_pos_x[temp_i], temp_pos_y[temp_i] = ImGui.GetWindowPos()
+                    ImGui.NewLine()
+                    ImGui.NewLine()
+                    centeredText(k, 0)
+                    ImGui.EndChild()
+        
+                    ImGui.SetNextWindowBgAlpha(0)
+                    ImGui.SetNextWindowPos(temp_pos_x[temp_i]*eurbackgroundWindowSizeRight, temp_pos_y[temp_i]*eurbackgroundWindowSizeBottom)
+                    ImGui.BeginChild("Name3".. k.."2", 375*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
+                    temp_event_selected[eur_player_faction.name][k] = ImGui.Selectable("", temp_event_selected[eur_player_faction.name][k], ImGuiSelectableFlags.None, 375*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
+                    if temp_event_selected[eur_player_faction.name][k] then
+                        temp_event_show[eur_player_faction.name][k] = true
+                        for k2, v2 in pairs(temp_event_selected[eur_player_faction.name]) do
+                            if k2 ~= k then
+                                temp_event_selected[eur_player_faction.name][k2] = false
+                                temp_event_show[eur_player_faction.name][k2] = false
+                            end
+                        end
+                    end
+                    temp_i = temp_i+1
+                    ImGui.EndChild()
+                end
+            end
+            
             ImGui.NewLine()
             ImGui.EndChild()
+            ImGui.SameLine()
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_options_subtab_2", 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
+            if temp_event_selected[eur_player_faction.name] then
+                for k, v in pairs(temp_event_show[eur_player_faction.name]) do
+                    if temp_event_show[eur_player_faction.name][k] then
+                        if faction_events_text[eur_player_faction.name][k] then
+                            if not faction_events_text[eur_player_faction.name][k].func then
+                                if faction_events_text[eur_player_faction.name][k].img then
+                                    centeredImage(faction_events_text[eur_player_faction.name][k].img,370*eurbackgroundWindowSizeRight, 150*eurbackgroundWindowSizeBottom)
+                                end
+                                ImGui.NewLine()
+                                ImGui.TextWrapped(faction_events_text[eur_player_faction.name][k].desc)
+                                show_additional = false
+                            else
+                                faction_events_text[eur_player_faction.name][k].func()
+                                show_additional = true
+                            end
+                        end
+                    end
+                end
+            end
+            ImGui.EndChild()
+
+            if show_additional then
+                ImGui.SameLine()
+                ImGui.SetNextWindowBgAlpha(0)
+                ImGui.BeginChild("Child Window_options_subtab_3", 350*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
+                optionsSideWindow1()
+                ImGui.EndChild()
+            end
             ImGui.EndTabItem()
         end
         if (ImGui.BeginTabItem("Settings##01")) then
@@ -174,70 +445,7 @@ function optionsWindow()
         else
             show_collapse_button = false
         end
-        if (ImGui.BeginTabItem("Scripts##01")) then
-            ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_tab_1", 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
-            ImGui.NewLine()
-            if (ImGui.BeginTabBar("options_tabbar_sub_1")) then
-                if (ImGui.BeginTabItem("Main##01")) then
-                    ImGui.NewLine()
-                    ImGui.TextWrapped("Events:")
-                    ImGui.TextColored(1,0,0,1,"WIP, only Elves right now")
-                    ImGui.TextWrapped("New UI added with selectable campaign events, one off or repeatables with various costs, cooldowns and unlock conditions")
-                    ImGui.TextWrapped("    - Varies per faction.")
-                    ImGui.TextWrapped("    - See Events UI for details.")
-                    ImGui.NewLine()
-                    ImGui.TextWrapped("Passing of the Elves:")
-                    ImGui.TextColored(1,0,0,1,"WIP, only Elves")
-                    ImGui.TextWrapped("Long desc goes here...")
-                    ImGui.TextWrapped("    - Ends on reaching rank 1-2 or on faction goal.")
-                    ImGui.TextWrapped("    - Expanding territory, winning battles or building Grove buildings mitigates effects.")
-                    ImGui.TextWrapped("    - Losing battles exacerbates effects.")
-                    ImGui.NewLine()
-                    ImGui.TextWrapped("Unit Upgrades:")
-                    ImGui.TextColored(1,0,0,1,"WIP, Wood Elves and Rohan right now.")
-                    ImGui.TextWrapped("Upgrade certain units to higher tier ones once experience requirement is met.")
-                    ImGui.TextWrapped("    - Available units have button added to the Unit Scroll.")
-                    ImGui.NewLine()
-                    ImGui.TextWrapped("General's Bodyguard:")
-                    ImGui.TextColored(1,0,0,1,"WIP")
-                    ImGui.TextWrapped("Upgrade a generals bodyguard throughout the campaign.")
-                    ImGui.TextWrapped("    - Generals that start with the generic bodyguard switched to new starting unit.")
-                    ImGui.TextWrapped("    - Basic unit unlocks based on Command and Influence.")
-                    ImGui.TextWrapped("    - Bodyguard size based on Command level.")
-                    ImGui.TextWrapped("    - Special unlocks for specific characters or traits.")
-                    ImGui.TextWrapped("    - Button added to Character Panel.")
-                    ImGui.NewLine()
-                    ImGui.EndTabItem()
-                end
-                if (ImGui.BeginTabItem("Background##01")) then
-                    ImGui.NewLine()
-                    ImGui.TextWrapped("Campaign: ")
-                    ImGui.TextWrapped("    - Units will replenish over the end turn when garrisoned, random amount based on unit size.")
-                    ImGui.TextWrapped("    - Dynamic post-battle spoils based on victory type and army composition.")
-                    ImGui.TextWrapped("    - Auto-sorting for player's armies.")
-                    ImGui.TextWrapped("    - Some T1 units are converted during a confederation to bring them in line with the player's faction.")
-                    ImGui.TextWrapped("    - Units can be temporarily split during pre-battle.")
-                    ImGui.TextWrapped("    - If a unit is disbanded in a settlement where it can be recruited, adds to the recruitment pool.")
-                    
-                    ImGui.TextWrapped("    - Settlements bought or sold through diplomacy will be automatically assigned a garrison.")
-                    --ImGui.TextWrapped("    - ")
-                    ImGui.NewLine()
-                    ImGui.EndTabItem()
-                end
-                if (ImGui.BeginTabItem("Hotkeys##01")) then
-                    ImGui.NewLine()
-                    ImGui.TextWrapped("Battle: ")
-                    ImGui.TextWrapped("    - CTRL+Q to flash units.")
-                    ImGui.TextWrapped("    - Z to zoom out.")
-                    ImGui.TextWrapped("    - X to zoom in.")
-                    ImGui.NewLine()
-                    ImGui.EndTabItem()
-                end
-                ImGui.EndTabBar()
-            end
-            ImGui.EndChild()
-            ImGui.EndTabItem()
+        if (ImGui.BeginTabItem("Credits##01")) then
         end
         ImGui.EndTabBar()
     end
@@ -284,51 +492,51 @@ function optionsAccept()
     ImGui.End()
 end
 
-function hoveredCheck(element)
+function hoveredCheck(element, show_list, selected_list)
     local hovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.ChildWindows)
     if hovered then
         clickedleft = ImGui.IsMouseClicked(ImGuiMouseButton.Left, false)
         if clickedleft then
-            if not temp_options_selected[element] then
-                for k, v in pairs(temp_options_selected) do
+            if not selected_list[element] then
+                for k, v in pairs(selected_list) do
                     if v then
-                        temp_options_selected[k] = false
+                        selected_list[k] = false
                     end
                 end
-                for k, v in pairs(temp_options_show) do
-                    temp_options_show[k] = false
+                for k, v in pairs(show_list) do
+                    show_list[k] = false
                 end
-                temp_options_show[element] = true
-                temp_options_selected[element] = true
+                show_list[element] = true
+                selected_list[element] = true
             else
-                temp_options_selected[element] = false
-                temp_options_show[element] = false
+                selected_list[element] = false
+                show_list[element] = false
             end
         end
         local is_selected = false
-        for k, v in pairs(temp_options_selected) do
+        for k, v in pairs(selected_list) do
             if v then
                 is_selected = true
             end
         end
         if not is_selected then
-            for k, v in pairs(temp_options_show) do
+            for k, v in pairs(show_list) do
                 v = false
             end
-            temp_options_show[element] = true
+            show_list[element] = true
         end
     else
         local is_selected = false
-        for k, v in pairs(temp_options_selected) do
+        for k, v in pairs(selected_list) do
             if v then
                 is_selected = true
             end
         end
         if not is_selected then
-            for k, v in pairs(temp_options_show) do
+            for k, v in pairs(show_list) do
                 v = false
             end
-            temp_options_show[element] = false
+            show_list[element] = false
         end
     end
 
@@ -357,7 +565,7 @@ function optionsGeneralUpgrades(bool)
                     bg_swap_cooldown=bg_swap_cooldown+5
                 end
             end
-            hoveredCheck(name)
+            hoveredCheck(name, temp_options_show, temp_options_selected)
             ImGui.EndChild()
         end
     else
@@ -414,7 +622,7 @@ function optionsReplen(bool)
             else
                 replen_beast_value = 8
             end
-            hoveredCheck(name)
+            hoveredCheck(name, temp_options_show, temp_options_selected)
             ImGui.EndChild()
         end
     else
@@ -487,7 +695,7 @@ function optionsGeneralBGSize(bool)
                     bg_min_size_multi=bg_min_size_multi+1
                 end
             end
-            hoveredCheck(name)
+            hoveredCheck(name, temp_options_show, temp_options_selected)
             ImGui.EndChild()
         end
     else
@@ -531,7 +739,7 @@ function optionsUnitUpgrades(bool)
                     unit_upgrades_multi=unit_upgrades_multi+1
                 end
             end
-            hoveredCheck(name)
+            hoveredCheck(name, temp_options_show, temp_options_selected)
             ImGui.EndChild()
         end
     else
@@ -560,7 +768,7 @@ function optionsPrebattle(bool)
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
             options_pre_battle, pressed = ImGui.Checkbox("Enabled", options_pre_battle)
-            hoveredCheck(name)
+            hoveredCheck(name, temp_options_show, temp_options_selected)
             ImGui.EndChild()
         end
     else
@@ -630,7 +838,7 @@ function optionsPOE(bool)
                     end
                 end
             end
-            hoveredCheck(name)
+            hoveredCheck(name, temp_options_show, temp_options_selected)
             ImGui.EndChild()
         end
     else
@@ -658,7 +866,7 @@ function optionsFont(bool)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
             font_choice, clicked_font = ImGui.Combo("Font", font_choice, font_list_names, #font_list, #font_list+1)
             font_RINGM = font_list[font_choice+1]
-            hoveredCheck(name)
+            hoveredCheck(name, temp_options_show, temp_options_selected)
             ImGui.EndChild()
         end
     else
@@ -711,13 +919,13 @@ function optionsCampaign(bool)
             sort_order.b, clicked2 = ImGui.Combo("Second", sort_order.b, {"(Default)EDU Name", "Category(eg infantry)", "Class(eg heavy)", "Soldier Count", "Experience", "Category + Class", "AI unit value"}, 7, 8)
             sort_order.c, clicked3 = ImGui.Combo("Third", sort_order.c, {"EDU Name", "Category(eg infantry)", "Class(eg heavy)", "(Default)Soldier Count", "Experience", "Category + Class", "AI unit value"}, 7, 8)
             ImGui.Separator()
-            hoveredCheck(name)
+            hoveredCheck(name, temp_options_show, temp_options_selected)
             ImGui.EndChild()
         end
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
+            ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
 
             ImGui.Text("Hardcore mode:")
             ImGui.BulletText("Disables auto-resolve.")

@@ -962,6 +962,7 @@ function swapBGWindow()
         end
     end
     if selectedUnit ~= nil then
+        if selectedUnit.army == nil then return end
         if selectedUnit.army:findInSettlement() ~= nil then
             if selectedUnit.character ~= nil then
                 temp_char_stuff = selectedUnit.character

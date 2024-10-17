@@ -316,17 +316,12 @@ end
 function onCharacterSelected2(eventData)
     local character = eventData.character.character
     local charRecord = eventData.character
-    local fac1 = eur_campaign:getFaction("saxons")
-    --character:switchFaction(fac1, true, true)
+    local fac1 = eur_campaign:getFaction("russia")
     for i = 0, fac1.armiesNum - 1 do
         local army = fac1:getArmy(i)
-        if army.numOfUnits < 20 then
-            --army:createUnit("Amanyar Riders", 3, 1, 1)
-            --army:createUnit("Noldorin Veterans", 3, 1, 1)
-        end
         for j = 0, army.numOfUnits - 1 do
             local unit = army:getUnit(j)
-            
+            print(unit.eduEntry.unitCardTga)
         end
     end
     print("open")

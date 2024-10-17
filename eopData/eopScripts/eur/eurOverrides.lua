@@ -81,7 +81,6 @@ if onFactionTurnEnd then
         eurEventUnlockCheck(eventData.faction.factionID)
         genRankCheck(eventData.faction, nil)
         swapHeirLeaderStuffAI(eventData.faction)
-        turnImageCheck(eventData.faction)
         genUnlockNotifation(eventData.faction)
     end
 else
@@ -110,7 +109,6 @@ else
         eurEventUnlockCheck(eventData.faction.factionID)
         genRankCheck(eventData.faction, nil)
         swapHeirLeaderStuffAI(eventData.faction)
-        turnImageCheck(eventData.faction)
         genUnlockNotifation(eventData.faction)
     end
 end
@@ -126,6 +124,7 @@ if onFactionTurnStart then
                 eurMOTD.campaignLoadedBeta()
             end
         end
+        turnImageCheck(eventData.faction)
     end
 else
     function onFactionTurnStart(eventData)
@@ -136,6 +135,7 @@ else
                 eurMOTD.campaignLoadedBeta()
             end
         end
+        turnImageCheck(eventData.faction)
     end
 end
 if onPreBattlePanelOpen then
@@ -439,5 +439,15 @@ if onBecomesFactionHeir then
 else
     function onBecomesFactionHeir(eventData)
         swapHierLeaderStuff(eventData.character.character, false)
+    end
+end
+
+function onGeneralAssaultsGeneral(eventData)
+    if options_hardcore then
+        if eventData.characterType == 3 then
+            eur_campaign.restrictAutoResolve = 0
+        else
+            eur_campaign.restrictAutoResolve = 1
+        end
     end
 end
