@@ -316,31 +316,35 @@ faction_events_text = {
 alt_startAA = {
     [1] = {
         title="Umbar",
-        body="Havens of Umbar, Havens of Umbar, Havens of Umbar, Havens of Umbar, Havens of Umbar, Havens of Umbar, Havens of Umbar, Havens of Umbar, Havens of Umbar, Havens of Umbar",
-        units1 = {"#Rozadan_Footmen.tga","#Rozadan_Footmen.tga","#Rozadan_Footmen.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga",},
+        body=[[A haven of Corsairs on the southern coast. Black stone walls and timber docks shelter pirate fleets. Once Númenórean, now a den of outlaws and raiders, defiant against Gondor's rule. Salt, intrigue, and rebellion perfume the air of this enduring thorn in the Reunited Kingdom's side.]],
+        units1 = {"#Rozadan_Footmen.tga","#Rozadan_Halberdiers.tga","#Rozadan_Bowmen.tga",},
         units2 = {"#Castamirs_Chosen.tga",},
         units3 = {"#Numenorean_Marines.tga",},
+        multi = {"?","?","?",}
     },
     [2] = {
-        title="Sea of Rhun",
-        body="",
-        units1 = {"#Rozadan_Footmen.tga","#Rozadan_Footmen.tga","#Rozadan_Footmen.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga",},
+        title="The Sea of Rhûn",
+        body="A vast expanse on the eastern shores of Middle-earth, cradles remnants of a forgotten age. Its shores are lined with crumbling stone docks and weather-beaten watchtowers, echoing the glories of an era when trade thrived and fleets commanded respect across the waters. Once a vibrant hub for merchants and seafarers, it now languishes under the weight of time.",
+        units1 = {"#Rozadan_Footmen.tga","#Rozadan_Halberdiers.tga","#Rozadan_Bowmen.tga",},
         units2 = {"#Castamirs_Chosen.tga",},
         units3 = {"#Numenorean_Marines.tga",},
+        multi = {"?","?","?",}
     },
     [3] = {
         title="Lond Daer",
-        body="",
-        units1 = {"#Rozadan_Footmen.tga","#Rozadan_Footmen.tga","#Rozadan_Footmen.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga",},
+        body="Ancient Númenórean port on the western shores of Middle-earth. Crumbling stone quays and weathered fortifications stand testament to faded glory. Once a bustling haven of trade and naval might, now a haunt of gulls and restless spirits. Salt-worn ruins whisper tales of Tar-Aldarion's ambition and the rise of Númenor's sea-power. ",
+        units1 = {"#Rozadan_Footmen.tga","#Rozadan_Halberdiers.tga","#Rozadan_Bowmen.tga",},
         units2 = {"#Castamirs_Chosen.tga",},
         units3 = {"#Numenorean_Marines.tga",},
+        multi = {"?","?","?",}
     },
     [4] = {
         title="Forodwaith",
-        body="",
-        units1 = {"#Rozadan_Footmen.tga","#Rozadan_Footmen.tga","#Rozadan_Footmen.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Halberdiers.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga","#Rozadan_Bowmen.tga",},
+        body="A merciless expanse of ice and snow in Middle-earth's uttermost north. Howling winds sculpt endless white plains beneath a pale, unforgiving sky. The Ice Bay of Forochel's frozen fingers claw at the land. Here, the hardy Lossoth endure, defying nature's harshest whims. Bitter cold and isolation pervade this realm at the edge of the known world.",
+        units1 = {"#Rozadan_Footmen.tga","#Rozadan_Halberdiers.tga","#Rozadan_Bowmen.tga",},
         units2 = {"#Castamirs_Chosen.tga",},
         units3 = {"#Numenorean_Marines.tga",},
+        multi = {"?","?","?",}
     },
 }
 
@@ -348,8 +352,7 @@ alt_startAA_choice = 1
 
 function optionsSideWindow1()
     if eur_player_faction.name == "russia" then
-        centeredText(alt_startAA[alt_startAA_choice].title)
-        ImGui.NewLine()
+        centeredText(alt_startAA[alt_startAA_choice].title, 0)
         ImGui.NewLine()
         ImGui.TextWrapped(alt_startAA[alt_startAA_choice].body)
         ImGui.NewLine()
@@ -371,8 +374,32 @@ function optionsSideWindow1()
                 end
             end
         end
-        --ImGui.NewLine()
-        ImGui.NewLine()
+        ImGui.Text("Ar-Gimilkhâd")
+        if alt_startAA_choice ~= 1 then
+            ImGui.TextWrapped("(Some of our men may be lost undertaking this journey.)")
+        end
+        if alt_startAA_choice == 1 then
+            ImGui.TextColored(0, 1, 0, 1, tostring(alt_startAA[alt_startAA_choice].multi[1]))
+        else
+            ImGui.TextColored(1, 0, 0, 1, tostring(alt_startAA[alt_startAA_choice].multi[1]))
+        end
+        ImGui.SameLine()
+        ImGui.Text("x Belegaer Footmen")
+        if alt_startAA_choice == 1 then
+            ImGui.TextColored(0, 1, 0, 1, tostring(alt_startAA[alt_startAA_choice].multi[2]))
+        else
+            ImGui.TextColored(1, 0, 0, 1, tostring(alt_startAA[alt_startAA_choice].multi[2]))
+        end
+        ImGui.SameLine()
+        ImGui.Text("x Belegaer Pikemen")
+        if alt_startAA_choice == 1 then
+            ImGui.TextColored(0, 1, 0, 1, tostring(alt_startAA[alt_startAA_choice].multi[3]))
+        else
+            ImGui.TextColored(1, 0, 0, 1, tostring(alt_startAA[alt_startAA_choice].multi[3]))
+        end
+        ImGui.SameLine()
+        ImGui.Text("x Belegaer Archers")
+
         if char_portraits["Gimilzor"] then
             ImGui.Image(char_portraits["Gimilzor"].img,50*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
             ImGui.SameLine()
@@ -391,8 +418,10 @@ function optionsSideWindow1()
                 end
             end
         end
-        ImGui.NewLine()
-        ImGui.NewLine()
+        ImGui.Text("Lord Gimilzôr")
+        ImGui.TextColored(0, 1, 0, 1, "1")
+        ImGui.SameLine()
+        ImGui.Text("x Naru n'Aru Sentinels")
         if char_portraits["Gimilthon"] then
             ImGui.Image(char_portraits["Gimilthon"].img,50*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
             ImGui.SameLine()
@@ -411,6 +440,81 @@ function optionsSideWindow1()
                 end
             end
         end
+        ImGui.Text("Gimilthôn")
+        ImGui.TextColored(0, 1, 0, 1, "1")
+        ImGui.SameLine()
+        ImGui.Text("x Numenorean Cohort")
+    end
+end
+
+function repostionAA()
+    local aa1 = getnamedCharbyLabel("bn_army_1")
+    local aa2 = getnamedCharbyLabel("bn_army_2")
+    local aa3 = getnamedCharbyLabel("bn_army_3")
+    local aa4 = getnamedCharbyLabel("bn_army_4")
+    local aa5 = nil
+    local aa6 = nil
+    local faction = eur_player_faction
+    for j = 0, faction.numOfCharacters - 1 do
+        local char = faction:getCharacter(j)
+        if char.characterRecord ~= nil then
+            if char.characterRecord.shortName == "Zagarakhor" then
+                aa5 = char
+            elseif char.characterRecord.shortName == "Indrazor" then
+                aa6 = char
+            end
+        end
+    end
+    if not aa1 then return end
+    if not aa2 then return end
+    if not aa3 then return end
+    if not aa4 then return end
+    if not aa5 then return end
+    if not aa6 then return end
+    if alt_startAA_choice == 1 then
+        --nothing
+    elseif alt_startAA_choice == 2 then
+        for i = aa1.character.army.numOfUnits-7, aa1.character.army.numOfUnits do
+            local un = aa1.character.army:getUnit(i)
+            if un then
+                un:kill()
+            end
+        end
+        aa1.character:teleport(500,306)
+        aa2.character:teleport(502,303)
+        aa3.character:teleport(502,309)
+        aa4.character:teleport(472,326)
+        aa5:teleport(496,326)
+        aa6:teleport(494,326)
+        M2TW.stratMap.jumpCamera(500,306)
+    elseif alt_startAA_choice == 3 then
+        for i = aa1.character.army.numOfUnits-5, aa1.character.army.numOfUnits do
+            local un = aa1.character.army:getUnit(i)
+            if un then
+                un:kill()
+            end
+        end
+        aa1.character:teleport(135,289)
+        aa2.character:teleport(137,285)
+        aa3.character:teleport(136,285)
+        aa4.character:teleport(137,277)
+        aa5:teleport(137,277)
+        aa6:teleport(135,277)
+        M2TW.stratMap.jumpCamera(135,289)
+    elseif alt_startAA_choice == 4 then
+        for i = aa1.character.army.numOfUnits-5, aa1.character.army.numOfUnits do
+            local un = aa1.character.army:getUnit(i)
+            if un then
+                un:kill()
+            end
+        end
+        aa1.character:teleport(162,461)
+        aa2.character:teleport(159,465)
+        aa3.character:teleport(162,468)
+        aa4.character:teleport(156,473)
+        aa5:teleport(156,473)
+        aa6:teleport(154,473)
+        M2TW.stratMap.jumpCamera(162,461)
     end
 end
 
@@ -424,40 +528,64 @@ function welcomeAA()
     ImGui.SetNextWindowBgAlpha(0)
     ImGui.SetNextWindowPos(930*eurbackgroundWindowSizeRight, 670*eurbackgroundWindowSizeBottom)
     ImGui.BeginChild("Child Window_options_subtab_2_2", 65*eurbackgroundWindowSizeRight, 65*eurbackgroundWindowSizeBottom)
-    if test1 then
-        local test = ImGui.ImageButton("test4", test1.img,50*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
+    if aa_icon then
+        local test = ImGui.ImageButton("test4", aa_icon.img,50*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
         if test then
             alt_startAA_choice = 1
+        end
+        local hovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.ChildWindows)
+        if hovered then
+            ImGui.BeginTooltip()
+            ImGui.Text(alt_startAA[1].title)
+            ImGui.EndTooltip()
         end
     end
     ImGui.EndChild()
     ImGui.SetNextWindowBgAlpha(0)
     ImGui.SetNextWindowPos(1210*eurbackgroundWindowSizeRight, 400*eurbackgroundWindowSizeBottom)
     ImGui.BeginChild("Child Window_options_subtab_2_3", 65*eurbackgroundWindowSizeRight, 65*eurbackgroundWindowSizeBottom)
-    if test1 then
-        local test = ImGui.ImageButton("test4", test1.img,50*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
+    if aa_icon then
+        local test = ImGui.ImageButton("test4", aa_icon.img,50*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
         if test then
             alt_startAA_choice = 2
+        end
+        local hovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.ChildWindows)
+        if hovered then
+            ImGui.BeginTooltip()
+            ImGui.Text(alt_startAA[2].title)
+            ImGui.EndTooltip()
         end
     end
     ImGui.EndChild()
     ImGui.SetNextWindowBgAlpha(0)
     ImGui.SetNextWindowPos(830*eurbackgroundWindowSizeRight, 400*eurbackgroundWindowSizeBottom)
     ImGui.BeginChild("Child Window_options_subtab_2_4", 65*eurbackgroundWindowSizeRight, 65*eurbackgroundWindowSizeBottom)
-    if test1 then
-        local test = ImGui.ImageButton("test4", test1.img,50*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
+    if aa_icon then
+        local test = ImGui.ImageButton("test4", aa_icon.img,50*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
         if test then
             alt_startAA_choice = 3
+        end
+        local hovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.ChildWindows)
+        if hovered then
+            ImGui.BeginTooltip()
+            ImGui.Text(alt_startAA[3].title)
+            ImGui.EndTooltip()
         end
     end
     ImGui.EndChild()
     ImGui.SetNextWindowBgAlpha(0)
     ImGui.SetNextWindowPos(850*eurbackgroundWindowSizeRight, 200*eurbackgroundWindowSizeBottom)
     ImGui.BeginChild("Child Window_options_subtab_2_5", 65*eurbackgroundWindowSizeRight, 65*eurbackgroundWindowSizeBottom)
-    if test1 then
-        local test = ImGui.ImageButton("test4", test1.img,50*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
+    if aa_icon then
+        local test = ImGui.ImageButton("test4", aa_icon.img,50*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
         if test then
             alt_startAA_choice = 4
+        end
+        local hovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.ChildWindows)
+        if hovered then
+            ImGui.BeginTooltip()
+            ImGui.Text(alt_startAA[4].title)
+            ImGui.EndTooltip()
         end
     end
     ImGui.EndChild()

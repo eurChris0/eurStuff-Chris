@@ -396,6 +396,9 @@ function loadImages()
     ulmo = { x = 0, y = 0, img = nil }
     button1 = { x = 0, y = 0, img = nil }
     icon_unit = { x = 0, y = 0, img = nil }
+    aa_icon = { x = 0, y = 0, img = nil }
+
+    aa_icon.x, aa_icon.y, aa_icon.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\aa_icon.tga')
 
     icon_unit.x, icon_unit.y, icon_unit.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\icon_unit.tga')
     test1.x, test1.y, test1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\test1.png')

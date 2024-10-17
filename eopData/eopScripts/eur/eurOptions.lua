@@ -476,6 +476,9 @@ function optionsAccept()
         show_options_accept = false
         options_first_run = false
         setBGSize(eur_player_faction, nil, nil)
+        if eur_player_faction.name == "russia" then
+            repostionAA()
+        end
         if EOP_WAVS["uicah_menuclick1"] ~= nil then
             M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
         end

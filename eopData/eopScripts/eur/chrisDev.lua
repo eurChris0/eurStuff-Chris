@@ -301,6 +301,14 @@ function onSettlementSelected2(eventData)
                 end
             end
         end
+        local faction = eur_player_faction
+        for j = 0, faction.numOfCharacters - 1 do
+            local char = faction:getCharacter(j)
+            if char.characterRecord ~= nil then
+                print(char.characterRecord.label)
+                print(char.characterRecord.localizedDisplayName)
+            end
+        end
     end
 
     for i = 0, 1500 do
@@ -321,7 +329,8 @@ function onCharacterSelected2(eventData)
         local army = fac1:getArmy(i)
         for j = 0, army.numOfUnits - 1 do
             local unit = army:getUnit(j)
-            print(unit.eduEntry.unitCardTga)
+            print(j)
+            print(unit.eduEntry.eduType)
         end
     end
     print("open")
