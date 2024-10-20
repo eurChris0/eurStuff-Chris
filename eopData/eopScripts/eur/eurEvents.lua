@@ -3,41 +3,85 @@ require('eur/eurEvent/eurEventsVars')
 require('eur/eurEvent/eurEventImGiuWindows')
 
 function eventsButton()
+    if not EUR_EVENTS[eur_localFactionName] then return end
     ImGui.SetNextWindowPos(1490*eurbackgroundWindowSizeRight, 840*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0.0)
     ImGui.SetNextWindowSize(80, 80)
     ImGui.Begin("Events_button_01", true, bit.bor(ImGuiWindowFlags.NoDecoration,ImGuiWindowFlags.NoBackground))
     eurStyle("basic_1", true)
-    if button1 then
-        if ImGui.ImageButton("events_button_1",button1.img,60,60) then
-            if show_events_window == false then
-                show_events_window = true
-                if EOP_WAVS["uicah_menuclick1"] ~= nil then
-                    M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+    local show_button = false
+    if EUR_EVENTS[eur_localFactionName] then
+        for i = 0, #EUR_EVENTS[eur_localFactionName] do
+            if EUR_EVENTS[eur_localFactionName][i].unlocked then
+                show_button = true
+            end
+        end
+    end
+    if show_button then
+        if button1 then
+            if ImGui.ImageButton("events_button_1",button1.img,60,60) then
+                if show_events_window == false then
+                    show_events_window = true
+                    if EOP_WAVS["uicah_menuclick1"] ~= nil then
+                        M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+                    end
+                else
+                    show_events_window = false
+                    if EOP_WAVS["uicah_menuclick1"] ~= nil then
+                        M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+                    end
                 end
-            else
-                show_events_window = false
-                if EOP_WAVS["uicah_menuclick1"] ~= nil then
-                    M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+            end
+            local hovered = ImGui.IsItemHovered()
+            if hovered then
+                ImGui.BeginTooltip()
+                if eur_event_min_cooldown > 0 then
+                    ImGui.TextColored(1, 0, 0, 1, "Event cooldown: "..eur_event_min_cooldown.." turns")
+                end
+                if EUR_EVENTS[eur_localFactionName] then
+                    for i = 0, #EUR_EVENTS[eur_localFactionName] do
+                        if EUR_EVENTS[eur_localFactionName][i].active_duration > 0 then
+                            ImGui.TextColored(0, 1, 0, 1,EUR_EVENTS[eur_localFactionName][i].name..", active: "..EUR_EVENTS[eur_localFactionName][i].active_duration.." turns")
+                        else
+                            if EUR_EVENTS[eur_localFactionName][i].active_cooldown > 0 then
+                                ImGui.TextColored(0, 0, 1, 1,EUR_EVENTS[eur_localFactionName][i].name..", cooldown: "..EUR_EVENTS[eur_localFactionName][i].active_cooldown.." turns")
+                            else
+                                if EUR_EVENTS[eur_localFactionName][i].unlocked then
+                                    ImGui.Text(EUR_EVENTS[eur_localFactionName][i].name..": Available")
+                                end
+                            end
+                        end
+                    end
+                    ImGui.EndTooltip()
+                end
+            end
+        else
+            if (ImGui.Button("Events", 80, 20)) then
+                if show_events_window == false then
+                    show_events_window = true
+                    if EOP_WAVS["uicah_menuclick1"] ~= nil then
+                        M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+                    end
+                else
+                    show_events_window = false
+                    if EOP_WAVS["uicah_menuclick1"] ~= nil then
+                        M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
+                    end
                 end
             end
         end
     else
-        if (ImGui.Button("Events", 80, 20)) then
-            if show_events_window == false then
-                show_events_window = true
-                if EOP_WAVS["uicah_menuclick1"] ~= nil then
-                    M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
-                end
-            else
-                show_events_window = false
-                if EOP_WAVS["uicah_menuclick1"] ~= nil then
-                    M2TWEOPSounds.playEOPSound(EOP_WAVS["uicah_menuclick1"])
-                end
+        if test1 then
+            ImGui.Image(test1.img,60,60)
+            local hovered = ImGui.IsItemHovered()
+            if hovered then
+                ImGui.BeginTooltip()
+                ImGui.Text("No events available")
+                ImGui.EndTooltip()
             end
         end
     end
-        eurStyle("basic_1", false)
+    eurStyle("basic_1", false)
     ImGui.End()
 end
 
@@ -86,20 +130,20 @@ function eventsWindow()
 
     ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 5*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(1)
-    ImGui.SetNextWindowSize(1500*eurbackgroundWindowSizeRight, 860*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowSize(1500*eurbackgroundWindowSizeRight, 825*eurbackgroundWindowSizeBottom)
     ImGui.Begin("Events_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration))
     eurStyle("basic_1", true)
-    if bg_3_elven then
-        ImGui.Image(bg_3_elven.img,1500*eurbackgroundWindowSizeRight, 850*eurbackgroundWindowSizeBottom)
+    if event_backgrounds[eur_player_faction.name] then
+        ImGui.Image(event_backgrounds[eur_player_faction.name],1500*eurbackgroundWindowSizeRight, 815*eurbackgroundWindowSizeBottom)
     end
 
     ImGui.SetNextWindowPos(210*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0)
-    ImGui.BeginChild("Events_window_main", 1480*eurbackgroundWindowSizeRight, 700*eurbackgroundWindowSizeBottom)
+    ImGui.BeginChild("Events_window_main", 1480*eurbackgroundWindowSizeRight, 665*eurbackgroundWindowSizeBottom)
     --centeredText(eur_player_faction.localizedName .. " Events", 20)
     ImGui.NewLine()
     ImGui.SetNextWindowBgAlpha(0)
-    ImGui.BeginChild("Events_window_child_01", 900*eurbackgroundWindowSizeRight, 600*eurbackgroundWindowSizeBottom)
+    ImGui.BeginChild("Events_window_child_01", 900*eurbackgroundWindowSizeRight, 565*eurbackgroundWindowSizeBottom)
     if not EUR_EVENTS[eur_localFactionName] then return end
     for i = 0, #EUR_EVENTS[eur_localFactionName] do
         ImGui.SetNextWindowBgAlpha(0)

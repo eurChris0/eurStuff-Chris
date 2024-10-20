@@ -146,7 +146,9 @@ function draw(pDevice)
             calcWindow()
         end
         if in_campaign_map == true then
-            eventsButton()
+            if not diplo_open then
+                eventsButton()
+            end
             eurMapTooltips()
             if show_options_accept then
                 optionsAccept()

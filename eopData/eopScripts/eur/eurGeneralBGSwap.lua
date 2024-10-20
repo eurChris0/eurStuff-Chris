@@ -145,6 +145,10 @@ default_general_units = {
         old = "Rohan Bodyguard",
         new = "Rohirrim",
     },
+    ["normans"] = {
+        old = "Merchant Infantry",
+        new = "Dunedain Wardens",
+    },
     ["sicily"] = {
         old = "Gondor Bodyguard",
         new = "Territorial Guardsmen",
@@ -287,6 +291,24 @@ gen_units_list = {
         },
     },
     ["turks"] = {
+        ["T1"] = {
+            [0] = "Dunedain Wardens",
+            [1] = "Dunedain Scouts",
+        },
+        ["T2"] = {
+            [0] = "Dunedain Armsmen",
+            [1] = "Dunedain Rangers",
+        },
+        ["T3"] = {
+            [0] = "Sons of Numenor",
+            [1] = "Fornost-Erain Knights",
+            [2] = "Dunedain Bodyguard",
+        },
+        ["special"] = {
+            "Dunedain Steelbowmen",
+        },
+    },
+    ["normans"] = {
         ["T1"] = {
             [0] = "Dunedain Wardens",
             [1] = "Dunedain Scouts",
@@ -1168,6 +1190,8 @@ function swapBGWindow()
                                         swap_bg_window = false
                                     end
                                     ImGui.SameLine()
+                                else
+                                    ImGui.TextColored(1,0,0,1,"Not enough gold.")
                                 end
                             end
                         end
@@ -1201,7 +1225,7 @@ function bgSwapAccept()
     eurStyle("basic_1", true)
     centeredText("Swap bodyguard to "..temp_gen_units[temp_gen_units_target+1].." for "..tostring(cost).." gold?",0)
     ImGui.NewLine()
-    centeredText("Cooldown: 5 turns.")
+    centeredText("Cooldown: 10 turns.")
     if (centeredImageButton("Yes", 80, 50, -40)) then
         local name = temp_char_stuff.characterRecord.shortName..tostring(temp_char_stuff.characterRecord.label)
         persistent_gen_list[name].cooldown = bg_swap_cooldown
@@ -1307,13 +1331,15 @@ function genUnitCheck(char, char_rank)
             end
         end
     end
-    if char:getTraitLevel("FactionHeir") > 0 then
-        log("checking trait FactionHeir for: "..char.label)
-        if leaderheir_combi_list[char.character.faction.name] then
-            local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[char.character.faction.name].heir.unit)
-            if eduEntry ~= nil then
-                if eduEntry:hasOwnership(char.character.faction.factionID) then
-                    table.insert(temp_gen_units, leaderheir_combi_list[char.character.faction.name].heir.unit)
+    if current_heir_check[0] == char then
+        if char:getTraitLevel("FactionHeir") > 0 then
+            log("checking trait FactionHeir for: "..char.label)
+            if leaderheir_combi_list[char.character.faction.name] then
+                local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[char.character.faction.name].heir.unit)
+                if eduEntry ~= nil then
+                    if eduEntry:hasOwnership(char.character.faction.factionID) then
+                        table.insert(temp_gen_units, leaderheir_combi_list[char.character.faction.name].heir.unit)
+                    end
                 end
             end
         end
@@ -1676,6 +1702,7 @@ end
 
 
 function genUnlockNotifation(faction)
+    if not options_gennotif then return end
     if faction.isPlayerControlled == 0 then return end
     log("start units check")
     for i = 0, faction.numOfCharacters - 1 do
@@ -1700,13 +1727,21 @@ function genUnlockNotifation(faction)
                 if not char_unlocks[char.label].t2 then
                     if char_rank > 110 then
                         char_unlocks[char.label].t2 = true
-                        stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.shortName)
+                        local un_list = "\n"
+                        for i = 0, #gen_units_list[faction.name]["T2"] - 1 do 
+                            un_list = un_list.."\n"..gen_units_list[faction.name]["T2"][i]
+                        end
+                        stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.localizedDisplayName..un_list)
                     end
                 end
                 if not char_unlocks[char.label].t3 then
                     if char_rank > 170 then
+                        local un_list = "\n"
+                        for i = 0, #gen_units_list[faction.name]["T3"] - 1 do 
+                            un_list = un_list.."\n"..gen_units_list[faction.name]["T3"][i]
+                        end
                         char_unlocks[char.label].t3 = true
-                        stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.shortName)
+                        stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.localizedDisplayName..un_list)
                     end
                 end
             end
@@ -1715,21 +1750,29 @@ function genUnlockNotifation(faction)
                 for k, v in pairs(conquer_traits) do 
                     log("checking trait "..k.." for: "..char.label)
                     if char:getTraitLevel(k) > v then
+                        local un_list = "\n"
+                        for i = 1, #gen_units_list[faction.name]["special"] do 
+                            un_list = un_list.."\n"..gen_units_list[faction.name]["special"][i]
+                        end
                         char_unlocks[char.label].special = true
-                        stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.shortName)
+                        stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.localizedDisplayName..un_list)
                     end
                 end
             end
             if not char_unlocks[char.label].leader then
                 if char:getTraitLevel("FactionLeader") > 0 then
+                    local un_list = "\n"
+                    un_list = un_list..leaderheir_combi_list[char.character.faction.name].leader.unit
                     char_unlocks[char.label].leader = true
-                    stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.shortName)
+                    stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.localizedDisplayName..un_list)
                 end
             end
             if not char_unlocks[char.label].heir then
                 if char:getTraitLevel("FactionHeir") > 0 then
+                    local un_list = "\n"
+                    un_list = un_list..leaderheir_combi_list[char.character.faction.name].heir.unit
                     char_unlocks[char.label].heir = true
-                    stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.shortName)
+                    stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.localizedDisplayName..un_list)
                 end
             end
         end

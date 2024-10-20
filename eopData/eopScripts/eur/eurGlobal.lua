@@ -31,8 +31,18 @@ merge_turn_multi = 1
 bg_swap_cooldown = 10
 options_hardcore = false
 bg_min_size_multi = 4
+options_gennotif = true
+dwarven_0_bu_added = false
+dwarven_0_count = 0
+anor_target_faction = nil
+anorTurnsRemain = 0
+tempmengoodTarget = 0
+mengood_0_sett = nil
+mengoodTurnsRemain = 0
 
+--temp dump
 
+--
 temp_units = {}
 temp_unit_nu = 0
 
@@ -130,6 +140,15 @@ end
 function eurSaveLoadValues(bool)
     if bool then
         eurEventsData = {
+            options_gennotif = options_gennotif,
+            dwarven_0_bu_added = dwarven_0_bu_added,
+            dwarven_0_count = dwarven_0_count,
+            anor_target_faction = anor_target_faction,
+            anorTurnsRemain = anorTurnsRemain,
+            tempmengoodTarget = tempmengoodTarget,
+            mengood_0_sett = mengood_0_sett,
+            mengoodTurnsRemain = mengoodTurnsRemain,
+            eyeTarget = eyeTarget, 
             bg_min_size_multi = bg_min_size_multi,
             merge_turn_multi = merge_turn_multi,
             bg_swap_cooldown = bg_swap_cooldown,
@@ -216,6 +235,15 @@ function eurSaveLoadValues(bool)
          end
          ]]
     else
+        options_gennotif = eurEventsData["options_gennotif"]
+        dwarven_0_bu_added = eurEventsData["dwarven_0_bu_added"]
+        dwarven_0_count = eurEventsData["dwarven_0_count"]
+        anor_target_faction = eurEventsData["anor_target_faction"]
+        anorTurnsRemain = eurEventsData["anorTurnsRemain"]
+        tempmengoodTarget = eurEventsData["tempmengoodTarget"]
+        mengood_0_sett = eurEventsData["mengood_0_sett"]
+        mengoodTurnsRemain = eurEventsData["mengoodTurnsRemain"]
+        eyeTarget = eurEventsData["eyeTarget"]
         bg_min_size_multi = eurEventsData["bg_min_size_multi"]
         merge_turn_multi = eurEventsData["merge_turn_multi"]
         bg_swap_cooldown = eurEventsData["bg_swap_cooldown"]
@@ -456,6 +484,14 @@ function randomChance(percent) -- returns true a given percentage of calls
     return percent >= math.random(1,100)   -- 1 succeeds 1%, 50 succeeds 50%,
 end
 
+function shuffle(tbl)
+    for i = #tbl, 2, -1 do
+      local j = math.random(i)
+      tbl[i], tbl[j] = tbl[j], tbl[i]
+    end
+    return tbl
+  end
+
 function printTable( t )
  
     local printTable_cache = {}
@@ -659,6 +695,11 @@ function eurGlobalVars()
         if lindon_0_count > 0 then
             if not lindon_0_bu_added then
                 ulmoAdd()
+            end
+        end
+        if dwarven_0_count > 0 then
+            if not dwarven_0_bu_added then
+                miningdwarvesAdd()
             end
         end
     end

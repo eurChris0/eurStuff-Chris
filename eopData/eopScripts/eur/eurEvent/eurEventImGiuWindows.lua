@@ -1,3 +1,462 @@
+
+function rohan_1(faction_name, bool)
+    if bool then
+        ImGui.Text("Call upon Gondor for assistance: ")
+        if eur_tga_table["Gondor Spearmen"] ~= nil then
+            ImGui.Image(eur_tga_table["Rohirrim"].img, img_x, img_y)
+            ImGui.SameLine()
+        end
+        if eur_tga_table["Gondor Spearmen"] ~= nil then
+            ImGui.Image(eur_tga_table["Gondor Spearmen"].img, img_x, img_y)
+            ImGui.SameLine()
+        end
+        if eur_tga_table["Gondor Spearmen"] ~= nil then
+            ImGui.Image(eur_tga_table["Gondor Spearmen"].img, img_x, img_y)
+            ImGui.SameLine()
+        end
+        ImGui.NewLine()
+        ImGui.BulletText("Call upon Gondor for assistance")
+        ImGui.SameLine()
+        ImGui.TextColored(0, 1, 0, 1, " + 1")
+        ImGui.BulletText("Gondor Spearmen")
+        ImGui.SameLine()
+        ImGui.TextColored(0, 1, 0, 1, " + 1")
+        ImGui.BulletText("Gondor Spearmen")
+        ImGui.SameLine()
+        ImGui.TextColored(0, 1, 0, 1, " + 1")
+    else
+        local faction = eur_campaign:getFaction(faction_name)
+        army = eurSpawnArmy(faction_name, "random_name", "dpr_", "", false, 18, "Gondor Spearmen", faction.capital.xCoord, faction.capital.yCoord, 3, 1, 0)
+        if army then
+            army:createUnit("Gondor Spearmen",3,0,0);
+            army:createUnit("Gondor Spearmen",3,0,0);
+            if army.leader ~= nil then
+                char = army.leader.namedCharacter
+                if char ~= nil then
+                    char:addTrait("ElvenRace", 1)
+                    char:addTrait("Nandor", 1)
+                    char:addTrait("BattleChivalryGood", 1)
+                    char:addTrait("Brave", 1)
+                    char:addTrait("GoodAttacker", 1)
+                    char:addTrait("GoodCommander", 1)
+                    char:addTrait("Loyal", 2)
+                    char:addTrait("Upright", 2)
+                    char:addTrait("LoyaltyStarter", 2)
+                    char:addTrait("PietyStarter", 2)
+                end
+            end
+        end
+        eur_event_active = true
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            if eur_event_activelen < EUR_EVENTS[faction_name][event_number].duration then
+                eur_event_activelen = EUR_EVENTS[faction_name][event_number].duration
+            end
+        end
+        EUR_EVENTS[faction_name][event_number].active_cooldown = EUR_EVENTS[faction_name][event_number].cooldown
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            EUR_EVENTS[faction_name][event_number].active_duration = EUR_EVENTS[faction_name][event_number].duration
+        end
+
+        if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
+        end
+
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
+        show_events_window = false
+        eur_event_min_cooldown = 10
+        event_selected[event_number] = false
+        event_number = 99
+    end
+end
+
+function gondor_1(faction_name, bool)
+    if bool then
+        ImGui.Text("Call upon Rohan for assistance: ")
+        if eur_tga_table["Rohirrim"] ~= nil then
+            ImGui.Image(eur_tga_table["Rohirrim"].img, img_x, img_y)
+            ImGui.SameLine()
+        end
+        if eur_tga_table["Rohirrim"] ~= nil then
+            ImGui.Image(eur_tga_table["Rohirrim"].img, img_x, img_y)
+            ImGui.SameLine()
+        end
+        if eur_tga_table["Rohirrim"] ~= nil then
+            ImGui.Image(eur_tga_table["Rohirrim"].img, img_x, img_y)
+            ImGui.SameLine()
+        end
+        ImGui.NewLine()
+        ImGui.BulletText("Call upon Rohan for assistance")
+        ImGui.SameLine()
+        ImGui.TextColored(0, 1, 0, 1, " + 1")
+        ImGui.BulletText("Rohirrim")
+        ImGui.SameLine()
+        ImGui.TextColored(0, 1, 0, 1, " + 1")
+        ImGui.BulletText("Rohirrim")
+        ImGui.SameLine()
+        ImGui.TextColored(0, 1, 0, 1, " + 1")
+    else
+        local faction = eur_campaign:getFaction(faction_name)
+        army = eurSpawnArmy(faction_name, "random_name", "dpr_", "", false, 18, "Rohirrim", faction.capital.xCoord, faction.capital.yCoord, 3, 1, 0)
+        if army then
+            army:createUnit("Rohirrim",3,0,0);
+            army:createUnit("Rohirrim",3,0,0);
+            if army.leader ~= nil then
+                char = army.leader.namedCharacter
+                if char ~= nil then
+                    char:addTrait("ElvenRace", 1)
+                    char:addTrait("Nandor", 1)
+                    char:addTrait("BattleChivalryGood", 1)
+                    char:addTrait("Brave", 1)
+                    char:addTrait("GoodAttacker", 1)
+                    char:addTrait("GoodCommander", 1)
+                    char:addTrait("Loyal", 2)
+                    char:addTrait("Upright", 2)
+                    char:addTrait("LoyaltyStarter", 2)
+                    char:addTrait("PietyStarter", 2)
+                end
+            end
+        end
+        eur_event_active = true
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            if eur_event_activelen < EUR_EVENTS[faction_name][event_number].duration then
+                eur_event_activelen = EUR_EVENTS[faction_name][event_number].duration
+            end
+        end
+        EUR_EVENTS[faction_name][event_number].active_cooldown = EUR_EVENTS[faction_name][event_number].cooldown
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            EUR_EVENTS[faction_name][event_number].active_duration = EUR_EVENTS[faction_name][event_number].duration
+        end
+
+        if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
+        end
+
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
+        show_events_window = false
+        eur_event_min_cooldown = 10
+        event_selected[event_number] = false
+        event_number = 99
+    end
+end
+
+function mengood_0(faction_name, bool)
+    local mengoodtemplist_sett = {}
+    local mengoodtemplist_sett_actual = {}
+    for i = 0, eur_player_faction.settlementsNum - 1 do
+        local sett = eur_player_faction:getSettlement(i)
+        if sett then
+            table.insert(mengoodtemplist_sett, sett.localizedName)
+            table.insert(mengoodtemplist_sett_actual, sett)
+        end
+    end
+    if bool then
+        ImGui.Text("Resettle Lands(each turn): ")
+        ImGui.NewLine()
+        ImGui.BulletText("Population Growth")
+        ImGui.SameLine()
+        ImGui.TextColored(0, 1, 0, 1, " + 100")
+        ImGui.BulletText("Culture Bonus")
+        ImGui.SameLine()
+        ImGui.TextColored(0, 1, 0, 1, " + 10%%")
+        ImGui.NewLine()
+        ImGui.Text("Select Settlement: ")
+        tempmengoodTarget, clicked = ImGui.Combo("", tempmengoodTarget, mengoodtemplist_sett, #mengoodtemplist_sett, #mengoodtemplist_sett+1)
+    else
+        mengood_0_sett = mengoodtemplist_sett_actual[tempmengoodTarget+1]
+        mengoodTurnsRemain = 5
+        populationCultureBonus(100, 0.1, mengood_0_sett)
+        eur_event_active = true
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            if eur_event_activelen < EUR_EVENTS[faction_name][event_number].duration then
+                eur_event_activelen = EUR_EVENTS[faction_name][event_number].duration
+            end
+        end
+        EUR_EVENTS[faction_name][event_number].active_cooldown = EUR_EVENTS[faction_name][event_number].cooldown
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            EUR_EVENTS[faction_name][event_number].active_duration = EUR_EVENTS[faction_name][event_number].duration
+        end
+        EUR_EVENTS[faction_name][event_number].unlocked = false
+
+        if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
+        end
+
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
+        show_events_window = false
+        eur_event_min_cooldown = 10
+        event_selected[event_number] = false
+        event_number = 99
+    end
+end
+
+
+function gondor_0(faction_name, bool)
+    local anortemplist_fact = {}
+    local anortemplist_fact_0 = {}
+    local anortemplist_sett = {}
+    local nu_fact = eur_campaign.numberOfFactions
+    for i = 0, nu_fact-5 do
+        anorfaction = stratmap.game.getFaction(i)
+        if anorfaction then
+            if anorfaction.isPlayerControlled == 0 then
+                if anorfaction.numOfCharacters > 0 then
+                    table.insert(anortemplist_fact, anorfaction.localizedName)
+                    table.insert(anortemplist_fact_0, anorfaction.name)
+                end
+            end
+        end
+    end
+    for i = 0, anorfaction.settlementsNum - 1 do
+        local sett = anorfaction:getSettlement(i)
+        if sett then
+            table.insert(anortemplist_sett, sett.localizedName)
+        end
+    end
+    if bool then
+        ImGui.Text("Reveals armies and agents for the target faction.")
+        ImGui.NewLine()
+        ImGui.Text("Select Faction: ")
+        tempanorTarget, clicked = ImGui.Combo("", tempanorTarget, anortemplist_fact, #anortemplist_fact, #anortemplist_fact+1)
+    else
+        anorTarget = anortemplist_fact_0[tempanorTarget+1]
+        anorTurnsRemain = EUR_EVENTS[faction_name][event_number].duration
+        anorStone()
+        eur_event_active = true
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            if eur_event_activelen < EUR_EVENTS[faction_name][event_number].duration then
+                eur_event_activelen = EUR_EVENTS[faction_name][event_number].duration
+            end
+        end
+        EUR_EVENTS[faction_name][event_number].active_cooldown = EUR_EVENTS[faction_name][event_number].cooldown
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            EUR_EVENTS[faction_name][event_number].active_duration = EUR_EVENTS[faction_name][event_number].duration
+        end
+        EUR_EVENTS[faction_name][event_number].unlocked = false
+
+        if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
+        end
+
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
+        show_events_window = false
+        eur_event_min_cooldown = 10
+        event_selected[event_number] = false
+        event_number = 99
+    end
+end
+
+function dwarven_0(faction_name, bool)
+    if bool then
+        ImGui.Text("Mining Operations(all mines, permanent): ")
+        ImGui.NewLine()
+        ImGui.BulletText("Income bonus")
+        ImGui.SameLine()
+        ImGui.TextColored(0, 1, 0, 1, " + 25 per building level")
+        if dwarven_0_count < 5 then
+            ImGui.BulletText("Growth")
+            ImGui.SameLine()
+            ImGui.TextColored(0, 1, 0, 1, " + 0.5%%")
+        end
+        ImGui.BulletText("Possibility for any general to gain points in Mining trait.")
+    else
+        dwarven_0_count = (dwarven_0_count+1)
+        miningdwarvesAdd()
+        eur_event_active = true
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            if eur_event_activelen < EUR_EVENTS[faction_name][event_number].duration then
+                eur_event_activelen = EUR_EVENTS[faction_name][event_number].duration
+            end
+        end
+        EUR_EVENTS[faction_name][event_number].active_cooldown = EUR_EVENTS[faction_name][event_number].cooldown
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            EUR_EVENTS[faction_name][event_number].active_duration = EUR_EVENTS[faction_name][event_number].duration
+        end
+
+        if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
+        end
+
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
+        show_events_window = false
+        eur_event_min_cooldown = 10
+        event_selected[event_number] = false
+        event_number = 99
+    end
+end
+
+function orcgobbo_0(faction_name, bool)
+   local orchordetemplist_sett = {}
+   local orchordetemplist_sett_name = {}
+   local orchordetemplist_cost = {5000, 10000, 15000}
+   local orchordetemplist_cost_desc = {"5000", "10000", "15000"}
+   if eur_player_faction.settlementsNum > 0 then
+       for i = 0, eur_player_faction.settlementsNum - 1 do
+           local sett = eur_player_faction:getSettlement(i)
+           if sett then
+               table.insert(orchordetemplist_sett_name, sett.localizedName)
+               table.insert(orchordetemplist_sett, sett)
+           end
+       end
+   end
+   if bool then
+    ImGui.SetNextWindowBgAlpha(0)
+    ImGui.Text("Raise a horde from the target settlement.")
+    ImGui.NewLine()
+    ImGui.BeginChild("Events_eye_1", 250*eurbackgroundWindowSizeRight, 300*eurbackgroundWindowSizeBottom)
+       ImGui.SetNextWindowBgAlpha(0)
+       ImGui.BeginChild("Events_eye_sub_1", 250*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
+       ImGui.Text("Select Settlement: ")
+       temporchordeTarget, clicked = ImGui.Combo("", temporchordeTarget, orchordetemplist_sett_name, #orchordetemplist_sett_name, #orchordetemplist_sett_name+1)
+       ImGui.EndChild()
+       ImGui.SetNextWindowBgAlpha(0)
+       ImGui.BeginChild("Events_eye_sub_2", 250*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
+       ImGui.Text("Select Settlement: ")
+       temporchordeTarget_cost, clicked2 = ImGui.Combo("", temporchordeTarget_cost, orchordetemplist_cost_desc, #orchordetemplist_cost_desc, #orchordetemplist_cost_desc+1)
+       ImGui.EndChild()
+       if orchordetemplist_sett[temporchordeTarget+1].settlementStats then
+            if orchordetemplist_sett[temporchordeTarget+1].settlementStats.population-(orchordetemplist_cost[temporchordeTarget_cost+1]/10) < 500 then
+                ImGui.TextColored(1, 0, 0, 1, "Population too low")
+                EUR_EVENTS[faction_name][event_number].cost = 9999999
+            else
+                ImGui.Text("Population for horde: -"..tostring((EUR_EVENTS[faction_name][event_number].cost/10)))
+                EUR_EVENTS[faction_name][event_number].cost = orchordetemplist_cost[temporchordeTarget_cost+1]
+            end
+        end
+       ImGui.EndChild()
+       ImGui.SameLine()
+       ImGui.SetNextWindowBgAlpha(0)
+       ImGui.BeginChild("Events_eye_2", 320*eurbackgroundWindowSizeRight, 300*eurbackgroundWindowSizeBottom)
+       ImGui.Text("Available Units: ")
+       ImGui.NewLine()
+       local row_nu = 0
+        for i = 0, orchordetemplist_sett[temporchordeTarget+1].recruitmentCapabilityNum -1 do
+            local capability = orchordetemplist_sett[temporchordeTarget+1]:getRecruitmentCapability(i).eduIndex
+            local eduEntry = M2TWEOPDU.getEduEntry(capability)
+            if eduEntry then
+                if eduEntry.recruitCost < EUR_EVENTS[faction_name][event_number].cost/5 then
+                    if eur_tga_table[eduEntry.unitCardTga] then
+                        if row_nu == 4 then
+                            ImGui.NewLine()
+                        elseif row_nu == 8 then
+                            ImGui.NewLine()
+                        elseif row_nu == 12 then
+                            ImGui.NewLine()
+                        elseif row_nu == 16 then
+                            ImGui.NewLine()
+                        else
+                            ImGui.SameLine()
+                        end
+                        ImGui.Image(eur_tga_table[eduEntry.unitCardTga].img, img_x, img_y)
+                        local hovered = ImGui.IsItemHovered()
+                        if hovered then
+                            ImGui.BeginTooltip()
+                            ImGui.Text(eduEntry.eduType)
+                            ImGui.EndTooltip()
+                        end
+                    end
+                    row_nu = row_nu+1
+                end
+            end
+        end
+        ImGui.EndChild()
+   else
+       orcHorde(orchordetemplist_sett[temporchordeTarget+1], EUR_EVENTS[faction_name][event_number].cost)
+       eur_event_active = true
+       if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+           if eur_event_activelen < EUR_EVENTS[faction_name][event_number].duration then
+               eur_event_activelen = EUR_EVENTS[faction_name][event_number].duration
+           end
+       end
+       EUR_EVENTS[faction_name][event_number].active_cooldown = EUR_EVENTS[faction_name][event_number].cooldown
+       if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+           EUR_EVENTS[faction_name][event_number].active_duration = EUR_EVENTS[faction_name][event_number].duration
+       end
+       EUR_EVENTS[faction_name][event_number].unlocked = false
+
+       if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
+           M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
+       end
+
+       stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
+       show_events_window = false
+       eur_event_min_cooldown = 10
+       event_selected[event_number] = false
+       event_number = 99
+   end
+end
+
+function mordor_0(faction_name, bool)
+    local eyetemplist_fact = {}
+    local eyetemplist_fact_0 = {}
+    local eyetemplist_fact_1 = {}
+    local eyetemplist_sett = {}
+    local eyetemplist_sett_name = {}
+    local nu_fact = eur_campaign.numberOfFactions
+    for i = 0, nu_fact-5 do
+        eyefaction = stratmap.game.getFaction(i)
+        if eyefaction then
+            if eyefaction.numOfCharacters > 0 then
+                table.insert(eyetemplist_fact, eyefaction.localizedName)
+                table.insert(eyetemplist_fact_0, eyefaction.name)
+                table.insert(eyetemplist_fact_1, eyefaction)
+            end
+        end
+    end
+    if eyetemplist_fact_1[tempeyeTarget+1].settlementsNum > 0 then
+        for i = 0, eyetemplist_fact_1[tempeyeTarget+1].settlementsNum - 1 do
+            local sett = eyetemplist_fact_1[tempeyeTarget+1]:getSettlement(i)
+            if sett then
+                table.insert(eyetemplist_sett_name, sett.localizedName)
+                table.insert(eyetemplist_sett, sett.regionID)
+            end
+        end
+    end
+    if bool then
+        ImGui.Text("Reveals the lands around the selected settlement.")
+        ImGui.NewLine()
+        ImGui.SetNextWindowBgAlpha(0)
+        ImGui.BeginChild("Events_eye_sub_1", 200*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
+        ImGui.Text("Select Faction: ")
+        tempeyeTarget, clicked = ImGui.Combo("", tempeyeTarget, eyetemplist_fact, #eyetemplist_fact, #eyetemplist_fact+1)
+        ImGui.EndChild()
+        ImGui.SetNextWindowBgAlpha(0)
+        ImGui.BeginChild("Events_eye_sub_2", 200*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom)
+        ImGui.Text("Select Region: ")
+        tempeyeTarget_region, clicked2 = ImGui.Combo("", tempeyeTarget_region, eyetemplist_sett_name, #eyetemplist_sett_name, #eyetemplist_sett_name+1)
+        ImGui.EndChild()
+    else
+        eyeTarget = eyetemplist_sett[tempeyeTarget_region+1]
+        eyeTurnsRemain = EUR_EVENTS[faction_name][event_number].duration
+        greatEye(true)
+        eur_event_active = true
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            if eur_event_activelen < EUR_EVENTS[faction_name][event_number].duration then
+                eur_event_activelen = EUR_EVENTS[faction_name][event_number].duration
+            end
+        end
+        EUR_EVENTS[faction_name][event_number].active_cooldown = EUR_EVENTS[faction_name][event_number].cooldown
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            EUR_EVENTS[faction_name][event_number].active_duration = EUR_EVENTS[faction_name][event_number].duration
+        end
+        EUR_EVENTS[faction_name][event_number].unlocked = false
+
+        if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
+        end
+
+        show_events_window = false
+        eur_event_min_cooldown = 10
+        event_selected[event_number] = false
+        event_number = 99
+    end
+end
+
 function lindon_0(faction_name, bool)
     if bool then
         ImGui.Text("Ulmo's Favour(all ports, permanent): ")
@@ -330,15 +789,15 @@ function lorien_2(faction_name, bool)
     if bool then
         ImGui.Text("Summon units: ")
         if eur_tga_table["ents"] ~= nil then
-            ImGui.Image(eur_tga_table["ents"].img, 80, 80)
+            ImGui.Image(eur_tga_table["ents"].img, img_x, img_y)
             ImGui.SameLine()
         end
         if eur_tga_table["ents"] ~= nil then
-            ImGui.Image(eur_tga_table["ents"].img, 60, 60)
+            ImGui.Image(eur_tga_table["ents"].img, img_x, img_y)
             ImGui.SameLine()
         end
         if eur_tga_table["lothlorien_marchwarden"] ~= nil then
-            ImGui.Image(eur_tga_table["lothlorien_marchwarden"].img, 60, 60)
+            ImGui.Image(eur_tga_table["lothlorien_marchwarden"].img, img_x, img_y)
             ImGui.SameLine()
         end
         ImGui.NewLine()
@@ -467,6 +926,38 @@ EUR_EVENTS["denmark"][0].func = lindon_0
 EUR_EVENTS["denmark"][1].func = lorien_1
 EUR_EVENTS["denmark"][2].func = imladris_1
 EUR_EVENTS["denmark"][3].func = elves_0
+
+EUR_EVENTS["england"][0].func = mordor_0
+EUR_EVENTS["england"][1].func = orcgobbo_0
+
+EUR_EVENTS["hre"][0].func = mordor_0
+EUR_EVENTS["hre"][1].func = orcgobbo_0
+
+EUR_EVENTS["poland"][0].func = mordor_0
+EUR_EVENTS["poland"][1].func = orcgobbo_0
+
+EUR_EVENTS["normans"][0].func = mordor_0
+EUR_EVENTS["normans"][1].func = orcgobbo_0
+
+EUR_EVENTS["hungary"][0].func = dwarven_0
+
+EUR_EVENTS["norway"][0].func = dwarven_0
+
+EUR_EVENTS["moors"][0].func = dwarven_0
+
+EUR_EVENTS["sicily"][0].func = gondor_0
+EUR_EVENTS["sicily"][1].func = mengood_0
+EUR_EVENTS["sicily"][2].func = gondor_1
+
+EUR_EVENTS["milan"][0].func = gondor_0
+EUR_EVENTS["milan"][1].func = mengood_0
+EUR_EVENTS["milan"][2].func = rohan_1
+
+EUR_EVENTS["turks"][0].func = gondor_0
+EUR_EVENTS["turks"][1].func = mengood_0
+
+EUR_EVENTS["scotland"][0].func = gondor_0
+EUR_EVENTS["scotland"][1].func = mengood_0
 
 function eventSideWindow(faction_name, faction)
     if event_number ~= nil then

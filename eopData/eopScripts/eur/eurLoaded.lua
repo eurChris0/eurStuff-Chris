@@ -256,6 +256,34 @@ wavs = {
 
 char_portraits = {}
 
+event_backgrounds = {
+    ["milan"] = nil,
+    ["sicily"] = nil,
+    ["turks"] = nil,
+    ["russia"] = nil,
+    ["scotland"] = nil,
+    ["byzantium"] = nil,
+    ["timurids"] = nil,
+    ["portugal"] = nil,
+    ["aztecs"] = nil,
+    ["teutonic_order"] = nil,
+    ["spain"] = nil,
+    ["khand"] = nil,
+    ["venice"] = nil,
+    ["norway"] = nil,
+    ["hungary"] = nil,
+    ["moors"] = nil,
+    ["mongols"] = nil,
+    ["ireland"] = nil,
+    ["denmark"] = nil,
+    ["england"] = nil,
+    ["poland"] = nil,
+    ["hre"] = nil,
+    ["gundabad"] = nil,
+    ["france"] = nil,
+    ["saxons"] = nil,
+}
+
 function turnImageCheck(faction)
     if faction.isPlayerControlled == 0 then return end
     for i = 0, faction.numOfCharacters - 1 do
@@ -433,9 +461,91 @@ function loadImages()
     EUR_EVENTS["denmark"][2].image = test1
     EUR_EVENTS["denmark"][3].image = eldarlight
 
-    faction_events_text["turks"]["Faction Info: Northern Dúnedain"].img = faction_info_nd.img
-    faction_events_text["turks"]["Northern Dúnedain"].img = faction_info_nd.img
-    faction_events_text["russia"]["Faction Info: Ar-Adûnâim"].img = faction_info_aa.img
+    EUR_EVENTS["england"][0].image = test1
+    EUR_EVENTS["england"][1].image = test1
+
+    EUR_EVENTS["hre"][0].image = test1
+    EUR_EVENTS["hre"][1].image = test1
+
+    EUR_EVENTS["poland"][0].image = test1
+    EUR_EVENTS["poland"][1].image = test1
+
+    EUR_EVENTS["normans"][0].image = test1
+    EUR_EVENTS["normans"][1].image = test1
+
+    EUR_EVENTS["hungary"][0].image = test1
+
+    EUR_EVENTS["norway"][0].image = test1
+
+    EUR_EVENTS["moors"][0].image = test1
+
+    EUR_EVENTS["sicily"][0].image = test1
+    EUR_EVENTS["sicily"][1].image = test1
+    EUR_EVENTS["sicily"][2].image = test1
+
+    EUR_EVENTS["turks"][0].image = test1
+    EUR_EVENTS["turks"][1].image = test1
+
+    EUR_EVENTS["scotland"][0].image = test1
+    EUR_EVENTS["scotland"][1].image = test1
+
+    EUR_EVENTS["milan"][0].image = test1
+    EUR_EVENTS["milan"][1].image = test1
+    EUR_EVENTS["milan"][2].image = test1
+
+    faction_events_text["milan"][FACTION_INFO_ROHAN_TITLE].img = faction_info_rohan.img
+    faction_events_text["sicily"][FACTION_INFO_GONDOR_TITLE].img = faction_info_gondor.img
+    faction_events_text["turks"][FACTION_INFO_ND_TITLE].img = faction_info_nd.img
+    faction_events_text["russia"][UMBAR_START_TITLE].img = faction_info_aa.img
+    faction_events_text["scotland"][FACTION_INFO_DALE_TITLE].img = faction_info_dale_sa.img
+    faction_events_text["byzantium"][FACTION_INFO_DORWINION_TITLE].img = faction_info_dorwinion.img
+    faction_events_text["timurids"][FACTION_INFO_ANDUIN_TITLE].img = faction_info_anduin.img
+    faction_events_text["portugal"][FACTION_INFO_ANGMAR_TITLE].img = faction_info_angmar.img
+    faction_events_text["aztecs"][FACTION_INFO_DUNLAND_TITLE].img = faction_info_dunland.img
+    faction_events_text["teutonic_order"][FACTION_INFO_ENEDWAITH_TITLE].img = faction_info_enedwaith.img
+    faction_events_text["spain"][FACTION_INFO_HARAD_TITLE].img = faction_info_harad.img
+    faction_events_text["khand"][FACTION_INFO_KHAND_TITLE].img = faction_info_khand.img
+    faction_events_text["venice"][FACTION_INFO_RHUN_TITLE].img = faction_info_rhun.img
+    faction_events_text["norway"][FACTION_INFO_EREBOR_TITLE].img = faction_info_erebor.img
+    faction_events_text["hungary"][FACTION_INFO_EL_TITLE].img = faction_info_el.img
+    faction_events_text["moors"][FACTION_INFO_KD_TITLE].img = faction_info_kd.img
+    faction_events_text["mongols"][FACTION_INFO_WR_TITLE].img = faction_info_wr.img
+    faction_events_text["ireland"][FACTION_INFO_LORIEN_TITLE].img = faction_info_lorien.img
+    faction_events_text["denmark"]["Faction Info: Lindon"].img = faction_info_he.img
+    faction_events_text["england"][FACTION_INFO_MORDOR_TITLE].img = faction_info_mordor.img
+    faction_events_text["poland"][FACTION_INFO_DG_TITLE].img = faction_info_dg.img
+    faction_events_text["hre"][FACTION_INFO_MORIA_TITLE].img = faction_info_moria.img
+    faction_events_text["gundabad"][FACTION_INFO_GUNDABAD_TITLE].img = faction_info_gundabad.img
+    faction_events_text["france"][FACTION_INFO_ISENGARD_TITLE].img = faction_info_isengard.img
+    faction_events_text["saxons"]["Faction Info: Imladris"].img = faction_info_he.img
+
+    event_backgrounds = {
+        ["milan"] = nil,
+        ["sicily"] = nil,
+        ["turks"] = nil,
+        ["russia"] = nil,
+        ["scotland"] = nil,
+        ["byzantium"] = nil,
+        ["timurids"] = nil,
+        ["portugal"] = nil,
+        ["aztecs"] = nil,
+        ["teutonic_order"] = nil,
+        ["spain"] = nil,
+        ["khand"] = nil,
+        ["venice"] = nil,
+        ["norway"] = nil,
+        ["hungary"] = nil,
+        ["moors"] = nil,
+        ["mongols"] = bg_3_elven.img,
+        ["ireland"] = bg_3_elven.img,
+        ["denmark"] = bg_3_elven.img,
+        ["england"] = nil,
+        ["poland"] = nil,
+        ["hre"] = nil,
+        ["gundabad"] = nil,
+        ["france"] = nil,
+        ["saxons"] = bg_3_elven.img,
+    }
     
 end
 

@@ -56,104 +56,104 @@ temp_event_selected = {
     ["turks"] = {
         ["Northern Dúnedain"] = true,
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Northern Dúnedain"] = false,
+        [FACTION_INFO_ND_TITLE] = false,
     },
     ["russia"] = {
         ["Alternate Start"] = true,
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [UMBAR_START_TITLE] = false,
     },
     ["milan"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_ROHAN_TITLE] = false,
     },
     ["sicily"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_GONDOR_TITLE] = false,
     },
     ["scotland"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_DALE_TITLE] = false,
     },
     ["byzantium"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_DORWINION_TITLE] = false,
     },
     ["timurids"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_ANDUIN_TITLE] = false,
     },
     ["portugal"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_ANGMAR_TITLE] = false,
     },
     ["aztecs"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_DUNLAND_TITLE] = false,
     },
     ["teutonic_order"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_ENEDWAITH_TITLE] = false,
     },
     ["spain"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_HARAD_TITLE] = false,
     },
     ["khand"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_KHAND_TITLE] = false,
     },
     ["venice"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_RHUN_TITLE] = false,
     },
     ["norway"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_EREBOR_TITLE] = false,
     },
     ["hungary"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_EL_TITLE] = false,
     },
     ["moors"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_KD_TITLE] = false,
     },
     ["mongols"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_WR_TITLE] = false,
     },
     ["ireland"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_LORIEN_TITLE] = false,
     },
     ["denmark"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        ["Faction Info: Lindon"] = false,
     },
     ["england"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_MORDOR_TITLE] = false,
     },
     ["poland"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_DG_TITLE] = false,
     },
     ["hre"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_MORIA_TITLE] = false,
     },
     ["gundabad"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_GUNDABAD_TITLE] = false,
     },
     ["france"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_ISENGARD_TITLE] = false,
     },
     ["saxons"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        ["Faction Info: Imladris"] = false,
     },
 }
 
@@ -161,104 +161,104 @@ temp_event_show = {
     ["turks"] = {
         ["Northern Dúnedain"] = true,
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Northern Dúnedain"] = false,
+        [FACTION_INFO_ND_TITLE] = false,
     },
     ["russia"] = {
         ["Alternate Start"] = true,
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [UMBAR_START_TITLE] = false,
     },
     ["milan"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_ROHAN_TITLE] = false,
     },
     ["sicily"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_GONDOR_TITLE] = false,
     },
     ["scotland"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_DALE_TITLE] = false,
     },
     ["byzantium"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_DORWINION_TITLE] = false,
     },
     ["timurids"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_ANDUIN_TITLE] = false,
     },
     ["portugal"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_ANGMAR_TITLE] = false,
     },
     ["aztecs"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_DUNLAND_TITLE] = false,
     },
     ["teutonic_order"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_ENEDWAITH_TITLE] = false,
     },
     ["spain"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_HARAD_TITLE] = false,
     },
     ["khand"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_KHAND_TITLE] = false,
     },
     ["venice"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_RHUN_TITLE] = false,
     },
     ["norway"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_EREBOR_TITLE] = false,
     },
     ["hungary"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_EL_TITLE] = false,
     },
     ["moors"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_KD_TITLE] = false,
     },
     ["mongols"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_WR_TITLE] = false,
     },
     ["ireland"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_LORIEN_TITLE] = false,
     },
     ["denmark"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        ["Faction Info: Lindon"] = false,
     },
     ["england"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_MORDOR_TITLE] = false,
     },
     ["poland"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_DG_TITLE] = false,
     },
     ["hre"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_MORIA_TITLE] = false,
     },
     ["gundabad"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_GUNDABAD_TITLE] = false,
     },
     ["france"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        [FACTION_INFO_ISENGARD_TITLE] = false,
     },
     ["saxons"] = {
         ["Welcome to EUR V2"] = false,
-        ["Faction Info: Ar-Adûnâim"] = false,
+        ["Faction Info: Imladris"] = false,
     },
 }
 
@@ -309,21 +309,21 @@ function optionsWindow()
     local show_additional = false
     ImGui.SetNextWindowPos(200*eurbackgroundWindowSizeRight, 5*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(1)
-    ImGui.SetNextWindowSize(1500*eurbackgroundWindowSizeRight, 860*eurbackgroundWindowSizeBottom)
+    ImGui.SetNextWindowSize(1500*eurbackgroundWindowSizeRight, 825*eurbackgroundWindowSizeBottom)
     ImGui.Begin("options_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration))
     eurStyle("basic_1", true)
     if bg_2 then
-        ImGui.Image(bg_2.img,1500*eurbackgroundWindowSizeRight, 850*eurbackgroundWindowSizeBottom)
+        ImGui.Image(bg_2.img,1500*eurbackgroundWindowSizeRight, 815*eurbackgroundWindowSizeBottom)
     end
 
     ImGui.SetNextWindowPos(210*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0.5)
-    ImGui.BeginChild("Child Window_options_1", 1480*eurbackgroundWindowSizeRight, 700*eurbackgroundWindowSizeBottom)
+    ImGui.BeginChild("Child Window_options_1", 1480*eurbackgroundWindowSizeRight, 665*eurbackgroundWindowSizeBottom)
     --centeredText("Epic Unity Rework V2 Beta", 0)
     if (ImGui.BeginTabBar("options_tabbar_1")) then
         if (ImGui.BeginTabItem("About##01")) then
             ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_subtab_1", 375*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
+            ImGui.BeginChild("Child Window_options_subtab_1", 375*eurbackgroundWindowSizeRight, 615*eurbackgroundWindowSizeBottom)
             if temp_event_selected[eur_player_faction.name] then
                 for k, v in pairs(temp_event_selected[eur_player_faction.name]) do
                     ImGui.BeginChild("Name3".. k, 375*eurbackgroundWindowSizeRight, 50*eurbackgroundWindowSizeBottom, ImGuiWindowFlags.NoInputs)
@@ -355,7 +355,7 @@ function optionsWindow()
             ImGui.EndChild()
             ImGui.SameLine()
             ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_subtab_2", 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
+            ImGui.BeginChild("Child Window_options_subtab_2", 750*eurbackgroundWindowSizeRight, 615*eurbackgroundWindowSizeBottom)
             if temp_event_selected[eur_player_faction.name] then
                 for k, v in pairs(temp_event_show[eur_player_faction.name]) do
                     if temp_event_show[eur_player_faction.name][k] then
@@ -380,7 +380,7 @@ function optionsWindow()
             if show_additional then
                 ImGui.SameLine()
                 ImGui.SetNextWindowBgAlpha(0)
-                ImGui.BeginChild("Child Window_options_subtab_3", 350*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
+                ImGui.BeginChild("Child Window_options_subtab_3", 350*eurbackgroundWindowSizeRight, 615*eurbackgroundWindowSizeBottom)
                 optionsSideWindow1()
                 ImGui.EndChild()
             end
@@ -389,7 +389,7 @@ function optionsWindow()
         if (ImGui.BeginTabItem("Settings##01")) then
             show_collapse_button = true
             ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_tab_1", 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
+            ImGui.BeginChild("Child Window_options_tab_1", 750*eurbackgroundWindowSizeRight, 615*eurbackgroundWindowSizeBottom)
             ImGui.NewLine()
             --[[
             ImGui.Text("Click to form re-united kingdom next turn.")
@@ -428,7 +428,7 @@ function optionsWindow()
 
             ImGui.SetNextWindowBgAlpha(0)
             ImGui.SameLine()
-            ImGui.BeginChild("Child Window_options_tab_2", 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
+            ImGui.BeginChild("Child Window_options_tab_2", 750*eurbackgroundWindowSizeRight, 615*eurbackgroundWindowSizeBottom)
 
             optionsFont(false)
             optionsCampaign(false)
@@ -554,6 +554,7 @@ function optionsGeneralUpgrades(bool)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
             options_gen_upgrades, pressed = ImGui.Checkbox("Enabled", options_gen_upgrades)
             ImGui.TextColored(0,1,0,1,"Cannot be reverted during campaign.")
+            options_gennotif, pressed = ImGui.Checkbox("Notifications", options_gennotif)
             ImGui.Text("Cooldown(turns):")
             if (ImGui.Button("-##06", 25, 25)) then
                 if bg_swap_cooldown > 4 then
@@ -595,7 +596,7 @@ function optionsReplen(bool)
         temp_options_tree[name] = ImGui.CollapsingHeader("Replenishment")
         if temp_options_tree[name] then
             ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 160*eurbackgroundWindowSizeBottom)
+            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom)
             options_replen, pressed = ImGui.Checkbox("Enabled", options_replen)
             ImGui.Text(replen_text)
             replen_low = ImGui.Button("Low", 64, 64) 
@@ -631,7 +632,7 @@ function optionsReplen(bool)
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 500*eurbackgroundWindowSizeBottom)
+            ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 615*eurbackgroundWindowSizeBottom)
             ImGui.Text("Replenishment")
             ImGui.BulletText("All units replenish over the end turn(player and AI).")
             ImGui.BulletText("Default only garrisoned units.")
@@ -888,7 +889,7 @@ function optionsCampaign(bool)
         temp_options_tree[name] = ImGui.CollapsingHeader("Campaign Miscellaneous")
         if temp_options_tree[name] then
             ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom)
+            ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom)
             options_hardcore, hardpressed = ImGui.Checkbox("Hardcore mode", options_hardcore)
             if hardpressed then
                 if options_hardcore then
@@ -928,7 +929,7 @@ function optionsCampaign(bool)
     else
         if temp_options_show[name] then
             ImGui.SetNextWindowBgAlpha(0)
-            ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 650*eurbackgroundWindowSizeBottom)
+            ImGui.BeginChild("Child Window_options_sub_2"..name, 750*eurbackgroundWindowSizeRight, 615*eurbackgroundWindowSizeBottom)
 
             ImGui.Text("Hardcore mode:")
             ImGui.BulletText("Disables auto-resolve.")

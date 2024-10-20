@@ -8,8 +8,22 @@ tempmirrorTarget = 0
 mirrorTarget = ""
 mirrorTurnsRemain = 0
 
+tempeyeTarget = 0
+tempeyeTarget_region = 0
+
+eyeTarget = 0
+
+tempanorTarget = 0
+anorTarget = ""
+
+temporchordeTarget = 0
+temporchordeTarget_cost = 0
+
 traitToAdd = ""
 traitTurnsRemain = 0
+
+mengood_0_pop = 100
+mengood_0_cul = 0.1
 
 fert_level = 0
 modify_growth = false
@@ -35,6 +49,11 @@ eur_event_activelen = 0
 eur_event_min_cooldown = 0
 event_number = 99
 
+local invalid_horde_cat = {
+   "ship",
+   "siege",
+}
+
 function eurEventUnlockCheck(id)
    if id ~= eur_playerFactionId then return end
    local dol_guldor = eur_campaign:getFaction("poland")
@@ -59,19 +78,20 @@ function eurEventUnlockCheck(id)
       --
    elseif eur_turn_number > 49 then
       EUR_EVENTS["denmark"][2].unlocked = true
+      stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS["denmark"][2].name.." available", "\n\n"..EUR_EVENTS["denmark"][2].desc)
    end
    if dol_guldor.numOfCharacters == 0 then
       EUR_EVENTS["ireland"][0].unlocked = true
-      --stratmap.game.historicEvent("crusade_succeeded", EUR_EVENTS["ireland"][0].name.." Unlocked", EUR_EVENTS["ireland"][0].desc)
+      stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS["ireland"][0].name.." available", "\n\n"..EUR_EVENTS["ireland"][0].desc)
       EUR_EVENTS["ireland"][2].unlocked = true
-      --stratmap.game.historicEvent("crusade_succeeded", EUR_EVENTS["ireland"][2].name.." Unlocked", EUR_EVENTS["ireland"][2].desc)
+      stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS["ireland"][2].name.." available", "\n\n"..EUR_EVENTS["ireland"][2].desc)
       EUR_EVENTS["ireland"][0].duration = 10
       EUR_EVENTS["ireland"][0].cooldown = 25
    end
    local sett = eur_sMap:getSettlement("North_Khand")
    if sett.ownerFaction.name == "ireland" then
       EUR_EVENTS["ireland"][2].unlocked = true
-      --stratmap.game.historicEvent("crusade_succeeded", EUR_EVENTS["ireland"][2].name.." Unlocked", EUR_EVENTS["ireland"][2].desc)
+      stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS["ireland"][2].name.." available", "\n\n"..EUR_EVENTS["ireland"][2].desc)
       EUR_EVENTS["ireland"][2].cooldown = 40
    else
       EUR_EVENTS["ireland"][2].cooldown = 60
@@ -80,25 +100,30 @@ function eurEventUnlockCheck(id)
    if sett.ownerFaction.name == "ireland" then
       if not EUR_EVENTS["ireland"][0].unlocked then
          EUR_EVENTS["ireland"][0].unlocked = true
-         --stratmap.game.historicEvent("crusade_succeeded", EUR_EVENTS["ireland"][0].name.." Unlocked", EUR_EVENTS["ireland"][0].desc)
+         stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS["mongols"][0].name.." available", "\n\n"..EUR_EVENTS["ireland"][0].desc)
       end
    elseif sett.ownerFaction.name == "mongols" then
       if not EUR_EVENTS["mongols"][0].unlocked then
          if checkCounter("elven_union") then
             EUR_EVENTS["mongols"][0].unlocked = true
+            stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS["mongols"][0].name.." available", "\n\n"..EUR_EVENTS["mongols"][0].desc)
          end
       end
    end
    local sett = eur_sMap:getSettlement("Eregion")
    if sett.ownerFaction.name == "saxons" then
       EUR_EVENTS["saxons"][0].unlocked = true
+      stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS["saxons"][0].name.." available", "\n\n"..EUR_EVENTS["saxons"][0].desc)
    end
 end
 
 function eurEventActiveCheck(id, faction_name)
    if id ~= eur_playerFactionId then return end
    if eur_event_active then
-      if eur_event_activelen > 0 then
+      if eur_event_activelen == 1 then
+         eur_event_activelen = (eur_event_activelen-1)
+         stratmap.game.historicEvent("faction_prosperous", "Event Cooldown Expired", "")
+      elseif eur_event_activelen > 1 then
          eur_event_activelen = (eur_event_activelen-1)
       else
          eur_event_active = false
@@ -108,13 +133,14 @@ function eurEventActiveCheck(id, faction_name)
    for i = 0, #EUR_EVENTS[faction_name] do
       if EUR_EVENTS[faction_name][i].active_cooldown == 1 then
          EUR_EVENTS[faction_name][i].active_cooldown = (EUR_EVENTS[faction_name][i].active_cooldown-1)
-         stratmap.game.historicEvent("faction_prosperous", "Event cooldown expired", EUR_EVENTS[faction_name][i].name.."\n\n"..EUR_EVENTS[faction_name][i].desc)
+         stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS[faction_name][i].name" available", "\n\n"..EUR_EVENTS[faction_name][i].desc)
       elseif EUR_EVENTS[faction_name][i].active_cooldown > 0 then
          EUR_EVENTS[faction_name][i].active_cooldown = (EUR_EVENTS[faction_name][i].active_cooldown-1)
       end
       if EUR_EVENTS[faction_name][i].active_duration == 1 then
          EUR_EVENTS[faction_name][i].active_duration = (EUR_EVENTS[faction_name][i].active_duration-1)
          EUR_EVENTS[faction_name][i].unlocked = true
+         stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS[faction_name][i].name.." expired", "\n\n"..EUR_EVENTS[faction_name][i].desc)
       elseif EUR_EVENTS[faction_name][i].active_duration > 0 then
          EUR_EVENTS[faction_name][i].active_duration = (EUR_EVENTS[faction_name][i].active_duration-1)
       end
@@ -352,20 +378,207 @@ function ulmoAdd()
        for i = 1, lindon_0_count do
            for j = 0, 4 do
                bu = building:getBuildingLevel(j)
-               bu:addCapability(buildingCapability.income_bonus, (bonus*(j+1)), true, "factions { saxons, }")
+               bu:addCapability(buildingCapability.income_bonus, (bonus*(j+1)), true, "factions { denmark, }")
                if i < 6 then
-                  bu:addCapability(buildingCapability.population_growth_bonus, 1, true, "factions { saxons, }")
+                  bu:addCapability(buildingCapability.population_growth_bonus, 1, true, "factions { denmark, }")
                end
                if lindon_0_count == 2 then
-                  bu:addRecruitPool(M2TWEOPDU.getEduIndexByType("Lindar Mariners"), 1, 0.1, 2, 1, "factions { saxons, } and region_religion elven 33 and event_counter mithlond_controlled 1")
+                  bu:addRecruitPool(M2TWEOPDU.getEduIndexByType("Lindar Mariners"), 1, 0.1, 2, 1, "factions { denmark, } and region_religion elven 33 and event_counter mithlond_controlled 1")
                end
                if lindon_0_count == 4 then
                    if i == 4 then
-                       bu:addRecruitPool(M2TWEOPDU.getEduIndexByType("Mithlond Nobles"), 1, 0.1, 2, 1, "factions { saxons, } and region_religion elven 80 and hidden_resource Lindon")
+                       bu:addRecruitPool(M2TWEOPDU.getEduIndexByType("Mithlond Nobles"), 1, 0.1, 2, 1, "factions { denmark, } and region_religion elven 80 and hidden_resource Lindon")
                    end
                end
            end
        end
        lindon_0_bu_added = true
+   end
+end
+
+function miningdwarvesAdd()
+   local building = EDB.getBuildingByName("hinterland_mines")
+   local bonus = 25
+   if dwarven_0_count > 0 then
+       for i = 1, dwarven_0_count do
+           for j = 0, 2 do
+               bu = building:getBuildingLevel(j)
+               bu:addCapability(buildingCapability.income_bonus, (bonus*(j+1)), true, "factions { moors, hungary, norway, }")
+               if i < 6 then
+                  bu:addCapability(buildingCapability.population_growth_bonus, 1, true, "factions { moors, hungary, norway, }")
+               end
+           end
+       end
+       dwarven_0_bu_added = true
+   end
+   for i = 0, eur_player_faction.numOfCharacters - 1 do
+      local char = eur_player_faction:getCharacter(i)
+      local random = math.random(1, 100)
+      if char:getTypeID() == 7 then
+         if random > 50 then
+            if char.characterRecord:getTraitLevel("MiningSkill") == 0 then
+               char.characterRecord:addTrait("MiningSkill", 1)
+               stratmap.game.historicEvent("faction_prosperous", "Mining Trait Expanded", "\n\n"..char.characterRecord.localizedDisplayName)
+            elseif char.characterRecord:getTraitLevel("MiningSkill") < 2 then
+               char.characterRecord:addTraitPoints("MiningSkill", 1)
+               stratmap.game.historicEvent("faction_prosperous", "Mining Trait Expanded", "\n\n"..char.characterRecord.localizedDisplayName)
+            end
+         end
+      end
+   end
+end
+
+function greatEye(reset)
+   if eyeTarget == 0 then return end
+   if reset then
+      stratmap.game.scriptCommand("hide_all_revealed_tiles")
+   end
+   local region = eur_sMap.getRegion(eyeTarget);
+   local region_tiles = region.tileCount
+   for i = 0, region_tiles -1 do
+      if (i % 2 == 0) then
+         local tile = region:getTile(i)
+         if checkTileEmpty(tile.xCoord, tile.yCoord) then 
+            stratmap.game.scriptCommand("reveal_tile", tile.xCoord.." "..tile.yCoord)
+         end
+      end
+   end
+end
+
+function eyeCheck(id)
+   if id ~= eur_playerFactionId then return end
+   if eyeTarget == 0 then return end
+   greatEye(false)
+end
+
+function orcHorde(sett, cost)
+   local list = {}
+   local limit = cost/5
+   local orig_cost = cost
+   for i = 0, sett.recruitmentCapabilityNum -1 do
+      local capability = sett:getRecruitmentCapability(i).eduIndex
+      local eduEntry = M2TWEOPDU.getEduEntry(capability)
+      if eduEntry then
+         print(eduEntry.eduType)
+         if not tableContains(invalid_horde_cat, eduEntry.category) then
+            local rand = math.random(1, 3)
+            for i = 1, rand do
+               if cost > eduEntry.recruitCost then
+                  if limit == 3000 then
+                     if eduEntry.recruitCost < limit then
+                        if eduEntry.recruitCost > 1200 then
+                           if #list < 19 then
+                              table.insert(list, eduEntry.eduType)
+                              cost = cost-eduEntry.recruitCost
+                           end
+                        else
+                           if #list < 19 then
+                              table.insert(list, eduEntry.eduType)
+                              cost = cost-eduEntry.recruitCost
+                           end
+                        end
+                     end
+                  elseif limit == 2000 then
+                     if eduEntry.recruitCost < limit then
+                        if eduEntry.recruitCost > 800 then
+                           if #list < 19 then
+                              table.insert(list, eduEntry.eduType)
+                              cost = cost-eduEntry.recruitCost
+                           end
+                        else
+                           if #list < 19 then
+                              table.insert(list, eduEntry.eduType)
+                              cost = cost-eduEntry.recruitCost
+                           end
+                        end
+                     end
+                  else
+                     if eduEntry.recruitCost < limit then
+                        if #list < 19 then
+                           table.insert(list, eduEntry.eduType)
+                           cost = cost-eduEntry.recruitCost
+                        end
+                     end
+                  end
+               end
+            end
+         end
+      end
+   end
+   local army = eurSpawnArmy(eur_player_faction.name, "random_name", "orchorde_", "", false, 18, default_general_units[eur_player_faction.name].old, sett.xCoord, sett.yCoord, 3, 0, 0)
+   if army then
+      shuffle(list)
+      for i = 1, #list do
+         local unit = army:createUnit(list[i], 2, 0, 0)
+         if unit.soldierCountStratMap*1.5 > 300 then
+            unit.soldierCountStratMap = 300
+         else
+            unit.soldierCountStratMap = unit.soldierCountStratMap*1.5
+         end
+      end
+   end
+   local new_set = (sett.settlementStats.population-(orig_cost/10))
+   print("pop red"..tostring(sett.settlementStats.population-(orig_cost/10)))
+   sett.settlementStats.population = new_set
+   stratmap.game.callConsole("add_money", "-" .. tostring(cost))
+   print("refunded"..tostring(cost))
+end
+
+function anorStone()
+   local anor_target_faction = eur_campaign:getFaction(anorTarget)
+   if not anor_target_faction then return end
+   for i = 0, anor_target_faction.stacksNum - 1 do
+      local stack = anor_target_faction:getStack(i)
+      if stack then
+         if stack.leader ~= nil then
+            stratmap.game.scriptCommand("reveal_tile", stack.leader.xCoord.." "..stack.leader.yCoord)
+         end
+      end
+   end
+   for i = 0, anor_target_faction.numOfCharacters - 1 do
+      local char = anor_target_faction:getCharacter(i)
+      if char then
+         if not char.settlement or not char.fort then
+            stratmap.game.scriptCommand("reveal_tile", char.xCoord.." "..char.yCoord)
+         end
+      end
+   end
+end
+
+function anorStoneCheck(id)
+   if id ~= eur_playerFactionId then return end
+   if anorTarget == "" then return end
+   if anorTurnsRemain == 1 then 
+      anorTurnsRemain = (anorTurnsRemain-1)
+      stratmap.game.scriptCommand("hide_all_revealed_tiles")
+      anorTarget = ""
+   elseif anorTurnsRemain > 1 then
+      stratmap.game.scriptCommand("hide_all_revealed_tiles")
+      anorStone()
+      anorTurnsRemain = (anorTurnsRemain-1)
+   end
+end
+
+function populationCultureBonus(pop, culture, settlement)
+   if not settlement then return end
+   settlement.settlementStats.population = settlement.settlementStats.population+pop
+   local rel_level = settlement:getReligion(eur_player_faction.religion)
+   if rel_level+culture > 1 then
+      settlement:setReligion(eur_player_faction.religion, 1)
+   else
+      settlement:setReligion(eur_player_faction.religion, (rel_level+culture))
+   end
+end
+
+function mengood_0_check(id)
+   if id ~= eur_playerFactionId then return end
+   if not mengood_0_sett then return end
+   if mengoodTurnsRemain == 1 then
+      mengoodTurnsRemain = mengoodTurnsRemain-1
+      populationCultureBonus(mengood_0_pop, mengood_0_cul, mengood_0_sett)
+      mengood_0_sett = nil
+   elseif mengoodTurnsRemain > 1 then
+      populationCultureBonus(mengood_0_pop, mengood_0_cul, mengood_0_sett)
+      mengoodTurnsRemain = mengoodTurnsRemain-1
    end
 end

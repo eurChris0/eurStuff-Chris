@@ -152,5 +152,101 @@ function swap_units.SwapUnitsOnConfed(faction)
         end
     end
 end
+--[[
+---@param eventData eventTrigger 
+function onSettlementTurnStart(eventData)
+    local settlement = eventData.settlement
+    eurUnitSwap.killGarrison(settlement, nil)
+    if settlement.siegesNum ~= 0 then
+        eurUnitSwap.spawnGarrisons(settlement)
+    end
+end
+
+
+---@param eventData eventTrigger 
+function onSettlementTurnEnd(eventData)
+    local settlement = eventData.settlement
+    if settlement.siegesNum == 0 then
+        eurUnitSwap.killGarrison(settlement, nil)
+    end
+end
+
+]]
+---@param settlement settlementStruct 
+function swap_units.spawnGarrisons(settlement)
+    local tag = 'Settlement Garrison'
+    local rand1 = math.random(1, 3)
+    local rand2 = math.random(1, 3)
+    if not SWAP_GARRISON[settlement.ownerFaction.name] then return end
+    swap_units.addGarrisonUnit(SWAP_GARRISON[settlement.ownerFaction.name].new[rand1],tag,settlement,1,1,1,1);
+    swap_units.addGarrisonUnit(SWAP_GARRISON[settlement.ownerFaction.name].new[rand2],tag,settlement,1,1,1,1);
+    --example for other faciton
+    --if settlement.ownerFaction.name == 'otherfaction' then
+    --    local tag = 'otherfaction Garrison'
+    --    addGarrisonUnit('otherfaction Militia',tag,settlement,3,1,1,1);
+    --    addGarrisonUnit('otherfaction Heavy Infantry',tag,settlement,2,1,1,1);
+    --end
+end
+
+---comment
+---@param unitname string
+---@param tag string
+---@param settlement settlementStruct
+---@param amount integer
+---@param exp integer
+---@param arm integer
+---@param wplvl integer
+function swap_units.addGarrisonUnit(unitname, tag, settlement, amount, exp, arm, wplvl)
+    local garrison = settlement.army;
+    if garrison == nil then
+        garrison = stratmap.game.createArmyInSettlement(settlement);
+        local newUnit = garrison:createUnit(unitname,exp,arm,wplvl);
+        if newUnit then
+            newUnit.alias = tag
+            --newUnit.movePoints = 0;
+        end
+    else
+        local settarmyNum = garrison.numOfUnits;
+        if settarmyNum < 15 then
+            local newUnit = garrison:createUnit(unitname,exp,arm,wplvl);
+            if newUnit then
+                newUnit.alias = tag
+                --newUnit.movePoints = 0;
+            end
+		end
+	end
+end
+
+function swap_units.killGarrison(settlement, faction)
+    if settlement then
+        if settlement.army ~= nil then
+            local garrison = settlement.army;
+            local garrisonstrenght = garrison.numOfUnits;
+            local hitlist = {}
+            for j = 0, garrisonstrenght-1 do
+                local thisUnit = garrison:getUnit(j);
+                if string.find(thisUnit.alias, "Garrison")~=nil then
+                    table.insert(hitlist, thisUnit);
+                end
+            end
+            for k = 1, #hitlist do
+                hitlist[k]:kill();
+            end
+        end
+    end
+    if faction then
+        for i = 0, faction.stacksNum - 1 do
+            local stack = faction:getStack(i)
+            if not stack.findInSettlement then
+                for j = 0, stack.numOfUnits -1 do
+                    local un = stack:getUnit(j)
+                    if string.find(un.alias, "Garrison") ~= nil then
+                        un:kill()
+                    end
+                end
+            end
+        end
+    end
+end
 
 return swap_units

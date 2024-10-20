@@ -69,6 +69,8 @@ if onFactionTurnEnd then
         eur_onFactionTurnEnd(eventData)
         if eur_event_active then
             mirrorCheck(eventData.faction.factionID)
+            anorStoneCheck(eventData.faction.factionID)
+            mengood_0_check(eventData.faction.factionID)
             traitCheck(eventData.faction.factionID)
             growthCheck(eventData.faction.factionID)
             modifyEDUcheck(eventData.faction.factionID)
@@ -82,6 +84,7 @@ if onFactionTurnEnd then
         genRankCheck(eventData.faction, nil)
         swapHeirLeaderStuffAI(eventData.faction)
         genUnlockNotifation(eventData.faction)
+        eurUnitSwap.killGarrison(nil, eventData.faction)
     end
 else
     function onFactionTurnEnd(eventData)
@@ -97,6 +100,8 @@ else
         end
         if eur_event_active then
             mirrorCheck(eventData.faction.factionID)
+            anorStoneCheck(eventData.faction.factionID)
+            mengood_0_check(eventData.faction.factionID)
             traitCheck(eventData.faction.factionID)
             growthCheck(eventData.faction.factionID)
             modifyEDUcheck(eventData.faction.factionID)
@@ -110,6 +115,7 @@ else
         genRankCheck(eventData.faction, nil)
         swapHeirLeaderStuffAI(eventData.faction)
         genUnlockNotifation(eventData.faction)
+        eurUnitSwap.killGarrison(nil, eventData.faction)
     end
 end
 
@@ -246,6 +252,9 @@ if onScrollClosed then
             swap_bg_button = false
             swap_bg_window = false
         end
+        if eventData.resourceDescription == "diplomacy_scroll" then
+            diplo_open = false
+        end
         print(eventData.resourceDescription)
     end
 else
@@ -267,6 +276,9 @@ else
             show_temp_char_stuff = false
             swap_bg_button = false
             swap_bg_window = false
+        end
+        if eventData.resourceDescription == "diplomacy_scroll" then
+            diplo_open = false
         end
         print(eventData.resourceDescription)
     end
@@ -318,11 +330,11 @@ if onDiplomacyPanelOpen then
     eur_onDiplomacyPanelOpen = onDiplomacyPanelOpen
     eur_onDiplomacyPanelOpen = function(eventData) 
         eur_onDiplomacyPanelOpen(eventData)
-
+        diplo_open = true
     end
 else
     function onDiplomacyPanelOpen(eventData)
-
+        diplo_open = true
     end
 end
 
@@ -451,3 +463,5 @@ function onGeneralAssaultsGeneral(eventData)
         end
     end
 end
+
+
