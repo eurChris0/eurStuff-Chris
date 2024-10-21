@@ -23,6 +23,7 @@ local anor_desc = [[Placeholder
 Desc]]
 local mengood_0_desc = [[Placeholder
 Desc]]
+local nazgul_0_desc = [[Nine he gave to Mortal Men, proud and great, and so ensnared them. Long ago they fell under the dominion of the One, and they became Ringwraiths, shadows under his great Shadow, his most terrible servants. Long ago. It is many a year since the Nine walked abroad. Yet who knows? As the Shadow grows once more, they too may walk again]]
 
 EUR_EVENTS = {
     ["ireland"] = {

@@ -89,6 +89,7 @@ end
 
 function replen.disbandToPool(unit)
     local army = unit.army
+    if unit.eduEntry.eduType == default_general_units[eur_player_faction.name].old then return end
     if army then
         local sett = army:findInSettlement()
         if sett == nil then return end

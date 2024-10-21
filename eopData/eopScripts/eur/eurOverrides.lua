@@ -84,7 +84,6 @@ if onFactionTurnEnd then
         genRankCheck(eventData.faction, nil)
         swapHeirLeaderStuffAI(eventData.faction)
         genUnlockNotifation(eventData.faction)
-        eurUnitSwap.killGarrison(nil, eventData.faction)
     end
 else
     function onFactionTurnEnd(eventData)
@@ -115,7 +114,6 @@ else
         genRankCheck(eventData.faction, nil)
         swapHeirLeaderStuffAI(eventData.faction)
         genUnlockNotifation(eventData.faction)
-        eurUnitSwap.killGarrison(nil, eventData.faction)
     end
 end
 
@@ -131,6 +129,7 @@ if onFactionTurnStart then
             end
         end
         turnImageCheck(eventData.faction)
+        genPoolReset()
     end
 else
     function onFactionTurnStart(eventData)
@@ -142,6 +141,7 @@ else
             end
         end
         turnImageCheck(eventData.faction)
+        genPoolReset()
     end
 end
 if onPreBattlePanelOpen then
@@ -423,10 +423,12 @@ if onSettlementSelected then
     eur_onSettlementSelected = function(eventData) 
         eur_onSettlementSelected(eventData)
         setBGSize(eventData.settlement.ownerFaction, nil, nil)
+        genPoolReset()
     end
 else
     function onSettlementSelected(eventData)
         setBGSize(eventData.settlement.ownerFaction, nil, nil)
+        genPoolReset()
     end
 end
 

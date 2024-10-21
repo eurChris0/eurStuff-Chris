@@ -890,6 +890,7 @@ labtrait_units_list = {
 local cost = 0
 
 function swapBGButton()
+    if not options_gen_upgrades then return end
     ImGui.SetNextWindowPos(1770*eurbackgroundWindowSizeRight, 210*eurbackgroundWindowSizeBottom)
     ImGui.SetNextWindowBgAlpha(0.0)
     ImGui.SetNextWindowSize(70, 70)
@@ -945,6 +946,7 @@ function swapBGButton()
 end
 
 function swapBGWindow()
+    if not options_gen_upgrades then return end
     if not temp_char_stuff then
         temp_gen_units_target = 0
         temp_gen_units = {}
@@ -1409,7 +1411,6 @@ function genRankCheck(faction, char)
 end
 
 function setBGSize(faction, character, unit)
-    if not options_gen_bg_size then return end
     if options_first_run then return end
     if faction ~= nil then
         for i = 0, faction.numOfCharacters - 1 do
@@ -1504,6 +1505,7 @@ function setBGSize(faction, character, unit)
                             end
                         end
                     end
+                    if not options_gen_bg_size then return end
                     local un_max = temp_char.bodyguards.soldierCountStratMapMax
                     local un_min = (un_max / bg_min_size_multi)
                     local multi = (un_max - un_min) / 10
@@ -1573,6 +1575,7 @@ function setBGSize(faction, character, unit)
                         end
                     end
                 end
+                if not options_gen_bg_size then return end
                 local un_max = character.bodyguards.soldierCountStratMapMax
                 local un_min = (un_max / bg_min_size_multi)
                 local multi = (un_max - un_min) / 10
@@ -1643,6 +1646,7 @@ function setBGSize(faction, character, unit)
                         end
                     end
                 end
+                if not options_gen_bg_size then return end
                 local un_max = temp_char.bodyguards.soldierCountStratMapMax
                 local un_min = (un_max / bg_min_size_multi)
                 local multi = (un_max - un_min) / 10
@@ -1656,8 +1660,34 @@ function setBGSize(faction, character, unit)
     end
 end
 
+gen_pool_info = {}
+gen_pool_reset = false
+
+function genPoolReset()
+    local reset = false
+    if not gen_pool_reset then return end
+    for k, v in pairs(gen_pool_info) do
+        local sett = M2TW.stratMap:getSettlement(gen_pool_info[k].name)
+        for i = 0, sett.recruitmentPoolCount - 1 do
+            local pool = sett:getSettlementRecruitmentPool(i)
+            if pool.eduIndex == gen_pool_info[k].eduIndex then
+                if pool.availablePool == gen_pool_info[k].availablePool then
+                    --
+                else
+                    pool.availablePool = gen_pool_info[k].availablePool
+                    reset = true
+                end
+            end
+        end
+    end
+    if reset then
+        gen_pool_reset = false
+        gen_pool_info = {}
+    end
+end
 
 function setBodyguard(character, newBodyguardType, expLvl, armourLvl, weaponLvl, bgAlias)
+    if not options_gen_upgrades then return end
     local edu = M2TWEOPDU.getEduEntryByType(newBodyguardType)
     if edu == nil then return end
     print('Setting random new bodyguard for')
@@ -1667,13 +1697,30 @@ function setBodyguard(character, newBodyguardType, expLvl, armourLvl, weaponLvl,
     local armourLvl = armourLvl or 0;
     local weaponLvl = weaponLvl or 0;
     local originalBodyguard = character.bodyguards;
+    local pool_check = originalBodyguard
+    if pool_check.eduEntry.eduType == default_general_units[eur_player_faction.name].old then
+        local sett = character.settlement
+        if sett then
+            for i = 0, sett.recruitmentPoolCount - 1 do
+                local pool = sett:getSettlementRecruitmentPool(i)
+                if pool.eduIndex == pool_check.eduEntry.index then
+                    if not gen_pool_info[sett.name] then
+                        gen_pool_info[sett.name] = {}
+                    end
+                    gen_pool_info[sett.name].availablePool = pool.availablePool
+                    gen_pool_info[sett.name].eduIndex = pool.eduIndex
+                    gen_pool_info[sett.name].name = sett.name
+                    gen_pool_reset = true
+                end
+            end
+        end
+    end
     --  does the stack have space for a new unit?
     if originalBodyguard.army.numOfUnits < 20 then
         newBodyguard = originalBodyguard.army:createUnit(newBodyguardType, expLvl, armourLvl, weaponLvl);
         newBodyguard.alias = bgAlias
         character:setBodyguardUnit(newBodyguard);
         setBGSize(nil, character, nil)
-        originalBodyguard.soldierCountStratMap = 1
         originalBodyguard:kill();
     else
         local tempBodyguard = nil;
@@ -1688,7 +1735,6 @@ function setBodyguard(character, newBodyguardType, expLvl, armourLvl, weaponLvl,
         -- if this is nil, your stack is full of generals (for some reason)
         if tempBodyguard then
             character:setBodyguardUnit(tempBodyguard);
-            originalBodyguard.soldierCountStratMap = 1
             originalBodyguard:kill();
             newBodyguard = tempBodyguard.army:createUnit(newBodyguardType, expLvl, armourLvl, weaponLvl);
             newBodyguard.alias = bgAlias
