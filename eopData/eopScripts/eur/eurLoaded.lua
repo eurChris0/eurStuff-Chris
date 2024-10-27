@@ -430,6 +430,9 @@ function loadImages()
     crown1 = { x = 0, y = 0, img = nil }
     stew1 = { x = 0, y = 0, img = nil }
     ship1 = { x = 0, y = 0, img = nil }
+    crown1locked = { x = 0, y = 0, img = nil }
+    stew1locked = { x = 0, y = 0, img = nil }
+    ship1locked = { x = 0, y = 0, img = nil }
     anor = { x = 0, y = 0, img = nil }
     mengood_0 = { x = 0, y = 0, img = nil }
     oatheorl = { x = 0, y = 0, img = nil }
@@ -439,6 +442,9 @@ function loadImages()
     crown1.x, crown1.y, crown1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\crown1.png')
     stew1.x, stew1.y, stew1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\stew1.png')
     ship1.x, ship1.y, ship1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\ship1.png')
+    crown1locked.x, crown1locked.y, crown1locked.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\crown1locked.png')
+    stew1locked.x, stew1locked.y, stew1locked.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\stew1locked.png')
+    ship1locked.x, ship1locked.y, ship1locked.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\ship1locked.png')
 
     icon_unit.x, icon_unit.y, icon_unit.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\icon_unit.tga')
     test1.x, test1.y, test1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\test1.png')
@@ -538,15 +544,15 @@ function loadImages()
 
     for i = 0, 3 do
         glory_table[i].image = ship1.img
-        glory_table[i].imagelocked = ship1.img
+        glory_table[i].imagelocked = ship1locked.img
     end
     for i = 4, 6 do
         glory_table[i].image = stew1.img
-        glory_table[i].imagelocked = stew1.img
+        glory_table[i].imagelocked = stew1locked.img
     end
     for i = 7, 9 do
         glory_table[i].image = crown1.img
-        glory_table[i].imagelocked = crown1.img
+        glory_table[i].imagelocked = crown1locked.img
     end
 
     event_backgrounds = {
