@@ -550,7 +550,14 @@ function optionsGeneralUpgrades(bool)
     if bool then
         temp_options_tree[name] = ImGui.CollapsingHeader("General Upgrades")
         if temp_options_tree[name] then
-            ImGui.SetNextWindowBgAlpha(0)
+            local val = 0.5
+            if temp_options_selected[name] then
+                val = 0
+            end
+            if temp_options_show[name] then
+                val = 0
+            end
+            ImGui.SetNextWindowBgAlpha(val)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
             options_gen_upgrades, pressed = ImGui.Checkbox("Enabled", options_gen_upgrades)
             ImGui.TextColored(0,1,0,1,"Cannot be reverted during campaign.")
@@ -595,7 +602,14 @@ function optionsReplen(bool)
     if bool then
         temp_options_tree[name] = ImGui.CollapsingHeader("Replenishment")
         if temp_options_tree[name] then
-            ImGui.SetNextWindowBgAlpha(0)
+            local val = 0.5
+            if temp_options_selected[name] then
+                val = 0
+            end
+            if temp_options_show[name] then
+                val = 0
+            end
+            ImGui.SetNextWindowBgAlpha(val)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 250*eurbackgroundWindowSizeBottom)
             options_replen, pressed = ImGui.Checkbox("Enabled", options_replen)
             ImGui.Text(replen_text)
@@ -654,7 +668,14 @@ function optionsGeneralBGSize(bool)
     if bool then
         temp_options_tree[name] = ImGui.CollapsingHeader("Variable Bodyguard Size")
         if temp_options_tree[name] then
-            ImGui.SetNextWindowBgAlpha(0)
+            local val = 0.5
+            if temp_options_selected[name] then
+                val = 0
+            end
+            if temp_options_show[name] then
+                val = 0
+            end
+            ImGui.SetNextWindowBgAlpha(val)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
             options_gen_bg_size, bg_size_pressed = ImGui.Checkbox("Enabled", options_gen_bg_size)
             if not options_gen_bg_size then 
@@ -726,7 +747,14 @@ function optionsUnitUpgrades(bool)
     if bool then
         temp_options_tree[name] = ImGui.CollapsingHeader("Unit Upgrades")
         if temp_options_tree[name] then
-            ImGui.SetNextWindowBgAlpha(0)
+            local val = 0.5
+            if temp_options_selected[name] then
+                val = 0
+            end
+            if temp_options_show[name] then
+                val = 0
+            end
+            ImGui.SetNextWindowBgAlpha(val)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
             options_unit_upgrades, pressed = ImGui.Checkbox("Enabled", options_unit_upgrades)
             ImGui.Text("Experience requirement reduction:")
@@ -769,7 +797,14 @@ function optionsPrebattle(bool)
     if bool then
         temp_options_tree[name] = ImGui.CollapsingHeader("Pre-battle Options")
         if temp_options_tree[name] then
-            ImGui.SetNextWindowBgAlpha(0)
+            local val = 0.5
+            if temp_options_selected[name] then
+                val = 0
+            end
+            if temp_options_show[name] then
+                val = 0
+            end
+            ImGui.SetNextWindowBgAlpha(val)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
             options_pre_battle, pressed = ImGui.Checkbox("Enabled", options_pre_battle)
             hoveredCheck(name, temp_options_show, temp_options_selected)
@@ -793,7 +828,14 @@ function optionsPOE(bool)
     if bool then
         temp_options_tree[name] = ImGui.CollapsingHeader("Passing of the Elves")
         if temp_options_tree[name] then
-            ImGui.SetNextWindowBgAlpha(0)
+            local val = 0.5
+            if temp_options_selected[name] then
+                val = 0
+            end
+            if temp_options_show[name] then
+                val = 0
+            end
+            ImGui.SetNextWindowBgAlpha(val)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
             options_poe, pressed = ImGui.Checkbox("Enabled", options_poe)
             random_poe, pressed = ImGui.Checkbox("Random turns", random_poe)
@@ -866,7 +908,14 @@ function optionsFont(bool)
     if bool then
         temp_options_tree[name] = ImGui.CollapsingHeader("UI Options")
         if temp_options_tree[name] then
-            ImGui.SetNextWindowBgAlpha(0)
+            local val = 0.5
+            if temp_options_selected[name] then
+                val = 0
+            end
+            if temp_options_show[name] then
+                val = 0
+            end
+            ImGui.SetNextWindowBgAlpha(val)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
             font_choice, clicked_font = ImGui.Combo("Font", font_choice, font_list_names, #font_list, #font_list+1)
             font_RINGM = font_list[font_choice+1]
@@ -888,7 +937,14 @@ function optionsCampaign(bool)
     if bool then
         temp_options_tree[name] = ImGui.CollapsingHeader("Campaign Miscellaneous")
         if temp_options_tree[name] then
-            ImGui.SetNextWindowBgAlpha(0)
+            local val = 0.5
+            if temp_options_selected[name] then
+                val = 0
+            end
+            if temp_options_show[name] then
+                val = 0
+            end
+            ImGui.SetNextWindowBgAlpha(val)
             ImGui.BeginChild("Child Window_options_sub_1"..name, 750*eurbackgroundWindowSizeRight, 350*eurbackgroundWindowSizeBottom)
             options_hardcore, hardpressed = ImGui.Checkbox("Hardcore mode", options_hardcore)
             if hardpressed then

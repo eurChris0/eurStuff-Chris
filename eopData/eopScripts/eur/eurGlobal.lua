@@ -41,6 +41,16 @@ mengood_0_sett = nil
 mengoodTurnsRemain = 0
 
 --temp dump
+ship_1_active = false
+ship_2_active = false
+ship_3_active = false
+ship_4_active = false
+king_1_active = false
+king_2_active = false
+king_3_active = false
+stew_1_active = false
+stew_2_active = false
+stew_3_active = false
 
 --
 temp_units = {}
@@ -98,6 +108,18 @@ FACTION_COLOURS = {
 }
 
 --temporary
+
+ship_1_added = false
+ship_2_added = false
+ship_3_added = false
+ship_4_added = false
+king_1_added = false
+king_2_added = false
+king_3_added = false
+stew_1_added = false
+stew_2_added = false
+stew_3_added = false
+
 show_options_button = false
 show_events_window = false
 show_options_accept = false
@@ -668,19 +690,7 @@ function eurGlobalVars()
         if not options_first_run then
             genEDUcheck()
         end
-        for i = 0, 1500 do
-            local eduEntry = M2TWEOPDU.getEduEntry(i)
-            if eduEntry ~= nil then
-                if eduEntry:hasOwnership(eur_playerFactionId) then
-                    UNIT_ORIGINAL[eduEntry.eduType] = {}
-                    UNIT_ORIGINAL[eduEntry.eduType].ammo = eduEntry.primaryStats.ammo
-                    UNIT_ORIGINAL[eduEntry.eduType].moraleLocked = eduEntry.moraleLocked
-                    UNIT_ORIGINAL[eduEntry.eduType].recruitCost = eduEntry.recruitCost
-                    UNIT_ORIGINAL[eduEntry.eduType].recruitTime = eduEntry.recruitTime
-                    UNIT_ORIGINAL[eduEntry.eduType].range = eduEntry.primaryStats.range
-                end
-            end
-        end
+        defaultEDU()
         if EUR_EVENTS[eur_localFactionName] then
             for i = 0, #EUR_EVENTS[eur_localFactionName] do
                 if eurEventsData[eur_localFactionName..tostring(i).."active_cooldown"] then
@@ -702,8 +712,84 @@ function eurGlobalVars()
                 miningdwarvesAdd()
             end
         end
+        if ship_1_active then
+            if not ship_1_added then
+                gloryShip1()
+                ship_1_added = true
+            end
+        end
+        if ship_2_active then
+            if not ship_2_added then
+                gloryShip2()
+                ship_2_added = true
+            end
+        end
+        if ship_3_active then
+            if not ship_3_added then
+                gloryShip3()
+                ship_3_added = true
+            end
+        end
+        if ship_4_active then
+            if not ship_4_added then
+                gloryShip4()
+                ship_4_added = true
+            end
+        end
+        if king_1_active then
+            if not king_1_added then
+                gloryKings1()
+                king_1_added = true
+            end
+        end
+        if king_2_active then
+            if not king_2_added then
+                gloryKings2()
+                king_2_added = true
+            end
+        end
+        if king_3_active then
+            if not king_3_added then
+                gloryKings3()
+                king_3_added = true
+            end
+        end
+        if stew_1_active then
+            if not stew_1_added then
+                gloryStew1()
+                stew_1_added = true
+            end
+        end
+        if stew_2_active then
+            if not stew_2_added then
+                gloryStew2()
+                stew_2_added = true
+            end
+        end
+        if stew_3_active then
+            if not stew_3_added then
+                gloryStew3()
+                stew_3_added = true
+            end
+        end
     end
     wait(calcWindow, 2)
+end
+
+function defaultEDU()
+    for i = 0, 1500 do
+        local eduEntry = M2TWEOPDU.getEduEntry(i)
+        if eduEntry ~= nil then
+            if eduEntry:hasOwnership(eur_playerFactionId) then
+                UNIT_ORIGINAL[eduEntry.eduType] = {}
+                UNIT_ORIGINAL[eduEntry.eduType].ammo = eduEntry.primaryStats.ammo
+                UNIT_ORIGINAL[eduEntry.eduType].moraleLocked = eduEntry.moraleLocked
+                UNIT_ORIGINAL[eduEntry.eduType].recruitCost = eduEntry.recruitCost
+                UNIT_ORIGINAL[eduEntry.eduType].recruitTime = eduEntry.recruitTime
+                UNIT_ORIGINAL[eduEntry.eduType].range = eduEntry.primaryStats.range
+            end
+        end
+    end
 end
 
 function genEDUcheck()
@@ -766,6 +852,16 @@ function centeredImageButton(text, x, y, offset)
     local centre_position_for_button = (windowWidth - x) / 2;
     ImGui.SetCursorPosX(centre_position_for_button+offset);
     clicked = ImGui.Button(text, x, y)
+    --clicked = ImGui.ImageButton(image, x, y);
+    return clicked
+end
+
+function centeredImageButtonReal(label, image, x, y, offset)
+    local offset = offset or 0
+    local windowWidth = ImGui.GetWindowWidth()
+    local centre_position_for_button = (windowWidth - x) / 2;
+    ImGui.SetCursorPosX(centre_position_for_button+offset);
+    clicked = ImGui.ImageButton(label, image, x, y)
     --clicked = ImGui.ImageButton(image, x, y);
     return clicked
 end

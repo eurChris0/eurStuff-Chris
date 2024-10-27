@@ -1,17 +1,143 @@
+local glorychoice = 99
+
+function gondor_2(faction_name, bool)
+    if bool then
+        if glorychoice == 99 then
+            EUR_EVENTS["sicily"][3].cost = 999999
+            EUR_EVENTS["sicily"][3].desc = [["One day, our paths will lead us there. And the tower guard shall take up the call: 'The Lords of Gondor have returned!'" - Boromir]]
+        end
+        ImGui.Text("Dedicate works in the name of the great rulers of Gondor: ")
+        ImGui.NewLine()
+
+        ImGui.BeginGroup()
+        for i = 0, 3 do
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_glory_"..tostring(i), (img_x+20)*eurbackgroundWindowSizeRight, (img_y+20)*eurbackgroundWindowSizeBottom)
+            if glory_table[i].locked then
+                if glory_table[i].image ~= nil then
+                    if centeredImageButtonReal("ship_"..tostring(i), glory_table[i].image, img_x, img_y, -5) then
+                        EUR_EVENTS["sicily"][3].cost = glory_table[i].cost
+                        EUR_EVENTS["sicily"][3].desc = glory_table[i].desc
+                        glorychoice = i
+                    end
+                end
+            else
+                if glory_table[i].imagelocked ~= nil then
+                    centeredImage(glory_table[i].imagelocked, img_x, img_y)
+                end
+            end
+            local hovered = ImGui.IsItemHovered()
+            if hovered then
+                ImGui.BeginTooltip()
+                ImGui.Text(glory_table[i].title)
+                ImGui.Text("Gold: "..tostring(glory_table[i].cost))
+                gloryGondorText(i)
+                ImGui.EndTooltip()
+            end
+            ImGui.EndChild()
+        end
+        ImGui.EndGroup()
+        ImGui.SameLine()
+        ImGui.BeginGroup()
+        for i = 4, 6 do
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_glory_"..tostring(i), (img_x+20)*eurbackgroundWindowSizeRight, (img_y+20)*eurbackgroundWindowSizeBottom)
+            if glory_table[i].locked then
+                if glory_table[i].image ~= nil then
+                    if centeredImageButtonReal("ste_"..tostring(i), glory_table[i].image, img_x, img_y, -5) then
+                        EUR_EVENTS["sicily"][3].cost = glory_table[i].cost
+                        EUR_EVENTS["sicily"][3].desc = glory_table[i].desc
+                        glorychoice = i
+                    end
+                end
+            else
+                if glory_table[i].imagelocked ~= nil then
+                    centeredImage(glory_table[i].imagelocked, img_x, img_y)
+                end
+            end
+            local hovered = ImGui.IsItemHovered()
+            if hovered then
+                ImGui.BeginTooltip()
+                ImGui.Text(glory_table[i].title)
+                ImGui.Text("Gold: "..tostring(glory_table[i].cost))
+                gloryGondorText(i)
+                ImGui.EndTooltip()
+            end
+            ImGui.EndChild()
+        end
+        ImGui.EndGroup()
+        ImGui.SameLine()
+        ImGui.BeginGroup()
+        for i = 7, 9 do
+            ImGui.SetNextWindowBgAlpha(0)
+            ImGui.BeginChild("Child Window_glory_"..tostring(i), (img_x+20)*eurbackgroundWindowSizeRight, (img_y+20)*eurbackgroundWindowSizeBottom)
+            if glory_table[i].locked then
+                if glory_table[i].image ~= nil then
+                    if centeredImageButtonReal("king_"..tostring(i), glory_table[i].image, img_x, img_y, -5) then
+                        EUR_EVENTS["sicily"][3].cost = glory_table[i].cost
+                        EUR_EVENTS["sicily"][3].desc = glory_table[i].desc
+                        glorychoice = i
+                    end
+                end
+            else
+                if glory_table[i].imagelocked ~= nil then
+                    centeredImage(glory_table[i].imagelocked, img_x, img_y)
+                end
+            end
+            local hovered = ImGui.IsItemHovered()
+            if hovered then
+                ImGui.BeginTooltip()
+                ImGui.Text(glory_table[i].title)
+                ImGui.Text("Gold: "..tostring(glory_table[i].cost))
+                gloryGondorText(i)
+                ImGui.EndTooltip()
+            end
+            ImGui.EndChild()
+        end
+        ImGui.EndGroup()
+    else
+        gloryGondor(glorychoice)
+        glorychoice = 99
+        EUR_EVENTS["sicily"][3].desc = [["One day, our paths will lead us there. And the tower guard shall take up the call: 'The Lords of Gondor have returned!'" - Boromir]]
+        eur_event_active = true
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            if eur_event_activelen < EUR_EVENTS[faction_name][event_number].duration then
+                eur_event_activelen = EUR_EVENTS[faction_name][event_number].duration
+            end
+        end
+        EUR_EVENTS[faction_name][event_number].active_cooldown = EUR_EVENTS[faction_name][event_number].cooldown
+        if EUR_EVENTS[faction_name][event_number].duration ~= nil then
+            EUR_EVENTS[faction_name][event_number].active_duration = EUR_EVENTS[faction_name][event_number].duration
+        end
+        EUR_EVENTS[faction_name][event_number].unlocked = false
+
+        if EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound] ~= nil then
+            M2TWEOPSounds.playEOPSound(EOP_WAVS[EUR_EVENTS[faction_name][event_number].sound])
+        end
+
+        stratmap.game.callConsole("add_money", "-" .. tostring(EUR_EVENTS[faction_name][event_number].cost))
+
+        show_events_window = false
+        eur_event_min_cooldown = 10
+        event_selected[event_number] = false
+        event_number = 99
+    end
+end
+
 
 function rohan_1(faction_name, bool)
     if bool then
         ImGui.Text("Call upon Gondor for assistance: ")
-        if eur_tga_table["Gondor Spearmen"] ~= nil then
+        if test1 ~= nil then
             ImGui.Image(eur_tga_table["Rohirrim"].img, img_x, img_y)
             ImGui.SameLine()
         end
-        if eur_tga_table["Gondor Spearmen"] ~= nil then
-            ImGui.Image(eur_tga_table["Gondor Spearmen"].img, img_x, img_y)
+        if test1 ~= nil then
+            ImGui.Image(test1.img, img_x, img_y)
             ImGui.SameLine()
         end
-        if eur_tga_table["Gondor Spearmen"] ~= nil then
-            ImGui.Image(eur_tga_table["Gondor Spearmen"].img, img_x, img_y)
+        if test1 ~= nil then
+            ImGui.Image(test1.img, img_x, img_y)
             ImGui.SameLine()
         end
         ImGui.NewLine()
@@ -948,6 +1074,7 @@ EUR_EVENTS["moors"][0].func = dwarven_0
 EUR_EVENTS["sicily"][0].func = gondor_0
 EUR_EVENTS["sicily"][1].func = mengood_0
 EUR_EVENTS["sicily"][2].func = gondor_1
+EUR_EVENTS["sicily"][3].func = gondor_2
 
 EUR_EVENTS["milan"][0].func = gondor_0
 EUR_EVENTS["milan"][1].func = mengood_0

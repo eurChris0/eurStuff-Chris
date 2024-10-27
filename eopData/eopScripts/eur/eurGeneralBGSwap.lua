@@ -1255,7 +1255,6 @@ end
 
 function genUnitCheck(char, char_rank)
     if gen_units_char == char then return end
-    log("start units check")
     local faction = char.character.faction.name
     temp_gen_units = {}
     for i = 0, #gen_units_list[faction]["T1"] do
@@ -1290,7 +1289,6 @@ function genUnitCheck(char, char_rank)
     --eurListTraits(char)
     --printTable(traits_temp)
     for k, v in pairs(labtrait_units_list) do 
-        log("checking trait "..k.." for: "..char.label)
         if char:getTraitLevel(k) > 0 then
             local eduEntry = M2TWEOPDU.getEduEntryByType(v)
             if eduEntry ~= nil then
@@ -1301,7 +1299,6 @@ function genUnitCheck(char, char_rank)
         end
     end
     for k, v in pairs(conquer_traits) do 
-        log("checking trait "..k.." for: "..char.label)
         if char:getTraitLevel(k) > v then
             for i = 1, #gen_units_list[faction]["special"] do
                 local eduEntry = M2TWEOPDU.getEduEntryByType(gen_units_list[faction]["special"][i])
@@ -1314,7 +1311,6 @@ function genUnitCheck(char, char_rank)
         end
     end
     if labtrait_units_list[char.label] then
-        log("checking label: "..char.label)
         local eduEntry = M2TWEOPDU.getEduEntryByType(labtrait_units_list[char.label])
         if eduEntry ~= nil then
             if eduEntry:hasOwnership(eur_playerFactionId) then
@@ -1323,7 +1319,6 @@ function genUnitCheck(char, char_rank)
         end
     end
     if char:getTraitLevel("FactionLeader") > 0 then
-        log("checking trait FactionLeader for: "..char.label)
         if leaderheir_combi_list[char.character.faction.name] then
             local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[char.character.faction.name].leader.unit)
             if eduEntry ~= nil then
@@ -1335,7 +1330,6 @@ function genUnitCheck(char, char_rank)
     end
     if current_heir_check[0] == char then
         if char:getTraitLevel("FactionHeir") > 0 then
-            log("checking trait FactionHeir for: "..char.label)
             if leaderheir_combi_list[char.character.faction.name] then
                 local eduEntry = M2TWEOPDU.getEduEntryByType(leaderheir_combi_list[char.character.faction.name].heir.unit)
                 if eduEntry ~= nil then
@@ -1347,7 +1341,6 @@ function genUnitCheck(char, char_rank)
         end
     end
     gen_units_char = char
-    log("end units check")
 end
 
 function genRankCheck(faction, char)
@@ -1750,7 +1743,6 @@ end
 function genUnlockNotifation(faction)
     if not options_gennotif then return end
     if faction.isPlayerControlled == 0 then return end
-    log("start units check")
     for i = 0, faction.numOfCharacters - 1 do
         local char = faction:getCharacter(i)
         if char:getTypeID() == 7 then
@@ -1794,7 +1786,6 @@ function genUnlockNotifation(faction)
             char_unlocks[char.label].high = char_rank
             if not char_unlocks[char.label].special then
                 for k, v in pairs(conquer_traits) do 
-                    log("checking trait "..k.." for: "..char.label)
                     if char:getTraitLevel(k) > v then
                         local un_list = "\n"
                         for i = 1, #gen_units_list[faction.name]["special"] do 

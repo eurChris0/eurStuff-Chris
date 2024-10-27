@@ -395,6 +395,7 @@ function loadImages()
     bg_1 = { x = 0, y = 0, img = nil }
     bg_2 = { x = 0, y = 0, img = nil }
     bg_3_elven = { x = 0, y = 0, img = nil }
+    bg_gondor_1 = { x = 0, y = 0, img = nil }
     scroll_bg = { x = 0, y = 0, img = nil }
     button_01 = { x = 0, y = 0, img = nil }
     button_02 = { x = 0, y = 0, img = nil }
@@ -408,6 +409,7 @@ function loadImages()
     bg_1.x, bg_1.y, bg_1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_1.png')
     bg_2.x, bg_2.y, bg_2.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_2.png')
     bg_3_elven.x, bg_3_elven.y, bg_3_elven.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\bg_3_elven.png')
+    bg_gondor_1.x, bg_gondor_1.y, bg_gondor_1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\gondor_1.png')
     scroll_bg.x, scroll_bg.y, scroll_bg.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\scroll_bg.png')
     button_01.x, button_01.y, button_01.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button_01.png')
     button_02.x, button_02.y, button_02.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button_02.png')
@@ -425,8 +427,18 @@ function loadImages()
     button1 = { x = 0, y = 0, img = nil }
     icon_unit = { x = 0, y = 0, img = nil }
     aa_icon = { x = 0, y = 0, img = nil }
+    crown1 = { x = 0, y = 0, img = nil }
+    stew1 = { x = 0, y = 0, img = nil }
+    ship1 = { x = 0, y = 0, img = nil }
+    anor = { x = 0, y = 0, img = nil }
+    mengood_0 = { x = 0, y = 0, img = nil }
+    oatheorl = { x = 0, y = 0, img = nil }
+    lordsgondor = { x = 0, y = 0, img = nil }
 
     aa_icon.x, aa_icon.y, aa_icon.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\aa_icon.tga')
+    crown1.x, crown1.y, crown1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\crown1.png')
+    stew1.x, stew1.y, stew1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\stew1.png')
+    ship1.x, ship1.y, ship1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\ship1.png')
 
     icon_unit.x, icon_unit.y, icon_unit.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\icon_unit.tga')
     test1.x, test1.y, test1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\test1.png')
@@ -440,6 +452,10 @@ function loadImages()
     tulkas.x, tulkas.y, tulkas.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\tulkas.png')
     ulmo.x, ulmo.y, ulmo.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\ulmo.png')
     button1.x, button1.y, button1.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\button1.png')
+    anor.x, anor.y, anor.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\anor.png')
+    mengood_0.x, mengood_0.y, mengood_0.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\mengood_0.png')
+    oatheorl.x, oatheorl.y, oatheorl.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\oatheorl.png')
+    lordsgondor.x, lordsgondor.y, lordsgondor.img = M2TWEOP.loadTexture(M2TWEOP.getModPath()..'\\eopData\\images\\lordsgondor_2.png')
 
     EUR_EVENTS["ireland"][0].image = mirror1
     EUR_EVENTS["ireland"][1].image = yavanna
@@ -479,9 +495,10 @@ function loadImages()
 
     EUR_EVENTS["moors"][0].image = test1
 
-    EUR_EVENTS["sicily"][0].image = test1
-    EUR_EVENTS["sicily"][1].image = test1
-    EUR_EVENTS["sicily"][2].image = test1
+    EUR_EVENTS["sicily"][0].image = anor
+    EUR_EVENTS["sicily"][1].image = mengood_0
+    EUR_EVENTS["sicily"][2].image = oatheorl
+    EUR_EVENTS["sicily"][3].image = lordsgondor
 
     EUR_EVENTS["turks"][0].image = test1
     EUR_EVENTS["turks"][1].image = test1
@@ -519,9 +536,22 @@ function loadImages()
     faction_events_text["france"][FACTION_INFO_ISENGARD_TITLE].img = faction_info_isengard.img
     faction_events_text["saxons"]["Faction Info: Imladris"].img = faction_info_he.img
 
+    for i = 0, 3 do
+        glory_table[i].image = ship1.img
+        glory_table[i].imagelocked = ship1.img
+    end
+    for i = 4, 6 do
+        glory_table[i].image = stew1.img
+        glory_table[i].imagelocked = stew1.img
+    end
+    for i = 7, 9 do
+        glory_table[i].image = crown1.img
+        glory_table[i].imagelocked = crown1.img
+    end
+
     event_backgrounds = {
         ["milan"] = nil,
-        ["sicily"] = nil,
+        ["sicily"] = bg_gondor_1.img,
         ["turks"] = nil,
         ["russia"] = nil,
         ["scotland"] = nil,

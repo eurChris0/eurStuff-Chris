@@ -79,6 +79,9 @@ if onFactionTurnEnd then
         if eur_eregion_active then
             eurConfed.eregionStoryCheck(eventData.faction.factionID)
         end
+        if ship_4_active then
+            hyarmendacilAdd()
+        end
         eurEventActiveCheck(eventData.faction.factionID, eventData.faction.name)
         eurEventUnlockCheck(eventData.faction.factionID)
         genRankCheck(eventData.faction, nil)
@@ -98,6 +101,9 @@ else
             eurSortStack.eurSortStack(eventData.faction)
         end
         if eur_event_active then
+            if ship_4_active then
+                hyarmendacilAdd()
+            end
             mirrorCheck(eventData.faction.factionID)
             anorStoneCheck(eventData.faction.factionID)
             mengood_0_check(eventData.faction.factionID)
@@ -345,6 +351,7 @@ if onUnitTrained then
         if eur_event_active then
             tulkasCheck(eventData.faction.factionID, eventData.playerUnit, true)
         end
+        
     end
 else
     function onUnitTrained(eventData)
@@ -466,4 +473,6 @@ function onGeneralAssaultsGeneral(eventData)
     end
 end
 
-
+function onNewGameStart()
+    M2TWEOP.restartLua();
+end

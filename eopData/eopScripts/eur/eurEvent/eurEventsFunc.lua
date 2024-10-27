@@ -133,7 +133,8 @@ function eurEventActiveCheck(id, faction_name)
    for i = 0, #EUR_EVENTS[faction_name] do
       if EUR_EVENTS[faction_name][i].active_cooldown == 1 then
          EUR_EVENTS[faction_name][i].active_cooldown = (EUR_EVENTS[faction_name][i].active_cooldown-1)
-         stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS[faction_name][i].name" available", "\n\n"..EUR_EVENTS[faction_name][i].desc)
+         stratmap.game.historicEvent("faction_prosperous", EUR_EVENTS[faction_name][i].name.." available", "\n\n"..EUR_EVENTS[faction_name][i].desc)
+         EUR_EVENTS[faction_name][i].unlocked = true
       elseif EUR_EVENTS[faction_name][i].active_cooldown > 0 then
          EUR_EVENTS[faction_name][i].active_cooldown = (EUR_EVENTS[faction_name][i].active_cooldown-1)
       end
@@ -581,4 +582,433 @@ function mengood_0_check(id)
       populationCultureBonus(mengood_0_pop, mengood_0_cul, mengood_0_sett)
       mengoodTurnsRemain = mengoodTurnsRemain-1
    end
+end
+
+glory_table = {
+   [0] = {
+      desc = [[King Tarannon was the 12th King of Gondor, ruling from 830 to 913 of the Third Age. He was the first of the Ship-kings of Gondor, who extended the realm far along the shores west and south of the Mouths of the Anduin. Commemorating his victories, Tarannon assumed the name "Falastur" when he took the crown.]],
+      cost = 2500,
+      locked = true,
+      title = "Ship-kings: Tarannon Falastur",
+      image = nil,
+      imagelocked = nil,
+   },
+   [1] = {
+      desc = [[Eärnil was the son of Tarciryan, the brother of King Tarannon Falastur. He succeeded his uncle Tarannon Falastur, who died childless in T.A. 913. He continued with the expansionist maritime policy of his predecessor by repairing the haven of Pelargir and building a great fleet. Eärnil besieged Umbar by land and by sea and conquered Umbarin T.A. 933. Umbar became a great haven and fortress of Gondor.]],
+      cost = 5000,
+      locked = false,
+      title = "Ship-kings: Eärnil I",
+      image = nil,
+      imagelocked = nil,
+   },
+   [2] = {
+      desc = [[Ciryandil was born in the year TA 820 and succeeded his father Eärnil I in TA 936. In his reign, Ciryandil continued Eärnil's naval policies and spent his reign defending the recently captured port of Umbar against the Black Númenóreans who had lived there before, and the Haradrim who wished to capture the port.]],
+      cost = 10000,
+      locked = false,
+      title = "Ship-kings: Ciryandil",
+      image = nil,
+      imagelocked = nil,
+   },
+   [3] = {
+      desc = [[An extremely strong Dúnadan Warrior-king. He was the last of four Ship-kings, the eldest son of Ciryandil, and the father of Atanatar II. His reign marked the height of the South Kingdom's power. He sought to avenge his father's death and campaigned in the South throughout the early part of his reign. His victory over the Haradrim brought all of Haradwaith under Gondorian control in T.A. 1050; thus his name Hyarmendacil ("South-victor").]],
+      cost = 25000,
+      locked = false,
+      title = "Ship-kings: Ciryaher Hyarmendacil I",
+      image = nil,
+      imagelocked = nil,
+   },
+   [4] = {
+      desc = [[Mardil Voronwë was a Steward of Gondor and the son of Vorondil, a great hunter of beasts. He was the first ruling Steward of Gondor following the death of King Eärnur. Mardil ruled Gondor with a steady hand and was therefor nicknamed 'Voronwë', meaning 'the Steadfast'.]],
+      cost = 2500,
+      locked = true,
+      title = "Stewards: Mardil Voronwe",
+      image = nil,
+      imagelocked = nil,
+   },
+   [5] = {
+      desc = [[Boromir I was the 11th Ruling Steward of Gondor. He was noble and fair of face, strong in body and will. Boromir successfully recaptured Ithilien from elements of Sauron's army headquartered at Minas Morgul after their invasion of Gondor in TA 2475. He was considered such a mighty captain and warrior that even the Witch-king feared him.]],
+      cost = 5000,
+      locked = false,
+      title = "Stewards: Boromir I",
+      image = nil,
+      imagelocked = nil,
+   },
+   [6] = {
+      desc = [[Born in TA 2449, Cirion was the son of Boromir and the 12th Ruling Steward of Gondor. During his rule in TA 2509 the Balchoth gathered for an assault upon Gondor, the Balchoth were defeated with the help of the Éothéod who came out of the north. Cirion later gifted the province of Calenardhon to the Éothéod, founding the Kingdom of Rohan.]],
+      cost = 10000,
+      locked = false,
+      title = "Stewards: Cirion",
+      image = nil,
+      imagelocked = nil,
+   },
+   [7] = {
+      desc = [[Anárion was the youngest son of Elendil, the High King of Arnor and Gondor. He and his brother Isildur jointly ruled Gondor, while their father dwelt in the North. ]],
+      cost = 7500,
+      locked = true,
+      title = "Founders: Anárion",
+      image = nil,
+      imagelocked = nil,
+   },
+   [8] = {
+      desc = [[Isildur was the elder son of Elendil and second High King of Gondor and Arnor. He is revered for being the hero who struck the death blow to Sauron, yet he is also infamous for his failure to destroy the One Ring.]],
+      cost = 15000,
+      locked = false,
+      title = "Founders: Isildur",
+      image = nil,
+      imagelocked = nil,
+   },
+   [9] = {
+      desc = [[Elendil, meaning "Elf-friend" or "Star-lover", also known as Elendil the Tall, Elendil the Fair or Voronda "The Faithful", was a man of Númenor and the father of Isildur and Anárion who led the survivors of its Downfall to the shores of Middle-earth where they founded two Realms in Exile: Arnor and Gondor. Thus, Elendil became the first King of both realms and held the title of first High King of the Dúnedain, making him supreme overlord of all exiled Númenóreans in the lands east of the Great Sea.]],
+      cost = 25000,
+      locked = false,
+      title = "Founders: Elendil",
+      image = nil,
+      imagelocked = nil,
+   },
+}
+
+function gloryGondor(glorychoice)
+   if glorychoice == 99 then return end
+   if glorychoice == 0 then
+      gloryShip1()
+   elseif glorychoice == 1 then
+      gloryShip2()
+   elseif glorychoice == 2 then
+      gloryShip3()
+   elseif glorychoice == 3 then
+      gloryShip4()
+   elseif glorychoice == 4 then
+      gloryStew1()
+   elseif glorychoice == 5 then
+      gloryStew2()
+   elseif glorychoice == 6 then
+      gloryStew3()
+   elseif glorychoice == 7 then
+      gloryKings1()
+   elseif glorychoice == 8 then
+      gloryKings2()
+   elseif glorychoice == 9 then
+      gloryKings3()
+   end
+end
+
+function gloryGondorText(glorychoice)
+   if glorychoice == 99 then return end
+   if glorychoice == 0 then
+      ImGui.NewLine()
+      ImGui.BulletText("Population Growth(all ports)")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " + 1%%")
+      ImGui.BulletText("Recruitment & Upkeep: Lebennin Marines, Aearsul & Alcarondas")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " - 25%%")
+   elseif glorychoice == 1 then
+      ImGui.NewLine()
+      ImGui.BulletText("Port build time")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " -2 turns")
+      ImGui.BulletText("Port build cost")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " - 15%%")
+      ImGui.BulletText("Enables recruitment of 'Wardens of the White Tower' at Haven ports.")
+   elseif glorychoice == 2 then
+      ImGui.NewLine()
+      ImGui.BulletText("Wharf build time")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " -3 turns")
+      ImGui.BulletText("Wharf build cost")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " - 30%%")
+      ImGui.BulletText("Additional income for Wharf buildings(per level)")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " +50")
+   elseif glorychoice == 3 then
+      ImGui.NewLine()
+      ImGui.BulletText("Additional trade fleets(all ports)")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " + 2")
+      ImGui.BulletText("Grants trait 'Hyarmendacil's Legacy'(all characters)")
+      ImGui.BulletText("Command")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " + 2")
+      ImGui.BulletText("Hitpoints")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " + 1")
+      ImGui.BulletText("Movement")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " + 10%%")
+   elseif glorychoice == 4 then
+      ImGui.NewLine()
+      ImGui.BulletText("Law bonus for Mason buildings: ")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " + 5%%")
+      ImGui.BulletText("Additional cost reduction for Mason buildings: ")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " - 5%%")
+   elseif glorychoice == 5 then
+      ImGui.NewLine()
+      ImGui.BulletText("Additional cost reduction for Mason buildingPresent: ")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " - 10%%")
+      ImGui.BulletText("Speeds up recruitment of Wardens of the White Tower(Minas Tirith)")
+   elseif glorychoice == 6 then
+      ImGui.NewLine()
+      ImGui.BulletText("Additional turn time reduction for Mason buildings: ")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " - 20%%")
+      ImGui.BulletText("Culture bonus for Mason buildings: ")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " + 1%%")
+   elseif glorychoice == 7 then
+      ImGui.NewLine()
+      ImGui.BulletText("Morale bonus for Barracks: ")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " + 2")
+      ImGui.BulletText("Speeds up recruitment of Citadel Guard(Minas Tirith)")
+   elseif glorychoice == 8 then
+      ImGui.NewLine()
+      ImGui.BulletText("Experience bonus for Barracks: ")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " + 2")
+      ImGui.BulletText("Enables recruitment of Dunedain Steelbowmen(Minas Tirith)")
+   elseif glorychoice == 9 then
+      ImGui.NewLine()
+      ImGui.BulletText("Recruitment time reduction for Barracks: ")
+      ImGui.SameLine()
+      ImGui.TextColored(0, 1, 0, 1, " - 2 turns")
+      ImGui.BulletText("Speeds up recruitment of Fountain Guard(Minas Tirith)")
+   end
+end
+
+function gloryShip1()
+   local building = EDB.getBuildingByName("port")
+   for j = 0, 4 do
+      bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.population_growth_bonus, 2, true, "factions { sicily, }")
+   end
+   ship_1_active = true
+   ship_1_added = true
+   local eduEntry=M2TWEOPDU.getEduEntryByType("Lebennin Marines");
+   if eduEntry then
+      eduEntry.recruitCost = math.floor(eduEntry.recruitCost*0.75)
+      eduEntry.upkeepCost = math.floor(eduEntry.upkeepCost*0.75)
+   end
+   local eduEntry=M2TWEOPDU.getEduEntryByType("Gondor Boat");
+   if eduEntry then
+      eduEntry.recruitCost = math.floor(eduEntry.recruitCost*0.75)
+      eduEntry.upkeepCost = math.floor(eduEntry.upkeepCost*0.75)
+   end
+   local eduEntry=M2TWEOPDU.getEduEntryByType("Gondor Ship");
+   if eduEntry then
+      eduEntry.recruitCost = math.floor(eduEntry.recruitCost*0.75)
+      eduEntry.upkeepCost = math.floor(eduEntry.upkeepCost*0.75)
+   end
+   defaultEDU()
+   glory_table[0].locked = false
+   glory_table[1].locked = true
+end
+
+function gloryShip2()
+   local building = EDB.getBuildingByName("port")
+   for j = 0, 4 do
+      local bu = building:getBuildingLevel(j)
+      bu.buildCost = math.ceil(bu.buildCost*0.85)
+      if bu.buildTime-2 > 1 then
+         bu.buildTime = bu.buildTime-2
+      else
+         bu.buildTime = 2
+      end
+   end
+   local bu = building:getBuildingLevel(4)
+   bu:addRecruitPool(M2TWEOPDU.getEduIndexByType("Wardens White Tower"), 1, 0.046, 1, 1, "factions { sicily, }")
+   ship_2_active = true
+   ship_2_added = true
+   glory_table[1].locked = false
+   glory_table[2].locked = true
+end
+
+function gloryShip3()
+   local building = EDB.getBuildingByName("sea_trade")
+   for j = 0, 2 do
+      local bu = building:getBuildingLevel(j)
+      bu.buildCost = math.ceil(bu.buildCost*0.70)
+      bu:addCapability(buildingCapability.income_bonus, (50*(j+1)), true, "factions { sicily, }")
+      if bu.buildTime-3 > 1 then
+         bu.buildTime = bu.buildTime-3
+      else
+         bu.buildTime = 2
+      end
+   end
+   ship_3_active = true
+   ship_3_added = true
+   glory_table[2].locked = false
+   glory_table[3].locked = true
+end
+
+function gloryShip4()
+   local building = EDB.getBuildingByName("port")
+   for j = 0, 4 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.trade_fleet, 2, true, "factions { sicily, }")
+   end
+   for i = 0, faction.numOfCharacters - 1 do
+      local char = eur_player_faction:getCharacter(i).namedCharacter
+      if char then
+         char:addTrait("Hyarmendacil", 1)
+      end
+   end
+   ship_4_active = true
+   ship_4_added = true
+   glory_table[3].locked = false
+end
+
+function hyarmendacilAdd()
+   for i = 0, faction.numOfCharacters - 1 do
+      local char = faction:getCharacter(i).namedCharacter
+      if char then
+         char:addTrait("Hyarmendacil", 1)
+      end
+   end
+end
+
+function gloryKings1()
+   local building = EDB.getBuildingByName("hinterland_unique1")
+   local bu = building:getBuildingLevel(0)
+   bu:addRecruitPool(M2TWEOPDU.getEduIndexByType("Citadel Guard"), 1, 0.05, 1, 1, "factions { sicily, }")
+   local building = EDB.getBuildingByName("barracks")
+   for j = 0, 2 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.recruits_morale_bonus, 2, true, "factions { sicily, }")
+   end
+   local building = EDB.getBuildingByName("castle_barracks")
+   for j = 0, 2 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.recruits_morale_bonus, 2, true, "factions { sicily, }")
+   end
+   king_1_active = true
+   king_1_added = true
+   glory_table[7].locked = false
+   glory_table[8].locked = true
+end
+
+function gloryKings2()
+   local building = EDB.getBuildingByName("hinterland_unique1")
+   local bu = building:getBuildingLevel(0)
+   bu:addRecruitPool(M2TWEOPDU.getEduIndexByType("Dunedain Steelbowmen"), 2, 0.05, 2, 1, "factions { sicily, }")
+   local building = EDB.getBuildingByName("barracks")
+   for j = 0, 2 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.recruits_exp_bonus, 2, true, "factions { sicily, }")
+   end
+   local building = EDB.getBuildingByName("castle_barracks")
+   for j = 0, 2 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.recruits_exp_bonus, 2, true, "factions { sicily, }")
+   end
+   king_2_active = true
+   king_2_added = true
+   glory_table[8].locked = false
+   glory_table[9].locked = true
+end
+
+function gloryKings3()
+   local building = EDB.getBuildingByName("hinterland_unique1")
+   local bu = building:getBuildingLevel(0)
+   bu:addRecruitPool(M2TWEOPDU.getEduIndexByType("Fountain Guard"), 2, 0.05, 2, 1, "factions { sicily, }")
+   local building = EDB.getBuildingByName("barracks")
+   for j = 0, 2 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.recruitment_slots, 1, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.free_upkeep, 1, true, "factions { sicily, }")
+   end
+   local building = EDB.getBuildingByName("castle_barracks")
+   for j = 0, 2 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.recruitment_slots, 1, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.free_upkeep, 1, true, "factions { sicily, }")
+   end
+   for i = 0, 1500 do
+      local eduEntry = M2TWEOPDU.getEduEntry(i)
+      if eduEntry ~= nil then
+          if eduEntry:hasOwnership(eur_playerFactionId) then
+            if eduEntry.recruitTime - 2 >= 1 then
+               eduEntry.recruitTime = eduEntry.recruitTime-2
+            else
+               eduEntry.recruitTime = 1
+            end
+          end
+      end
+  end
+  defaultEDU()
+   king_3_active = true
+   king_3_added = true
+   glory_table[9].locked = false
+end
+
+function gloryStew1()
+   local building = EDB.getBuildingByName("city_hall")
+   for j = 0, 3 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.law_bonus, 1, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.construction_cost_bonus_wooden, 5, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.construction_cost_bonus_stone, 5, true, "factions { sicily, }")
+   end
+   local building = EDB.getBuildingByName("castle_hall")
+   for j = 0, 3 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.law_bonus, 1, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.construction_cost_bonus_wooden, 5, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.construction_cost_bonus_stone, 5, true, "factions { sicily, }")
+   end
+   stew_2_active = true
+   stew_2_added = true
+   glory_table[4].locked = false
+   glory_table[5].locked = true
+end
+
+function gloryStew2()
+   local building = EDB.getBuildingByName("city_hall")
+   for j = 0, 3 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.construction_cost_bonus_wooden, 10, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.construction_cost_bonus_stone, 10, true, "factions { sicily, }")
+   end
+   local building = EDB.getBuildingByName("castle_hall")
+   for j = 0, 3 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.construction_cost_bonus_wooden, 10, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.construction_cost_bonus_stone, 10, true, "factions { sicily, }")
+   end
+   local building = EDB.getBuildingByName("hinterland_unique1")
+   local bu = building:getBuildingLevel(0)
+   bu:addRecruitPool(M2TWEOPDU.getEduIndexByType("Wardens White Tower"), 1, 0.05, 2, 1, "factions { sicily, }")
+   stew_2_active = true
+   stew_2_added = true
+   glory_table[5].locked = false
+   glory_table[6].locked = true
+end
+
+function gloryStew3()
+   local building = EDB.getBuildingByName("city_hall")
+   for j = 0, 3 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.construction_time_bonus_religious, 20, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.construction_time_bonus_other, 20, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.construction_time_bonus_defensive, 20, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.amplify_religion_level, 1, true, "factions { sicily, }")
+   end
+   local building = EDB.getBuildingByName("castle_hall")
+   for j = 0, 3 do
+      local bu = building:getBuildingLevel(j)
+      bu:addCapability(buildingCapability.construction_time_bonus_religious, 20, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.construction_time_bonus_other, 20, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.construction_time_bonus_defensive, 20, true, "factions { sicily, }")
+      bu:addCapability(buildingCapability.amplify_religion_level, 1, true, "factions { sicily, }")
+   end
+   local building = EDB.getBuildingByName("hinterland_unique1")
+   local bu = building:getBuildingLevel(0)
+   bu:addRecruitPool(M2TWEOPDU.getEduIndexByType("Wardens White Tower"), 2, 0.05, 2, 1, "factions { sicily, }")
+   stew_2_active = true
+   stew_2_added = true
+   glory_table[6].locked = false
 end

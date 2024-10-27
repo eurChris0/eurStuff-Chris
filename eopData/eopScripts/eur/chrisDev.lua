@@ -336,6 +336,14 @@ function onCharacterSelected2(eventData)
     print("open")
     temp_char_stuff = eventData.character
     show_temp_char_stuff = true
+
+    ImGui.Begin("Events_window_background", true, bit.bor(ImGuiWindowFlags.NoDecoration))
+    eurStyle("basic_1", true)
+    ImGui.SetNextWindowBgAlpha(0)
+    ImGui.BeginChild("Child Window_options_sub_1", 750*eurbackgroundWindowSizeRight, 100*eurbackgroundWindowSizeBottom)
+    ImGui.EndChild()
+    eurStyle("basic_1", false)
+    ImGui.End()
 end
 
 function onClickAtTile(x,y)

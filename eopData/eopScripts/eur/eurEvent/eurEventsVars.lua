@@ -24,6 +24,7 @@ Desc]]
 local mengood_0_desc = [[Placeholder
 Desc]]
 local nazgul_0_desc = [[Nine he gave to Mortal Men, proud and great, and so ensnared them. Long ago they fell under the dominion of the One, and they became Ringwraiths, shadows under his great Shadow, his most terrible servants. Long ago. It is many a year since the Nine walked abroad. Yet who knows? As the Shadow grows once more, they too may walk again]]
+local gondor_2_desc = [["One day, our paths will lead us there. And the tower guard shall take up the call: 'The Lords of Gondor have returned!'" - Boromir]]
 
 EUR_EVENTS = {
     ["ireland"] = {
@@ -321,6 +322,19 @@ EUR_EVENTS = {
             func = nil,
             cost = 2000,
             cooldown = 30,
+            active_cooldown = 0,
+            duration = nil,
+            active_duration = 0,
+            image = nil,
+            unlocked = true,
+            sound = "upowersup",
+        },
+        [3] = {
+            name = "Lords of Gondor",
+            desc = gondor_2_desc,
+            func = nil,
+            cost = 2000,
+            cooldown = 25,
             active_cooldown = 0,
             duration = nil,
             active_duration = 0,
