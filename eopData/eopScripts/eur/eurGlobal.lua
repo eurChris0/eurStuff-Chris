@@ -39,8 +39,6 @@ anorTurnsRemain = 0
 tempmengoodTarget = 0
 mengood_0_sett = nil
 mengoodTurnsRemain = 0
-
---temp dump
 ship_1_active = false
 ship_2_active = false
 ship_3_active = false
@@ -51,6 +49,8 @@ king_3_active = false
 stew_1_active = false
 stew_2_active = false
 stew_3_active = false
+
+--temp dump
 
 --
 temp_units = {}
@@ -162,6 +162,16 @@ end
 function eurSaveLoadValues(bool)
     if bool then
         eurEventsData = {
+            ship_1_active = ship_1_active,
+            ship_2_active = ship_2_active,
+            ship_3_active = ship_3_active,
+            ship_4_active = ship_4_active,
+            king_1_active = king_1_active,
+            king_2_active = king_2_active,
+            king_3_active = king_3_active,
+            stew_1_active = stew_1_active,
+            stew_2_active = stew_2_active,
+            stew_3_active = stew_3_active,
             options_gennotif = options_gennotif,
             dwarven_0_bu_added = dwarven_0_bu_added,
             dwarven_0_count = dwarven_0_count,
@@ -257,6 +267,16 @@ function eurSaveLoadValues(bool)
          end
          ]]
     else
+        ship_1_active = eurEventsData["ship_1_active"]
+        ship_2_active = eurEventsData["ship_2_active"]
+        ship_3_active = eurEventsData["ship_3_active"]
+        ship_4_active = eurEventsData["ship_4_active"]
+        king_1_active = eurEventsData["king_1_active"]
+        king_2_active = eurEventsData["king_2_active"]
+        king_3_active = eurEventsData["king_3_active"]
+        stew_1_active = eurEventsData["stew_1_active"]
+        stew_2_active = eurEventsData["stew_2_active"]
+        stew_3_active = eurEventsData["stew_3_active"]
         options_gennotif = eurEventsData["options_gennotif"]
         dwarven_0_bu_added = eurEventsData["dwarven_0_bu_added"]
         dwarven_0_count = eurEventsData["dwarven_0_count"]
