@@ -443,16 +443,22 @@ gen_units_list = {
         ["T1"] = {
             [0] = "Mordag Fishermen",
             [1] = "Faolan Borderguard",
+            [2] = "Keefei Huntsmen",
+            [3] = "Mochaini Touta",
         },
         ["T2"] = {
-            [0] = "Enedwaith Guardsmen",
-            [1] = "Enedwaith Marksmen",
+            [0] = "Mochaini Ambaxtoi",
+            [1] = "Mordag Skirmishers",
+            [2] = "Faolan Warriors",
+            [3] = "Liadan Billmen",
         },
         ["T3"] = {
             [0] = "Clan Heralds",
+            [1] = "Enedwaith Guardsmen",
+            [2] = "Enedwaith Marksmen",
         },
         ["special"] = {
-            "Enedwaith Marksmen",
+            "Tir Croicoill Cosantoiri",
         },
     },
     ["spain"] = {
