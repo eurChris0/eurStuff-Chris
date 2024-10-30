@@ -376,10 +376,9 @@ gen_units_list = {
         },
         ["T3"] = {
             [0] = "High Paladins",
-            [1] = "Vintner-Court Paladins",
         },
         ["special"] = {
-            "Elvellyn Hammerguard",
+            "High Paladins",
         },
     },
     ["timurids"] = {
@@ -1818,6 +1817,21 @@ function genUnlockNotifation(faction)
                     stratmap.game.historicEvent("militaryunithired", "Bodyguard Unlocked", "A new tier of units is has been unlocked for this general:\n\n"..char.localizedDisplayName..un_list)
                 end
             end
+        end
+    end
+end
+
+function dorwinionGeneralBGCheck()
+    if not dorwinion_bg_check then
+        if checkCounter("dorwinion_elf") then
+            gen_units_list["byzantium"]["T3"][1] = "Moriquendi Sentinels"
+            gen_units_list["byzantium"]["special"][1] = "Moriquendi Gladelords"
+            dorwinion_bg_check = true
+        end
+        if checkCounter("dorwinion_men") then
+            gen_units_list["byzantium"]["T3"][1] = "Vintner-Court Paladins"
+            gen_units_list["byzantium"]["special"][1] = "Elvellyn Hammerguard"
+            dorwinion_bg_check = true
         end
     end
 end

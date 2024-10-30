@@ -87,6 +87,7 @@ if onFactionTurnEnd then
         genRankCheck(eventData.faction, nil)
         swapHeirLeaderStuffAI(eventData.faction)
         genUnlockNotifation(eventData.faction)
+        dorwinionGeneralBGCheck()
     end
 else
     function onFactionTurnEnd(eventData)
@@ -120,6 +121,7 @@ else
         genRankCheck(eventData.faction, nil)
         swapHeirLeaderStuffAI(eventData.faction)
         genUnlockNotifation(eventData.faction)
+        dorwinionGeneralBGCheck()
     end
 end
 

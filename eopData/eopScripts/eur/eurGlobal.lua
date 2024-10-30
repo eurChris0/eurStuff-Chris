@@ -143,6 +143,8 @@ temp_value = 20
 eur_pre_battle = false
 eur_pre_battle_window = false
 
+dorwinion_bg_check = false
+
 function setFactionAssets(faction, new_faction_name, saveload)
     faction.facStrat.primaryColorRed = FACTION_COLOURS[new_faction_name].primaryColorRed
     faction.facStrat.primaryColorGreen = FACTION_COLOURS[new_faction_name].primaryColorGreen
@@ -794,6 +796,7 @@ function eurGlobalVars()
         end
     end
     wait(calcWindow, 2)
+    dorwinionGeneralBGCheck()
 end
 
 function defaultEDU()
