@@ -1825,12 +1825,12 @@ function dorwinionGeneralBGCheck()
     if not dorwinion_bg_check then
         if checkCounter("dorwinion_elf") then
             gen_units_list["byzantium"]["T3"][1] = "Moriquendi Sentinels"
-            gen_units_list["byzantium"]["special"][1] = "Moriquendi Gladelords"
+            gen_units_list["byzantium"]["special"][0] = "Moriquendi Gladelords"
             dorwinion_bg_check = true
         end
         if checkCounter("dorwinion_men") then
             gen_units_list["byzantium"]["T3"][1] = "Vintner-Court Paladins"
-            gen_units_list["byzantium"]["special"][1] = "Elvellyn Hammerguard"
+            gen_units_list["byzantium"]["special"][0] = "Elvellyn Hammerguard"
             dorwinion_bg_check = true
         end
     end
