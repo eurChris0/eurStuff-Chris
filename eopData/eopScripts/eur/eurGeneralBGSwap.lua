@@ -1524,6 +1524,7 @@ function setBGSize(faction, character, unit)
         end
     end
     if character ~= nil then
+        local faction = character.faction
         if character:getTypeID() == 7 then
             if character.bodyguards ~= nil then
                 if character.faction.isPlayerControlled == 1 then
@@ -1595,6 +1596,7 @@ function setBGSize(faction, character, unit)
     if unit ~= nil then
         if unit.character == nil then return end
         temp_char = unit.character
+        local faction = temp_char.faction
         if temp_char:getTypeID() == 7 then
             if temp_char.bodyguards ~= nil then
                 if temp_char.faction.isPlayerControlled == 1 then
